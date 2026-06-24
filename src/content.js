@@ -9,7 +9,7 @@ export const profile = {
   greeting: "Hi, I'm Yoonjeong Hwang.",
   role: "Aspiring Data Engineer · Backend / Data Pipeline",
   tagline: "I like studying things in depth, writing down what I learn, and growing through the process with the people I build with.",
-  current: "Currently teaming up on a public-data ideas competition (Korea Arts & Culture Education Service).",
+  current: "Currently teaming up on a public-data ideas competition (ARTE × LINKareer).",
   links: {
     github: "https://github.com/hvvrnz",
     velog: "https://velog.io/@0lalsoo",
@@ -199,13 +199,9 @@ export const designInsights = [
   {
     title: "Two hashes, two different jobs, on account deletion",
     body:
-      "provider_id_hash and the stored refresh token are both hashed, but deliberately with different properties. provider_id_hash uses a deterministic hash, so the same Kakao account always maps to the same value. That's load-bearing in two places: it's the input to a per-record unique_hash that keeps lecture_evidence idempotent (the same user uploading the same course for the same year/semester always resolves to the same row, never a duplicate), and it gives the L3 confidence engine a stable identity across deletion and re-signup — without it, the same person could resurface as a \u201Cnew\u201D account and inflate match_count artificially, corrupting the trust score for everyone, not just resetting one bad actor's history. The refresh token, by contrast, is hashed non-deterministically (salted), since it's a bearer secret rather than an identifier: it only ever needs to be verified, never matched against a second time. That distinction forced a security-vs-auditability trade-off that's visible directly in the schema: login_sessions keys off provider_id_hash, users keys off user_id, and user_actions_log carries both. On deletion, the users row is removed and every other user_id reference is set to NULL — except provider_id_hash inside user_actions_log, which is deliberately left in place.",
-    code: `-- on account deletion
-DELETE FROM users WHERE user_id = :id;
-UPDATE user_actions_log SET user_id = NULL WHERE user_id = :id;
--- provider_id_hash in user_actions_log is left untouched,
--- so abuse history survives deletion without staying linkable
--- to an active account.`,
+      "provider_id_hash and the refresh token are both hashed, but with opposite properties on purpose. provider_id_hash is deterministic, so the same Kakao account always maps to the same value — that keeps lecture_evidence idempotent per upload, and gives the L3 confidence engine a stable identity across deletion and re-signup, so match_count can't be inflated by resetting an account. The refresh token is hashed non-deterministically (salted), since it only ever needs to be verified, never matched again. On deletion, the users row is removed and every other user_id reference is set to NULL — except provider_id_hash in user_actions_log, left in place on purpose.",
+    code: null,
+    diagram: "kakaoLoginSequence",
   },
   {
     title: "A hash collision from a copy-pasted field",

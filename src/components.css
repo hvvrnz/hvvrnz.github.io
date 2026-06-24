@@ -21,8 +21,8 @@
 .hero-text { flex: 1; min-width: 0; }
 .hero-photo-frame {
   flex-shrink: 0;
-  width: 300px;
-  height: 300px;
+  width: 290px;
+  height: 290px;
   border-radius: var(--radius);
   border: 1px solid var(--line);
   overflow: hidden;
@@ -258,6 +258,14 @@
   overflow-x: auto;
   white-space: pre;
   line-height: 1.6;
+}
+.insight-diagram {
+  margin-top: 16px;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #ffffff;
+  display: block;
 }
 
 /* ---------- AIStory ---------- */
