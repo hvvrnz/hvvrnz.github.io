@@ -1,5 +1,7 @@
 import { profile } from "../content.js";
 import profilePhoto from "../assets/profile.jpg";
+import { Code2, BookText } from "lucide-react";
+import zolverIcon from "../assets/zolver-icon.png";
 
 export default function Hero() {
   return (
@@ -15,11 +17,15 @@ export default function Hero() {
             <p className="hero-current">{profile.current}</p>
 
             <div className="hero-links">
-              <a href={profile.links.service} target="_blank" rel="noreferrer">zolver.co.kr</a>
-              <span className="hero-dot">·</span>
-              <a href={profile.links.github} target="_blank" rel="noreferrer">GitHub</a>
-              <span className="hero-dot">·</span>
-              <a href={profile.links.velog} target="_blank" rel="noreferrer">Velog</a>
+              <a className="hero-badge" href={profile.links.service} target="_blank" rel="noreferrer">
+                <img className="hero-badge-icon" src={zolverIcon} alt="" /> zolver.co.kr
+              </a>
+              <a className="hero-badge" href={profile.links.github} target="_blank" rel="noreferrer">
+                <Code2 size={14} /> GitHub
+              </a>
+              <a className="hero-badge" href={profile.links.velog} target="_blank" rel="noreferrer">
+                <BookText size={14} /> Velog
+              </a>
             </div>
           </div>
 

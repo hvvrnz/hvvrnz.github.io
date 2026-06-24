@@ -21,8 +21,8 @@
 .hero-text { flex: 1; min-width: 0; }
 .hero-photo-frame {
   flex-shrink: 0;
-  width: 168px;
-  height: 168px;
+  width: 240px;
+  height: 240px;
   border-radius: var(--radius);
   border: 1px solid var(--line);
   overflow: hidden;
@@ -37,7 +37,7 @@
 
 @media (max-width: 640px) {
   .hero-top { flex-direction: column-reverse; align-items: flex-start; gap: 20px; }
-  .hero-photo-frame { width: 120px; height: 120px; }
+  .hero-photo-frame { width: 150px; height: 150px; }
 }
 .hero-eyebrow {
   font-family: var(--font-mono);
@@ -75,9 +75,6 @@
   color: var(--olive);
   margin-bottom: 20px;
 }
-.hero-links { font-size: 13px; color: var(--ink-soft); }
-.hero-links a { color: var(--brown); }
-.hero-dot { margin: 0 8px; color: var(--line); }
 .hero-hashtags { margin-top: 28px; font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-soft); }
 .hero-hashtag { margin-right: 12px; }
 
@@ -385,7 +382,7 @@
   border-radius: var(--radius);
   display: block;
   margin-bottom: 10px;
-  background: #1f1d18;
+  background: #ffffff;
 }
 .diagram-caption { font-size: 13px; color: var(--ink-soft); max-width: 680px; }
 .diagram-note {
@@ -426,3 +423,41 @@
   color: var(--ink-soft);
 }
 .obs-dashboards li { margin-bottom: 6px; }
+
+/* ---------- Reveal (scroll-in animation) ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---------- Hero link badges ---------- */
+.hero-links { display: flex; gap: 8px; flex-wrap: wrap; }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 12px 6px 10px;
+  transition: border-color 0.15s, transform 0.15s, background 0.15s;
+}
+.hero-badge:hover {
+  border-color: var(--brown);
+  background: var(--bg-alt);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+.hero-badge svg { width: 14px; height: 14px; flex-shrink: 0; }
+.hero-badge-icon { width: 15px; height: 15px; border-radius: 4px; flex-shrink: 0; display: block; }
