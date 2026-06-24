@@ -5,7 +5,7 @@ export default function StudyNotes() {
     <section className="section">
       <div className="container">
         <span className="eyebrow">// study notes</span>
-        <h2 className="section-title">손으로 그려가며 정리하는 습관</h2>
+        <h2 className="section-title">A habit of sketching things out by hand</h2>
         <p className="prose lead notes-intro">{studyNotes.intro}</p>
 
         <div className="notes-grid">
@@ -15,7 +15,7 @@ export default function StudyNotes() {
                 {n.image ? (
                   <img src={n.image} alt={n.topic} />
                 ) : (
-                  <span>필기 스캔 이미지 추가 예정</span>
+                  <span>scan coming soon</span>
                 )}
               </div>
               <div className="note-topic">{n.topic}</div>

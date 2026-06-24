@@ -5,7 +5,7 @@ export default function Project() {
     <section className="section">
       <div className="container">
         <span className="eyebrow">// zolver — operation</span>
-        <h2 className="section-title">1인 기획 · 개발 · 운영</h2>
+        <h2 className="section-title">Solo-built, solo-run</h2>
 
         <div className="stats-grid">
           {stats.map((s) => (

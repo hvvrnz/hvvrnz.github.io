@@ -5,7 +5,7 @@ export default function DesignInsights() {
     <section className="section">
       <div className="container">
         <span className="eyebrow">// design insight</span>
-        <h2 className="section-title">설계 결정</h2>
+        <h2 className="section-title">Design decisions</h2>
 
         <div className="insight-list">
           {designInsights.map((d) => (

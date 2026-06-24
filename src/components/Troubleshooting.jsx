@@ -8,9 +8,9 @@ export default function Troubleshooting() {
     <section className="section">
       <div className="container">
         <span className="eyebrow">// troubleshooting</span>
-        <h2 className="section-title">막혔던 지점들</h2>
+        <h2 className="section-title">Where I got stuck</h2>
         <p className="prose lead" style={{ marginBottom: 8 }}>
-          운영하면서 실제로 부딪힌 문제와 해결 과정입니다. 클릭하면 펼쳐집니다.
+          Real problems I ran into while operating the service. Click to expand.
         </p>
 
         <div className="ts-list">

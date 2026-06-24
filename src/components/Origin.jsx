@@ -6,7 +6,7 @@ export default function Origin() {
     <section className="section">
       <div className="container">
         <span className="eyebrow">// origin</span>
-        <h2 className="section-title">시간표 추천에서 졸업요건 시각화로</h2>
+        <h2 className="section-title">From timetable recommendation to graduation-requirement visualization</h2>
         <div className="prose lead">
           {paragraphs.map((p, i) => (
             <p key={i}>{p}</p>
