@@ -1,0 +1,98 @@
+:root {
+  /* ---- 색상 토큰 : 여기 값만 바꾸면 전체 톤이 바뀝니다 ---- */
+  --bg: #F6F1E7;          /* 기본 배경 — 아이보리 */
+  --bg-alt: #EEE5D2;      /* 보조 배경 — 살짝 더 깊은 샌드 */
+  --card: #FBF8F0;        /* 카드 배경 */
+  --line: #DCD0B8;        /* 헤어라인 보더 */
+  --ink: #3B3225;         /* 본문 텍스트 — 다크 브라운 */
+  --ink-soft: #756B58;    /* 보조 텍스트 */
+  --olive: #75784E;       /* 올리브 — 메인 액센트 */
+  --olive-deep: #565A3C;  /* 다크 섹션용 진한 올리브 */
+  --brown: #93704A;       /* 브라운 액센트 */
+  --rust: #B05F3C;        /* 강조(문제→해결) — 아껴서 사용 */
+  --dark-bg: #2F2A20;     /* 다크 섹션 배경 (히어로/푸터) */
+  --dark-ink: #F1E9D8;    /* 다크 섹션 텍스트 */
+
+  --font-display: "Space Grotesk", "IBM Plex Sans KR", sans-serif;
+  --font-body: "IBM Plex Sans KR", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  --font-hand: "Kalam", cursive;
+
+  --radius: 10px;
+  --max-w: 920px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  margin: 0;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+p { margin: 0; }
+a { color: var(--brown); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+:focus-visible {
+  outline: 2px solid var(--olive);
+  outline-offset: 3px;
+}
+
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+
+.section { padding: 96px 0; border-bottom: 1px dashed var(--line); }
+.section:last-of-type { border-bottom: none; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--olive);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.section-title {
+  font-size: clamp(26px, 4vw, 34px);
+  font-weight: 700;
+  margin-bottom: 36px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--brown);
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 10px;
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+@media (max-width: 640px) {
+  .section { padding: 64px 0; }
+}
