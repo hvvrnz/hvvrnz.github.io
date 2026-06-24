@@ -286,5 +286,5 @@ export const studyNotes = {
 };
 
 export const footer = {
-  note: "Frontend moves fast; backend and the data pipeline get the careful treatment — a deliberate division of effort for someone aiming at data engineering.",
+  note: "I trace the flow of data all the way through — less interested in what's on screen, more in what's moving underneath it.",
 };
