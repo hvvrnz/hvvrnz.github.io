@@ -21,8 +21,8 @@
 .hero-text { flex: 1; min-width: 0; }
 .hero-photo-frame {
   flex-shrink: 0;
-  width: 104px;
-  height: 104px;
+  width: 168px;
+  height: 168px;
   border-radius: var(--radius);
   border: 1px solid var(--line);
   overflow: hidden;
@@ -37,7 +37,7 @@
 
 @media (max-width: 640px) {
   .hero-top { flex-direction: column-reverse; align-items: flex-start; gap: 20px; }
-  .hero-photo-frame { width: 84px; height: 84px; }
+  .hero-photo-frame { width: 120px; height: 120px; }
 }
 .hero-eyebrow {
   font-family: var(--font-mono);
@@ -66,8 +66,14 @@
   font-size: 14px;
   max-width: 480px;
   color: var(--ink-soft);
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   line-height: 1.65;
+}
+.hero-current {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--olive);
+  margin-bottom: 20px;
 }
 .hero-links { font-size: 13px; color: var(--ink-soft); }
 .hero-links a { color: var(--brown); }
@@ -382,6 +388,14 @@
   background: #1f1d18;
 }
 .diagram-caption { font-size: 13px; color: var(--ink-soft); max-width: 680px; }
+.diagram-note {
+  font-size: 13px;
+  color: var(--ink-soft);
+  max-width: 680px;
+  margin-top: 10px;
+  border-left: 3px solid var(--rust);
+  padding-left: 12px;
+}
 
 /* ---------- API overview ---------- */
 .api-router-list { display: flex; flex-direction: column; gap: 0; }

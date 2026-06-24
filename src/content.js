@@ -8,7 +8,8 @@ export const profile = {
   name: "Yoonjeong Hwang",
   greeting: "Hi, I'm Yoonjeong Hwang.",
   role: "Aspiring Data Engineer · Backend / Data Pipeline",
-  tagline: "I turned a single uploaded transcript into data you can actually trust — solo, end to end.",
+  tagline: "I like studying things in depth, writing down what I learn, and growing through the process with the people I build with.",
+  current: "Currently teaming up on a public-data ideas competition (ARTE × LINKareer).",
   links: {
     github: "https://github.com/hvvrnz",
     velog: "https://velog.io/@0lalsoo",
@@ -95,6 +96,8 @@ export const architecture = {
     title: "Data model",
     caption:
       "lecture_evidence (raw, per-upload) feeds lecture_validation (per-rule snapshot) which aggregates into lecture_frequency, the input to the L3 confidence score. Only records that clear the threshold get promoted into lecture_master — the table the rest of the app actually reads from.",
+    designNote:
+      "Intentional denormalization: under 1GB of RAM, join cost under traffic spikes looked riskier than redundant reads. Given the table count and data volume here, I chose select-only access patterns on purpose instead of relying on joins.",
   },
 };
 
@@ -193,6 +196,34 @@ export const designInsights = [
       "For response speed and memory, I picked extraction methods deliberately. scalar() drops everything but a single value, avoiding unnecessary row instantiation. mappings() adds column-name access at the cost of extra indexing overhead — useful when an API needs a dict of fields. fetchone() keeps the cursor open for further iteration; first() closes it immediately — so first() for single lookups, fetchone() for batch iteration, to avoid connection leaks under concurrent load.",
     code: null,
   },
+  {
+    title: "Two hashes, two different jobs, on account deletion",
+    body:
+      "provider_id_hash and the stored refresh token are both hashed, but deliberately with different properties. provider_id_hash uses a deterministic hash, so the same Kakao account always maps to the same value. That's load-bearing in two places: it's the input to a per-record unique_hash that keeps lecture_evidence idempotent (the same user uploading the same course for the same year/semester always resolves to the same row, never a duplicate), and it gives the L3 confidence engine a stable identity across deletion and re-signup — without it, the same person could resurface as a \u201Cnew\u201D account and inflate match_count artificially, corrupting the trust score for everyone, not just resetting one bad actor's history. The refresh token, by contrast, is hashed non-deterministically (salted), since it's a bearer secret rather than an identifier: it only ever needs to be verified, never matched against a second time. That distinction forced a security-vs-auditability trade-off that's visible directly in the schema: login_sessions keys off provider_id_hash, users keys off user_id, and user_actions_log carries both. On deletion, the users row is removed and every other user_id reference is set to NULL — except provider_id_hash inside user_actions_log, which is deliberately left in place.",
+    code: `-- on account deletion
+DELETE FROM users WHERE user_id = :id;
+UPDATE user_actions_log SET user_id = NULL WHERE user_id = :id;
+-- provider_id_hash in user_actions_log is left untouched,
+-- so abuse history survives deletion without staying linkable
+-- to an active account.`,
+  },
+  {
+    title: "A hash collision from a copy-pasted field",
+    body:
+      "unique_hash on each lecture_evidence row exists for idempotency: the same user uploading the same course for the same year/semester should always resolve to the same row. The first version of the input string included lecture_category twice instead of including lecture_name — so two different courses in the same category, year, and semester silently collided into the same hash, and one of them quietly overwrote the other. Adding lecture_name to the raw string fixed it.",
+    code: `# before — lecture_category appears twice, lecture_name is missing
+uhashraw = f"{lecture_category}:{lecture_code}:{completion_year}:{completion_semester}"
+
+# after — lecture_name included, so courses in the same
+# category/year/semester no longer collide
+uhashraw = f"{lecture_name}:{lecture_code}:{completion_year}:{completion_semester}"
+unique_hash = generate_unique_hash(pihash=provider_id_hash, uhashraw=uhashraw)
+
+def generate_unique_hash(pihash, uhashraw):
+    salt = settings.SALT
+    raw_text = f"{pihash}:{uhashraw}:{salt}"
+    return hashlib.sha256(raw_text.encode()).hexdigest()`,
+  },
 ];
 
 // AI recommendation story
@@ -244,12 +275,6 @@ export const observability = {
     "Failures by logger type — failed_schema vs. schema_mismatch_masked",
     "Failures by provider_id_hash — surfaces users hitting repeated errors",
   ],
-};
-
-export const perseverance = {
-  quote: "Because I said I would. And because if there's no working URL at the end, none of that time meant anything.",
-  body:
-    "I didn't know what RAM was, let alone an API, when I deferred graduation to build, ship, and run this service alone for five months. The hardest part was the isolation — no peers on the same path, no one to check whether I was even headed the right direction. I kept adding small pieces every day until there was a live service at the end of it.",
 };
 
 // Handwritten study notes — drop real scans into src/assets/notes/ and set `image` below

@@ -9,7 +9,6 @@ import Observability from "./components/Observability.jsx";
 import DesignInsights from "./components/DesignInsights.jsx";
 import AIStory from "./components/AIStory.jsx";
 import TechStack from "./components/TechStack.jsx";
-import Perseverance from "./components/Perseverance.jsx";
 import StudyNotes from "./components/StudyNotes.jsx";
 import Footer from "./components/Footer.jsx";
 
@@ -26,7 +25,6 @@ export default function App() {
       <DesignInsights />
       <AIStory />
       <TechStack />
-      <Perseverance />
       <StudyNotes />
       <Footer />
     </>

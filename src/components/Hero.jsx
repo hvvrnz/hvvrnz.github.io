@@ -12,6 +12,7 @@ export default function Hero() {
             <h1 className="hero-name">{profile.name}</h1>
             <p className="hero-role">{profile.role}</p>
             <p className="hero-tagline">{profile.tagline}</p>
+            <p className="hero-current">{profile.current}</p>
 
             <div className="hero-links">
               <a href={profile.links.service} target="_blank" rel="noreferrer">zolver.co.kr</a>

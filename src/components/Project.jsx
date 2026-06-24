@@ -4,8 +4,8 @@ export default function Project() {
   return (
     <section className="section">
       <div className="container">
-        <span className="eyebrow">// zolver — operation</span>
-        <h2 className="section-title">Solo-built, solo-run</h2>
+        <span className="eyebrow">// zolver in production</span>
+        <h2 className="section-title">From idea to a running service</h2>
 
         <div className="stats-grid">
           {stats.map((s) => (

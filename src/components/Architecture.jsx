@@ -27,6 +27,7 @@ export default function Architecture() {
           <h3 className="diagram-title">{architecture.erd.title}</h3>
           <img className="diagram-img" src={erdImg} alt="Zolver entity relationship diagram" />
           <p className="diagram-caption">{architecture.erd.caption}</p>
+          <p className="diagram-note">{architecture.erd.designNote}</p>
         </div>
       </div>
     </section>
