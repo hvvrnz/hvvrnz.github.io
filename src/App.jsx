@@ -5,7 +5,6 @@ import Reveal from "./components/Reveal.jsx";
 import Hero from "./components/Hero.jsx";
 import Origin from "./components/Origin.jsx";
 import Project from "./components/Project.jsx";
-import APIOverview from "./components/APIOverview.jsx";
 import Architecture from "./components/Architecture.jsx";
 import Troubleshooting from "./components/Troubleshooting.jsx";
 import Observability from "./components/Observability.jsx";
@@ -22,7 +21,6 @@ export default function App() {
       <Reveal><Hero /></Reveal>
       <Reveal><Origin /></Reveal>
       <Reveal><Project /></Reveal>
-      <Reveal><APIOverview /></Reveal>
       <Reveal><Architecture /></Reveal>
       <Reveal><Troubleshooting /></Reveal>
       <Reveal><Observability /></Reveal>
