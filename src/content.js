@@ -5,9 +5,10 @@
 // ============================================================
 
 export const profile = {
-  name: "황윤정",
+  name: "Yoonjeong Hwang",
+  greeting: "안녕하세요, 황윤정입니다.",
   role: "Data Engineering 지망 · 백엔드 / 데이터 파이프라인",
-  tagline: "성적표 한 장을 믿을 수 있는 데이터로 만드는 일을 혼자 끝까지 해봤습니다.",
+  tagline: "성적표 한 장을 믿을 수 있는 데이터로 만드는 일을, 혼자 끝까지 해봤습니다.",
   links: {
     github: "https://github.com/hvvrnz",
     velog: "https://velog.io/@0lalsoo",

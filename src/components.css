@@ -7,91 +7,100 @@
 
 /* ---------- Hero ---------- */
 .hero {
-  background: var(--dark-bg);
-  color: var(--dark-ink);
-  padding: 88px 0 72px;
-  position: relative;
+  background: var(--bg);
+  padding: 76px 0 56px;
+  border-bottom: 1px solid var(--line);
+}
+.hero-inner {}
+.hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+}
+.hero-text { flex: 1; min-width: 0; }
+.hero-photo-frame {
+  flex-shrink: 0;
+  width: 104px;
+  height: 104px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
   overflow: hidden;
+  background: var(--card);
 }
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--olive-deep) 1px, transparent 1px),
-    linear-gradient(90deg, var(--olive-deep) 1px, transparent 1px);
-  background-size: 36px 36px;
-  opacity: 0.18;
+.hero-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
-.hero-inner { position: relative; z-index: 1; }
+
+@media (max-width: 640px) {
+  .hero-top { flex-direction: column-reverse; align-items: flex-start; gap: 20px; }
+  .hero-photo-frame { width: 84px; height: 84px; }
+}
 .hero-eyebrow {
   font-family: var(--font-mono);
-  font-size: 13px;
-  color: #C9BC98;
-  margin-bottom: 18px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-bottom: 14px;
+  display: block;
 }
-.hero-name {
-  font-size: clamp(36px, 7vw, 56px);
-  font-weight: 700;
-  color: var(--dark-ink);
+.hero-greeting {
+  font-size: 14px;
+  color: var(--ink-soft);
   margin-bottom: 8px;
 }
+.hero-name {
+  font-size: clamp(21px, 2.8vw, 25px);
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
 .hero-role {
-  font-size: 18px;
-  color: #D8CBA8;
-  margin-bottom: 22px;
+  font-size: 13px;
+  color: var(--brown);
+  margin-bottom: 16px;
 }
 .hero-tagline {
-  font-size: 19px;
-  max-width: 560px;
-  color: var(--dark-ink);
-  margin-bottom: 32px;
-  line-height: 1.6;
+  font-size: 14px;
+  max-width: 480px;
+  color: var(--ink-soft);
+  margin-bottom: 20px;
+  line-height: 1.65;
 }
-.hero-links { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 44px; }
-.hero-link {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--dark-ink);
-  border: 1px solid #58503C;
-  border-radius: 999px;
-  padding: 7px 16px;
-  transition: border-color 0.2s, background 0.2s;
-}
-.hero-link:hover { border-color: #B7AE83; background: rgba(255,255,255,0.04); text-decoration: none; }
-.hero-hashtags { display: flex; gap: 10px; flex-wrap: wrap; }
-.hero-hashtag {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: #E3C08A;
-}
+.hero-links { font-size: 13px; color: var(--ink-soft); }
+.hero-links a { color: var(--brown); }
+.hero-dot { margin: 0 8px; color: var(--line); }
+.hero-hashtags { margin-top: 28px; font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-soft); }
+.hero-hashtag { margin-right: 12px; }
 
 /* signature pipeline diagram wrapper inside hero */
-.hero-diagram { margin-top: 40px; }
+.hero-diagram { margin-top: 32px; }
 
 /* ---------- generic prose ---------- */
-.prose p + p { margin-top: 14px; }
-.prose { color: var(--ink); font-size: 16px; }
-.lead { font-size: 18px; color: var(--ink-soft); max-width: 640px; }
+.prose p + p { margin-top: 12px; }
+.prose { color: var(--ink); font-size: 14.5px; }
+.lead { font-size: 15px; color: var(--ink-soft); max-width: 600px; }
 
 /* ---------- Origin ---------- */
 .survey-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  margin-top: 32px;
+  margin-top: 28px;
 }
 .survey-stat {
   border-left: 3px solid var(--olive);
-  padding-left: 16px;
+  padding-left: 14px;
 }
 .survey-value {
   font-family: var(--font-mono);
-  font-size: 28px;
+  font-size: 21px;
   font-weight: 600;
   color: var(--brown);
 }
-.survey-label { font-size: 13px; color: var(--ink-soft); margin-top: 4px; }
+.survey-label { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; }
 
 @media (max-width: 640px) {
   .survey-grid { grid-template-columns: 1fr; }
@@ -112,12 +121,12 @@
 }
 .stat-value {
   font-family: var(--font-mono);
-  font-size: 24px;
+  font-size: 19px;
   font-weight: 600;
   color: var(--olive);
 }
-.stat-label { font-size: 13px; margin-top: 6px; color: var(--ink); }
-.stat-sub { font-size: 11px; color: var(--ink-soft); margin-top: 4px; }
+.stat-label { font-size: 12px; margin-top: 6px; color: var(--ink); }
+.stat-sub { font-size: 10.5px; color: var(--ink-soft); margin-top: 4px; }
 
 @media (max-width: 880px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -202,13 +211,13 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 18px 20px;
+  padding: 16px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 14.5px;
   font-weight: 600;
   color: var(--ink);
 }
@@ -232,7 +241,7 @@
 /* ---------- DesignInsights ---------- */
 .insight-list { display: flex; flex-direction: column; gap: 28px; margin-top: 28px; }
 .insight-card { padding: 0; }
-.insight-title { font-weight: 600; font-size: 17px; margin-bottom: 10px; }
+.insight-title { font-weight: 600; font-size: 15px; margin-bottom: 8px; }
 .insight-body { font-size: 14.5px; color: var(--ink-soft); }
 .insight-code {
   margin-top: 14px;
@@ -248,7 +257,7 @@
 }
 
 /* ---------- AIStory ---------- */
-.ai-lead { font-size: 17px; color: var(--ink); margin-bottom: 28px; }
+.ai-lead { font-size: 15px; color: var(--ink); margin-bottom: 24px; }
 .ai-failures { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 24px; }
 .ai-fail-card {
   border: 1px dashed var(--rust);
@@ -296,11 +305,12 @@
 }
 .perseverance-quote {
   font-family: var(--font-display);
-  font-size: 21px;
-  line-height: 1.5;
-  margin-bottom: 18px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 16px;
 }
-.perseverance-body { font-size: 15px; color: #E3DCC6; }
+.perseverance-body { font-size: 13.5px; color: #E3DCC6; }
 
 @media (max-width: 640px) {
   .perseverance { padding: 28px 22px; }
@@ -333,8 +343,9 @@
 }
 .note-image-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .note-topic {
-  font-family: var(--font-hand);
-  font-size: 18px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 13px;
   color: var(--brown);
   padding: 12px 14px 0;
 }
