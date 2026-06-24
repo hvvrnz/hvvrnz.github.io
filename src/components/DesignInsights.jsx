@@ -1,4 +1,5 @@
 import { designInsights } from "../content.js";
+import Text from "./Text.jsx";
 import kakaoLoginSequenceImg from "../assets/diagrams/kakao_login_sequence.png";
 
 const DIAGRAMS = {
@@ -16,7 +17,7 @@ export default function DesignInsights() {
           {designInsights.map((d) => (
             <div className="insight-card" key={d.title}>
               <div className="insight-title">{d.title}</div>
-              <div className="insight-body">{d.body}</div>
+              <div className="insight-body"><Text>{d.body}</Text></div>
               {d.code && <pre className="insight-code">{d.code}</pre>}
               {d.diagram && (
                 <img

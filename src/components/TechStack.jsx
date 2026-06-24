@@ -1,4 +1,5 @@
 import { techStack } from "../content.js";
+import Text from "./Text.jsx";
 
 export default function TechStack() {
   return (
@@ -10,7 +11,7 @@ export default function TechStack() {
           {techStack.map((t) => (
             <div className="stack-row" key={t.name}>
               <div className="stack-name">{t.name}</div>
-              <div className="stack-desc">{t.desc}</div>
+              <div className="stack-desc"><Text>{t.desc}</Text></div>
             </div>
           ))}
         </div>

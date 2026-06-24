@@ -1,4 +1,5 @@
 import { aiStory } from "../content.js";
+import Text from "./Text.jsx";
 
 export default function AIStory() {
   return (
@@ -6,19 +7,19 @@ export default function AIStory() {
       <div className="container">
         <span className="eyebrow">// AI usage</span>
         <h2 className="section-title">{aiStory.title}</h2>
-        <p className="ai-lead">{aiStory.lead}</p>
+        <p className="ai-lead"><Text>{aiStory.lead}</Text></p>
 
         <div className="ai-failures">
           {aiStory.failures.map((f) => (
             <div className="ai-fail-card" key={f.title}>
               <div className="ai-fail-title">{f.title}</div>
-              <div className="ai-fail-desc">{f.desc}</div>
+              <div className="ai-fail-desc"><Text>{f.desc}</Text></div>
             </div>
           ))}
         </div>
 
-        <p className="ai-resolution">{aiStory.resolution}</p>
-        <p className="ai-impl">{aiStory.implementation}</p>
+        <p className="ai-resolution"><Text>{aiStory.resolution}</Text></p>
+        <p className="ai-impl"><Text>{aiStory.implementation}</Text></p>
       </div>
     </section>
   );

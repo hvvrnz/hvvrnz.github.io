@@ -1,4 +1,5 @@
 import { studyNotes } from "../content.js";
+import Text from "./Text.jsx";
 
 export default function StudyNotes() {
   return (
@@ -6,7 +7,7 @@ export default function StudyNotes() {
       <div className="container">
         <span className="eyebrow">// study notes</span>
         <h2 className="section-title">A habit of sketching things out by hand</h2>
-        <p className="prose lead notes-intro">{studyNotes.intro}</p>
+        <p className="prose lead notes-intro"><Text>{studyNotes.intro}</Text></p>
 
         <div className="notes-grid">
           {studyNotes.items.map((n) => (
@@ -19,7 +20,7 @@ export default function StudyNotes() {
                 )}
               </div>
               <div className="note-topic">{n.topic}</div>
-              <div className="note-caption">{n.caption}</div>
+              <div className="note-caption"><Text>{n.caption}</Text></div>
             </div>
           ))}
         </div>

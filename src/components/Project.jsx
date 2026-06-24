@@ -1,4 +1,5 @@
 import { stats, serviceIntro } from "../content.js";
+import Text from "./Text.jsx";
 
 export default function Project() {
   return (
@@ -11,19 +12,19 @@ export default function Project() {
           {stats.map((s) => (
             <div className="stat-card" key={s.label}>
               <div className="stat-value">{s.value}</div>
-              <div className="stat-label">{s.label}</div>
-              {s.sub && <div className="stat-sub">{s.sub}</div>}
+              <div className="stat-label"><Text>{s.label}</Text></div>
+              {s.sub && <div className="stat-sub"><Text>{s.sub}</Text></div>}
             </div>
           ))}
         </div>
 
-        <p className="prose lead" style={{ marginBottom: 28 }}>{serviceIntro.description}</p>
+        <p className="prose lead" style={{ marginBottom: 28 }}><Text>{serviceIntro.description}</Text></p>
 
         <div className="feature-grid">
           {serviceIntro.features.map((f) => (
             <div className="feature-item" key={f.title}>
               <div className="feature-title">{f.title}</div>
-              <div className="feature-desc">{f.desc}</div>
+              <div className="feature-desc"><Text>{f.desc}</Text></div>
             </div>
           ))}
         </div>

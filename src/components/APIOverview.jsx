@@ -1,4 +1,5 @@
 import { apiOverview } from "../content.js";
+import Text from "./Text.jsx";
 
 export default function APIOverview() {
   return (
@@ -6,13 +7,13 @@ export default function APIOverview() {
       <div className="container">
         <span className="eyebrow">// backend api</span>
         <h2 className="section-title">13 routers, one consistent surface</h2>
-        <p className="prose lead" style={{ marginBottom: 28 }}>{apiOverview.intro}</p>
+        <p className="prose lead" style={{ marginBottom: 28 }}><Text>{apiOverview.intro}</Text></p>
 
         <div className="stack-list" style={{ marginBottom: 36 }}>
           {apiOverview.stack.map((t) => (
             <div className="stack-row" key={t.name}>
               <div className="stack-name">{t.name}</div>
-              <div className="stack-desc">{t.desc}</div>
+              <div className="stack-desc"><Text>{t.desc}</Text></div>
             </div>
           ))}
         </div>
@@ -21,7 +22,7 @@ export default function APIOverview() {
           {apiOverview.routers.map((r) => (
             <div className="api-router-row" key={r.name}>
               <span className="api-router-prefix">{r.prefix}</span>
-              <span className="api-router-desc">{r.desc}</span>
+              <span className="api-router-desc"><Text>{r.desc}</Text></span>
             </div>
           ))}
         </div>

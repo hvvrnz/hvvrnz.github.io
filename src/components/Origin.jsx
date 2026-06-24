@@ -1,4 +1,5 @@
 import { originStory, originSurvey } from "../content.js";
+import Text from "./Text.jsx";
 
 export default function Origin() {
   const paragraphs = originStory.trim().split("\n\n");
@@ -9,7 +10,7 @@ export default function Origin() {
         <h2 className="section-title">From timetable recommendation to graduation-requirement visualization</h2>
         <div className="prose lead">
           {paragraphs.map((p, i) => (
-            <p key={i}>{p}</p>
+            <p key={i}><Text>{p}</Text></p>
           ))}
         </div>
 
@@ -17,7 +18,7 @@ export default function Origin() {
           {originSurvey.map((s) => (
             <div className="survey-stat" key={s.label}>
               <div className="survey-value">{s.value}</div>
-              <div className="survey-label">{s.label}</div>
+              <div className="survey-label"><Text>{s.label}</Text></div>
             </div>
           ))}
         </div>

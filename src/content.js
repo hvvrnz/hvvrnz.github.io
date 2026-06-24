@@ -9,13 +9,13 @@ export const profile = {
   greeting: "Hi, I'm Yoonjeong Hwang.",
   role: "Aspiring Data Engineer · Backend / Data Pipeline",
   tagline: "I like studying things in depth, writing down what I learn, and growing through the process with the people I build with.",
-  current: "Currently teaming up on a public-data ideas competition (Korea Arts & Culture Education Service (ARTE))",
+  current: "Currently teaming up on a public-data ideas competition \n (Korea Arts & Culture Education Service (ARTE))",
   links: {
     github: "https://github.com/hvvrnz",
     velog: "https://velog.io/@0lalsoo",
     service: "https://www.zolver.co.kr",
   },
-  hashtags: ["positive","#optimizing_under_constraints", "#obsessed_with_data_trust"],
+  hashtags: ["#positive","#optimizing_under_constraints", "#obsessed_with_data_trust"],
 };
 
 // Core metrics for the stat cards

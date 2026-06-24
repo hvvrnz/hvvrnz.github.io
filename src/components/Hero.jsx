@@ -2,6 +2,7 @@ import { profile } from "../content.js";
 import profilePhoto from "../assets/profile.jpg";
 import { Code2, BookText } from "lucide-react";
 import zolverIcon from "../assets/zolver-icon.png";
+import Text from "./Text.jsx";
 
 export default function Hero() {
   return (
@@ -10,11 +11,11 @@ export default function Hero() {
         <div className="hero-top">
           <div className="hero-text">
             <span className="hero-eyebrow">portfolio</span>
-            <p className="hero-greeting">{profile.greeting}</p>
+            <p className="hero-greeting"><Text>{profile.greeting}</Text></p>
             <h1 className="hero-name">{profile.name}</h1>
-            <p className="hero-role">{profile.role}</p>
-            <p className="hero-tagline">{profile.tagline}</p>
-            <p className="hero-current">{profile.current}</p>
+            <p className="hero-role"><Text>{profile.role}</Text></p>
+            <p className="hero-tagline"><Text>{profile.tagline}</Text></p>
+            <p className="hero-current"><Text>{profile.current}</Text></p>
 
             <div className="hero-links">
               <a className="hero-badge" href={profile.links.service} target="_blank" rel="noreferrer">
@@ -35,9 +36,9 @@ export default function Hero() {
         </div>
 
         <div className="hero-hashtags">
-          {profile.hashtags.map((h) => (
-            <span className="hero-hashtag" key={h}>{h}</span>
-          ))}
+          {profile.hashtags.map((h, i) =>
+            h === "\n" ? <br key={`br-${i}`} /> : <span className="hero-hashtag" key={h}>{h}</span>
+          )}
         </div>
       </div>
     </header>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { troubleshooting } from "../content.js";
+import Text from "./Text.jsx";
 
 export default function Troubleshooting() {
   const [openIdx, setOpenIdx] = useState(0);
@@ -33,11 +34,11 @@ export default function Troubleshooting() {
                   <div className="ts-body">
                     <div className="ts-block problem">
                       <span className="ts-block-label">problem</span>
-                      <span className="ts-problem-text">{t.problem}</span>
+                      <span className="ts-problem-text"><Text>{t.problem}</Text></span>
                     </div>
                     <div className="ts-block solution">
                       <span className="ts-block-label">solution</span>
-                      <span className="ts-solution-text">{t.solution}</span>
+                      <span className="ts-solution-text"><Text>{t.solution}</Text></span>
                     </div>
                   </div>
                 )}
