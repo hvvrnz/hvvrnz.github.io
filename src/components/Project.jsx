@@ -1,7 +1,8 @@
-import { stats, serviceIntro } from "../content.js";
 import Text from "./Text.jsx";
+import { useContent } from "../i18n.jsx";
 
 export default function Project() {
+  const { stats, serviceIntro } = useContent();
   return (
     <section className="section">
       <div className="container">

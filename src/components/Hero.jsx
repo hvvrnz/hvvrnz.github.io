@@ -1,10 +1,11 @@
-import { profile } from "../content.js";
 import profilePhoto from "../assets/profile.jpg";
 import { Code2, BookText } from "lucide-react";
 import zolverIcon from "../assets/zolver-icon.png";
 import Text from "./Text.jsx";
+import { useContent } from "../i18n.jsx";
 
 export default function Hero() {
+  const { profile } = useContent();
   return (
     <header className="hero">
       <div className="container hero-inner">

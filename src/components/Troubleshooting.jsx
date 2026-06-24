@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { troubleshooting } from "../content.js";
 import Text from "./Text.jsx";
+import { useContent } from "../i18n.jsx";
 
 export default function Troubleshooting() {
+  const { troubleshooting } = useContent();
   const [openIdx, setOpenIdx] = useState(0);
 
   return (

@@ -1,7 +1,8 @@
-import { footer, profile } from "../content.js";
 import Text from "./Text.jsx";
+import { useContent } from "../i18n.jsx";
 
 export default function Footer() {
+  const { footer, profile } = useContent();
   return (
     <footer className="site-footer">
       <div className="container">

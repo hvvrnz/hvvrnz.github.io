@@ -1,11 +1,11 @@
 // ============================================================
 // Portfolio content (English)
-// Edit text/numbers here only — components just render these values.
-// To revert to Korean: copy content.ko.js over this file.
+// Edit English text/numbers here only — components render these values
+// when the language toggle is set to EN.
 // ============================================================
 
 export const profile = {
-  name: "Yoonjeong Hwang",
+  name: "Yoonjeong Hwang (hvvrnz)",
   greeting: "Hi, I'm Yoonjeong Hwang.",
   role: "Aspiring Data Engineer · Backend / Data Pipeline",
   tagline: "I like studying things in depth, writing down what I learn, and growing through the process with the people I build with.",
@@ -15,7 +15,7 @@ export const profile = {
     velog: "https://velog.io/@0lalsoo",
     service: "https://www.zolver.co.kr",
   },
-  hashtags: ["#positive","#optimizing_under_constraints", "#obsessed_with_data_trust"],
+  hashtags: ["#positive", "#optimizing_under_constraints", "#obsessed_with_data_trust"],
 };
 
 // Core metrics for the stat cards
@@ -53,7 +53,7 @@ export const serviceIntro = {
   ],
 };
 
-// 3-stage validation pipeline — used by Pipeline.jsx alongside the real diagram image
+// 3-stage validation pipeline
 export const pipeline = [
   {
     stage: "L1",
@@ -101,7 +101,7 @@ export const architecture = {
   },
 };
 
-// Backend API surface — from the zolver-backend README
+// Backend API surface
 export const apiOverview = {
   intro:
     "13 routers cover the full product surface — auth, transcript ingestion, requirement tracking, simulation, and AI recommendation — all under FastAPI with async SQLAlchemy.",
@@ -163,7 +163,7 @@ export const troubleshooting = [
     problem:
       "A local-only .env.local set the DB name to zolver_db_local, but the container kept coming up with zolver_db from the default .env instead.",
     solution:
-      "env_file: in compose.yml is applied at container runtime, but ${DB_NAME} substitution happens at parse time — when the default .env is read first. Fixed by passing --env-file .env.local explicitly so the correct file is read at parse time.",
+      "env_file: in compose.yml is applied at container runtime, but \u0024{DB_NAME} substitution happens at parse time — when the default .env is read first. Fixed by passing --env-file .env.local explicitly so the correct file is read at parse time.",
   },
   {
     title: "Korean initial-consonant (chosung) search",
@@ -252,7 +252,7 @@ export const techStack = [
   { name: "Docker Compose · Nginx · AWS EC2", desc: "infrastructure tuned to run reliably on 1GB of RAM" },
 ];
 
-// Observability — from the zolver-elastic README
+// Observability
 export const observability = {
   intro:
     "Elasticsearch can't run on the 1GB production server (needs 2GB+), so logs are pulled down via scp and analyzed locally through Filebeat → Elasticsearch → Kibana.",
@@ -273,7 +273,7 @@ export const observability = {
   ],
 };
 
-// Handwritten study notes — drop real scans into src/assets/notes/ and set `image` below
+// Handwritten study notes
 export const studyNotes = {
   intro:
     "Circuit-heavy courses kept giving me trouble even after switching majors, until a senior-year Operating Systems class changed that. Sketching out the logical and physical behavior of hardware by hand is a habit that's carried through from that class to now.",

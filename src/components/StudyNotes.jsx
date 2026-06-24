@@ -1,7 +1,8 @@
-import { studyNotes } from "../content.js";
 import Text from "./Text.jsx";
+import { useContent } from "../i18n.jsx";
 
 export default function StudyNotes() {
+  const { studyNotes } = useContent();
   return (
     <section className="section">
       <div className="container">

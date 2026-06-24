@@ -1,7 +1,8 @@
-import { originStory, originSurvey } from "../content.js";
 import Text from "./Text.jsx";
+import { useContent } from "../i18n.jsx";
 
 export default function Origin() {
+  const { originStory, originSurvey } = useContent();
   const paragraphs = originStory.trim().split("\n\n");
   return (
     <section className="section">

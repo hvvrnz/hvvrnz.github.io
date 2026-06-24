@@ -1,12 +1,13 @@
-import { designInsights } from "../content.js";
 import Text from "./Text.jsx";
 import kakaoLoginSequenceImg from "../assets/diagrams/kakao_login_sequence.png";
+import { useContent } from "../i18n.jsx";
 
 const DIAGRAMS = {
   kakaoLoginSequence: kakaoLoginSequenceImg,
 };
 
 export default function DesignInsights() {
+  const { designInsights } = useContent();
   return (
     <section className="section">
       <div className="container">

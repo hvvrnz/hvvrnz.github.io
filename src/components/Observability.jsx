@@ -1,7 +1,8 @@
-import { observability } from "../content.js";
 import Text from "./Text.jsx";
+import { useContent } from "../i18n.jsx";
 
 export default function Observability() {
+  const { observability } = useContent();
   return (
     <section className="section">
       <div className="container">

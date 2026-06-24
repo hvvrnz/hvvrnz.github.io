@@ -1,10 +1,11 @@
-import { architecture } from "../content.js";
 import Text from "./Text.jsx";
 import infraImg from "../assets/diagrams/infra.png";
 import pipelineImg from "../assets/diagrams/pipeline_flow.png";
 import erdImg from "../assets/diagrams/erd.png";
+import { useContent } from "../i18n.jsx";
 
 export default function Architecture() {
+  const { architecture } = useContent();
   return (
     <section className="section">
       <div className="container">

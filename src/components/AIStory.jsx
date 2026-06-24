@@ -1,7 +1,8 @@
-import { aiStory } from "../content.js";
 import Text from "./Text.jsx";
+import { useContent } from "../i18n.jsx";
 
 export default function AIStory() {
+  const { aiStory } = useContent();
   return (
     <section className="section">
       <div className="container">

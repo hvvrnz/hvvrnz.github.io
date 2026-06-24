@@ -1,7 +1,8 @@
-import { apiOverview } from "../content.js";
 import Text from "./Text.jsx";
+import { useContent } from "../i18n.jsx";
 
 export default function APIOverview() {
+  const { apiOverview } = useContent();
   return (
     <section className="section">
       <div className="container">

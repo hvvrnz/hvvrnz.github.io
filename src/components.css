@@ -23,6 +23,7 @@
   flex-shrink: 0;
   width: 290px;
   height: 290px;
+  margin-top: 28px;
   border-radius: var(--radius);
   border: 1px solid var(--line);
   overflow: hidden;
@@ -470,3 +471,30 @@
 }
 .hero-badge svg { width: 14px; height: 14px; flex-shrink: 0; }
 .hero-badge-icon { width: 15px; height: 15px; border-radius: 4px; flex-shrink: 0; display: block; }
+
+/* ---------- Language toggle ---------- */
+.lang-toggle {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.lang-toggle:hover { border-color: var(--brown); transform: translateY(-1px); }
+.lang-toggle .lang-active { color: var(--brown); font-weight: 700; }
+.lang-sep { color: var(--line); }
+
+@media (max-width: 640px) {
+  .lang-toggle { top: 10px; right: 10px; padding: 6px 10px; font-size: 11px; }
+}
