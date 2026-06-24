@@ -1,186 +1,141 @@
 // ============================================================
-// Portfolio content (English)
-// Edit English text/numbers here only — components render these values
-// when the language toggle is set to EN.
+// Portfolio Content (English)
+// Translated and simplified for readers with no prior context.
 // ============================================================
 
 export const profile = {
-  name: "Yoonjeong Hwang (hvvrnz)",
-  greeting: "Hi, I'm Yoonjeong Hwang.",
-  role: "Aspiring Data Engineer · Backend / Data Pipeline",
-  tagline: "I like studying things in depth, writing down what I learn, and growing through the process with the people I build with.",
-  current: "Currently teaming up on a public-data ideas competition \n (Korea Arts & Culture Education Service (ARTE))",
+  name: "Yoonjung Hwang (hvvrnz)",
+  greeting: "Hi, I'm Yoonjung Hwang.",
+  role: "Data Engineering · Backend / Infrastructure Design",
+  tagline: "I enjoy studying things deeply, documenting what I learn, \n and growing through that process.",
+  current: "Currently participating as a team in a public-data idea contest \n (Korea Arts & Culture Education Service, ARTE)",
   links: {
     github: "https://github.com/hvvrnz",
     velog: "https://velog.io/@0lalsoo",
     service: "https://www.zolver.co.kr",
   },
-  hashtags: ["#positive", "#optimizing_under_constraints", "#obsessed_with_data_trust"],
+  hashtags: ["#Positive", "#ResourceOptimization", "#DataIntegrity", "#ProblemSolving"],
 };
 
-// Core metrics for the stat cards
+// Key operating metrics
 export const stats = [
-  { value: "172+", label: "registered users", sub: "since launch on 2026.6.8" },
-  { value: "2,538+", label: "course records processed", sub: "" },
-  { value: "56", label: "departments covered", sub: "with zero pre-built department DB" },
-  { value: "54%", label: "activation rate", sub: "users who uploaded a transcript or entered manually" },
-  { value: "86%", label: "pipeline parse success rate", sub: "measured via ELK log analysis" },
+  { value: "172+", label: "Registered users", sub: "Since official launch on 2026.6.8" },
+  { value: "2,538+", label: "Total courses processed", sub: "" },
+  { value: "56", label: "Departments covered", sub: "Without building a pre-made department database" },
+  { value: "54%", label: "Core feature conversion rate", sub: "Visitors who uploaded a transcript or manually registered courses" },
+  { value: "86%", label: "Pipeline parsing success rate", sub: "Based on ELK log analysis" },
 ];
 
-// Origin — survey numbers that triggered the pivot
+// Origin story — the survey that changed the project's direction
 export const originSurvey = [
-  { label: "Hardest part of course registration → \u201Cchoosing courses against graduation requirements\u201D", value: "79.4%" },
-  { label: "Everytime (timetable app) usage rate among respondents", value: "92.6%" },
-  { label: "Still tracking graduation requirements by hand (Word/Excel/Notion/notes)", value: "64.8%" },
+  { label: "Hardest part of course registration → \n \u201CChoosing classes that meet graduation requirements\u201D", value: "79.4%" },
+  { label: "Usage rate of Everytime (timetable app)", value: "92.6%" },
+  { label: "Manually tracking graduation requirements \n (Word · Excel · Notion · notes app)", value: "64.8%" },
 ];
 
-export const originStory = `Zolver started as a capstone project. The original core feature was "timetable recommendation," and I surveyed 68 students to validate it.
+export const originStory = `Zolver started as a graduation project. The original core feature was "timetable recommendation," and I ran a survey of 68 university students to validate it.
 
-Analyzing the responses, I found students didn't actually need timetable recommendations — they needed a single view of what was still missing to graduate. I redefined the problem around graduation-requirement visualization and rebuilt the product around it, then carried it through design, development, and operations entirely by myself.`;
+But a great timetable recommendation is useless if the student fails to register for the class in the first place. While analyzing the survey, I realized students didn't actually need a timetable recommender — what they needed was a clear, at-a-glance view of what they still needed to graduate. Based on that finding, I redefined the problem around visualizing graduation requirements, and handled everything from planning to development to operations myself from there.`;
 
 export const serviceIntro = {
   description:
-    "Upload the official transcript (Excel) downloaded from the university portal, and the system automatically classifies completed courses and shows exactly what's left to graduate. Beyond simple credit totals, it tracks tag-based requirement progress, runs course simulations, analyzes GPA, and recommends courses with AI.",
+    "Upload the official transcript (an Excel file) downloaded from your school portal, and the service automatically classifies your completed courses and shows what's left to graduate. Beyond simple credit totals, it also offers tag-based detailed progress tracking, course simulation, GPA analysis, and AI course recommendations.",
   features: [
-    { title: "Course registration", desc: "Register course history via transcript upload or manual entry" },
-    { title: "Requirement analysis", desc: "Real-time major / elective / general credit completion rates" },
-    { title: "Tag management", desc: "Define custom major / elective sub-categories with minimum credit rules" },
-    { title: "Course simulation", desc: "Pre-register planned courses to check requirement coverage" },
-    { title: "GPA analysis", desc: "Semester-by-semester trend, target-GPA simulation" },
-    { title: "Course directory", desc: "Search courses verified by the confidence algorithm" },
-    { title: "AI course recommendation", desc: "Based on requirements, GPA, cohort, and major data (Gemini API)" },
-    { title: "Kakao login", desc: "One-tap sign-in via Kakao OAuth" },
+    { title: "Register completed courses", desc: "Register your course history by uploading a transcript or entering it manually" },
+    { title: "Graduation requirement analysis", desc: "See major / general education / other credit completion in real time" },
+    { title: "Tag management", desc: "Create your own sub-categories for major/general education and set minimum required credits" },
+    { title: "Course simulation", desc: "Pre-register future courses to check whether graduation requirements would be met" },
+    { title: "GPA analysis", desc: "Visualize semester-by-semester GPA trends and simulate reaching a target GPA" },
+    { title: "Course catalog", desc: "Search admin-registered, trust-score-verified course data" },
+    { title: "AI course recommendation", desc: "Recommendations based on graduation requirements, GPA, admission year, and department data (via Gemini API)" },
+    { title: "Kakao login", desc: "Simple sign-in via Kakao OAuth" },
   ],
 };
-
-// 3-stage validation pipeline
-export const pipeline = [
-  {
-    stage: "L1",
-    name: "Physical Check",
-    detail: "Verifies file format, size, and metadata tampering. On failure, the file is destroyed immediately — no log (security).",
-    items: ["File existence", "Extension (.xlsx)", "File size limit", "Author / timestamp integrity", "Temp dir movement"],
-  },
-  {
-    stage: "L2",
-    name: "Content Check + ETL",
-    detail: "Confirms form integrity via fixed coordinates and header matching, then extracts → transforms → loads.",
-    items: ["Whitelist scan", "Schema extraction", "Coordinate mapping", "Data transform", "Load into lecture_evidence"],
-  },
-  {
-    stage: "L3",
-    name: "Confidence Engine",
-    detail: "Airflow batch (local, via SSH tunnel). Scores agreement across multiple users' data and promotes records past a threshold.",
-    items: ["Excel source weighted higher", "Manual entry weighted lower", "Curriculum-match bonus", "match_count ≥ 2 & score ≥ 1.5 → promoted to lecture_master"],
-  },
-];
 
 export const pipelineNote =
-  "Trusting a single transcript outright is fragile against error or manipulation. Data only becomes \u201Ctrusted\u201D once enough independent uploads agree with each other.";
+  "Trusting a single person's transcript at face value is vulnerable to mistakes or manipulation. Data is only treated as \u201Ctrustworthy\u201D once multiple independent uploads agree with each other.";
 
-// Architecture diagrams — real exported images
+// Architecture diagrams — pulled from the actual system
 export const architecture = {
   intro:
-    "Three diagrams from the actual system: the infrastructure topology, the full validation pipeline, and the data model behind it.",
+    "Infrastructure diagram, validation pipeline, and ERD",
   infra: {
-    title: "Infrastructure",
+    title: "Infrastructure Diagram",
     caption:
-      "Single EC2 instance (Ubuntu, 1GB RAM). Nginx serves the React build statically and reverse-proxies /api to FastAPI. The L1/L2 validation pipeline runs inside the same container via a synchronous import, writing to PostgreSQL. The L3 confidence engine runs as an Airflow batch on a local machine, connecting back to the production DB through an SSH tunnel — keeping the 1GB server from running a scheduler itself.",
+      "Runs on a single EC2 instance (Ubuntu, 1GB RAM). Nginx serves the static React build and reverse-proxies /api to FastAPI. The L1/L2 validation pipeline runs synchronously inside the same container during import and writes to PostgreSQL. The L3 trust-scoring engine runs as a separate Airflow batch job on my local machine, connecting to the production database over an SSH tunnel — this keeps the 1GB server from having to run the scheduler itself.",
   },
   pipeline: {
-    title: "Validation pipeline (full detail)",
+    title: "Validation Pipeline (full detail)",
     caption:
-      "Every rule from R100 to R205 mapped end to end. L1 failures are destroyed with no log, by design — logging a failed malicious upload would leak detection logic. L2 failures are logged for drift analysis. L3 runs as a separate batch and promotes data only past a confidence threshold.",
+      "Every rule from R100 through R205 is mapped end-to-end. By design, L1 failures are discarded immediately with no logging — logging why a malicious upload failed could expose the detection logic itself. L2 failures are logged for drift analysis. L3 runs as a separate batch job and only promotes data that clears the trust-score threshold.",
   },
   erd: {
-    title: "Data model",
+    title: "Data Model",
     caption:
-      "lecture_evidence (raw, per-upload) feeds lecture_validation (per-rule snapshot) which aggregates into lecture_frequency, the input to the L3 confidence score. Only records that clear the threshold get promoted into lecture_master — the table the rest of the app actually reads from.",
+      "lecture_evidence (raw data per upload) feeds into lecture_validation (a per-rule snapshot), which is aggregated into lecture_frequency — the input to the L3 trust score. Only records that clear the threshold get promoted to lecture_master, and that's the only table the rest of the app actually reads from.",
     designNote:
-      "Intentional denormalization: under 1GB of RAM, join cost under traffic spikes looked riskier than redundant reads. Given the table count and data volume here, I chose select-only access patterns on purpose instead of relying on joins.",
+      "Intentional denormalization: on a 1GB RAM environment, I judged that join costs under traffic spikes were riskier than some duplicate reads. Given the table count and data volume, I deliberately favored simple selects over join-dependent queries.",
   },
-};
-
-// Backend API surface
-export const apiOverview = {
-  intro:
-    "13 routers cover the full product surface — auth, transcript ingestion, requirement tracking, simulation, and AI recommendation — all under FastAPI with async SQLAlchemy.",
-  stack: [
-    { name: "FastAPI", desc: "async request handling, Pydantic validation" },
-    { name: "PostgreSQL + SQLAlchemy (async)", desc: "relational integrity across users / lectures / evidence / master" },
-    { name: "Kakao OAuth 2.0 + JWT", desc: "the only login path — no native sign-up, JWT verified by a global middleware" },
-    { name: "Google Gemini API (gemini-2.5-flash)", desc: "course recommendation generation, cached" },
-  ],
-  routers: [
-    { name: "auth", prefix: "/api/v1/auth", desc: "Kakao login, token refresh, logout" },
-    { name: "upload", prefix: "/api/v1/upload", desc: "transcript .xlsx upload, triggers L1/L2 worker" },
-    { name: "lecture", prefix: "/api/v1/courses", desc: "CRUD on completed courses, chosung-aware search" },
-    { name: "tag", prefix: "/api/v1/tags", desc: "custom requirement tags, minimum-credit rules" },
-    { name: "simulation", prefix: "/api/v1/simulation", desc: "register planned courses, view simulated outcome" },
-    { name: "user_gpa", prefix: "/api/v1/users/me/gpa-targets", desc: "GPA targets and simulation" },
-    { name: "ai", prefix: "/api/v1/ai", desc: "AI course recommendation, cache/cooldown status" },
-    { name: "curriculum / user_majors", prefix: "/api/v1/curriculum, /majors", desc: "department curriculum versions" },
-  ],
 };
 
 // Troubleshooting cards
 export const troubleshooting = [
   {
-    title: "Duplicate rows on re-upload",
+    title: "Duplicate data on re-upload",
     tag: "PostgreSQL · Trigger",
     problem:
-      "When a returning user re-uploaded a transcript, the DB trigger inserted a new lecture_validation row instead of updating the existing one, inflating total_val_score and match_count beyond their real values.",
+      "When a re-registered user re-uploaded their transcript, the database trigger created a new lecture_validation row instead of updating the existing one, inflating total_val_score and match_count beyond their real values.",
     solution:
-      "Added snap_unique_hash — a hash of course + semester + user — and made the trigger check for an existing row by that hash before writing: UPDATE if found, INSERT if not. Added a partial unique index to also cover duplicates across nullable columns.",
+      "Added snap_unique_hash, a hash combining the course, semester, and user, and changed the trigger to check for an existing row by this hash before writing: UPDATE if it exists, INSERT if it doesn't. Also added a partial unique index to prevent duplicates across nullable columns.",
   },
   {
-    title: "Transcript formats differ across users",
+    title: "Inconsistent transcript formats across users",
     tag: "Parsing · anchor_resolver",
     problem:
-      "Repeated personal-info blocks or shifted row offsets meant fixed-coordinate parsing failed for a meaningful share of uploads.",
+      "Some transcripts repeated the personal-info block multiple times or had entire rows shifted, so parsing based on fixed coordinates failed for a significant share of uploads.",
     solution:
-      "Built anchor_resolver: it locates the fixed phrase \u201Cfull personal transcript\u201D as an anchor, then computes header and data-start rows relative to it. Changed the failure path so a second dynamic-search attempt runs before a file is discarded, instead of deleting on first failure.",
+      "Built anchor_resolver: it locates the fixed phrase \u201C개인별 전체 성적조회\u201D (full personal grade report) as an anchor, then calculates the header and data start rows relative to that anchor. Also changed the order so that, on a validation failure, the record isn't deleted immediately — dynamic anchor detection is retried first, and deletion only happens if that also fails.",
   },
   {
-    title: "Detecting repeated-failure formats (schema drift)",
+    title: "Detecting recurring format failures (schema drift)",
     tag: "Elastic Stack · Kibana",
     problem:
-      "In Kibana, the same form_hash kept failing across different users — a specific department or transcript version the parser didn't support.",
+      "In Kibana, the same form_hash kept failing across multiple different users — indicating the parser didn't support a particular department's or version's transcript format.",
     solution:
-      "Built schema_drift_viewer.html to visualize the failing cell structure case by case. This separated plain user error from genuine school-side format changes, and only the latter triggered an L2 parser update via dynamic anchor search.",
+      "Built schema_drift_viewer.html to visualize the cell structure of failed cases and compare them side by side. This let me distinguish simple user mistakes from actual school-side format changes, and only the latter triggered an L2 parser update via dynamic anchor detection.",
   },
   {
-    title: "pandas mask() silently failing to write None",
+    title: "pandas mask() silently failing to replace None",
     tag: "ETL · pandas",
     problem:
-      "df.mask(df.isna(), None) was supposed to convert NaN to None, but numeric columns kept their dtype and ignored the substitution.",
+      "Tried to replace NaN with None using df.mask(df.isna(), None), but numeric columns kept their dtype and the replacement was silently ignored.",
     solution:
-      "replace({np.nan: None}) changes the dtype to object, but other missing-value types (NaT, pd.NA) still slipped through. Settled on df.where(pd.notnull(df), None) as the final fix — a reminder that changing a value and changing a dtype are two different problems.",
+      "replace({np.nan: None}) did convert the dtype to object, but other forms of missing values (NaT, pd.NA) still slipped through. Ultimately solved it with df.where(pd.notnull(df), None) — a good lesson that \u201Cchanging a value\u201D and \u201Cchanging a type\u201D are two different problems.",
   },
   {
-    title: "Docker Compose env-var substitution timing",
+    title: "Docker Compose variable substitution timing",
     tag: "Docker Compose",
     problem:
-      "A local-only .env.local set the DB name to zolver_db_local, but the container kept coming up with zolver_db from the default .env instead.",
+      "Set the DB name to zolver_db_local in a local-only .env.local file, but the container kept coming up with zolver_db from the default .env instead.",
     solution:
-      "env_file: in compose.yml is applied at container runtime, but \u0024{DB_NAME} substitution happens at parse time — when the default .env is read first. Fixed by passing --env-file .env.local explicitly so the correct file is read at parse time.",
+      "The env_file directive in compose.yml is applied at container runtime, but \u0024{DB_NAME} substitution happens at parse time — so the default .env was being read first. Fixed it by explicitly specifying --env-file .env.local, ensuring the correct file is read at parse time.",
   },
   {
-    title: "Korean initial-consonant (chosung) search",
+    title: "Searching Korean text by initial consonants",
     tag: "Feature · Unicode",
     problem:
-      "Typing full Korean course names was tedious in the simulation page. Log analysis on /courses/verified (246 calls) showed many of those calls were chosung-style partial input.",
+      "On the course simulation page, users had to type the full course name, which was cumbersome. Analysis of /courses/verified logs (246 calls) showed a clear pattern of users typing just the initial consonants.",
     solution:
-      "Used the Hangul syllable block structure — consonant index shifts every 588 (21×28) code points from '가' — to extract initial consonants, so '자료구조' matches 'ㅈㄹㄱㅈ'.",
+      "Extracted initial consonants by exploiting the Unicode structure of Korean syllable blocks, where the initial consonant shifts every 588 (21×28) code points starting from \u201C가.\u201D For example, \u201C자료구조\u201D (data structures) matches against \u201Cㅈㄹㄱㅈ.\u201D",
   },
 ];
 
 // Design insights
 export const designInsights = [
   {
-    title: "Inheritance for the shared engine, composition for the tools",
+    title: "Inheritance for the shared engine, composition for tools",
     body:
-      "As validation layers grew, pure inheritance made the class hierarchy increasingly rigid. BaseValidator provides the shared engine (run loop, failure handling, log format) via inheritance; the actual extraction logic (Extractor) is held as a composed instance inside each validator instead. Adding a new validation type only means swapping the steps list and a dedicated Extractor.",
+      "As more validation stages were added, a purely inheritance-based structure became increasingly rigid. BaseValidator provides the shared engine via inheritance — the execution loop, failure handling, log formatting — while the actual extraction logic (Extractor) is held by composition (as an instance) inside each validator. When a new validation type is added, only the steps list and a dedicated Extractor need to be swapped in.",
     code: `class L2TranscriptValidator(BaseValidator):
     def __init__(self, file_path, user_id, email_hash):
         super().__init__(file_path, user_id, email_hash)
@@ -191,100 +146,108 @@ export const designInsights = [
         self.extractor = TranscriptExtractor(self.file_path)  # composition`,
   },
   {
-    title: "Choosing the right SQLAlchemy result method",
+    title: "Picking the right SQLAlchemy result method for the situation",
     body:
-      "For response speed and memory, I picked extraction methods deliberately. scalar() drops everything but a single value, avoiding unnecessary row instantiation. mappings() adds column-name access at the cost of extra indexing overhead — useful when an API needs a dict of fields. fetchone() keeps the cursor open for further iteration; first() closes it immediately — so first() for single lookups, fetchone() for batch iteration, to avoid connection leaks under concurrent load.",
+      "Deliberately used different extraction methods for speed and memory. scalar() pulls a single value without instantiating an unnecessary row object. mappings() adds column-name access at the cost of more indexing overhead, which is worth it when the API needs to treat the result as a dict. fetchone() keeps the cursor open for further iteration, while first() closes the cursor immediately after the check — so I used first() for single-row lookups and fetchone() for batch iteration, to avoid connection leaks under concurrent traffic.",
     code: null,
   },
   {
-    title: "Two hashes, two different jobs, on account deletion",
+    title: "Two hashes, two different jobs — on account deletion",
     body:
-      "provider_id_hash and the refresh token are both hashed, but with opposite properties on purpose. provider_id_hash is deterministic, so the same Kakao account always maps to the same value — that keeps lecture_evidence idempotent per upload, and gives the L3 confidence engine a stable identity across deletion and re-signup, so match_count can't be inflated by resetting an account. The refresh token is hashed non-deterministically (salted), since it only ever needs to be verified, never matched again. On deletion, the users row is removed and every other user_id reference is set to NULL — except provider_id_hash in user_actions_log, left in place on purpose.",
+      "provider_id_hash and the stored refresh token are both hashed, but deliberately behave differently. provider_id_hash is deterministic, so the same Kakao account always maps to the same value — this keeps lecture_evidence idempotent per upload, and gives the L3 trust-scoring engine a stable identifier even across account deletion and re-signup, so match_count isn't inflated by account resets. The refresh token only ever needs to be verified once and never needs to be matched again, so it uses a non-deterministic (salted) hash instead. On account deletion, the users row is removed and every other user_id reference is set to NULL — but the provider_id_hash left in user_actions_log is intentionally kept as-is.",
     code: null,
     diagram: "kakaoLoginSequence",
   },
   {
-    title: "A hash collision from a copy-pasted field",
+    title: "Problem Solved — Duplicate Course Data After Account Deletion & Re-signup",
     body:
-      "unique_hash on each lecture_evidence row exists for idempotency: the same user uploading the same course for the same year/semester should always resolve to the same row. The first version of the input string included lecture_category twice instead of including lecture_name — so two different courses in the same category, year, and semester silently collided into the same hash, and one of them quietly overwrote the other. Adding lecture_name to the raw string fixed it.",
-    code: `# before — lecture_category appears twice, lecture_name is missing
-uhashraw = f"{lecture_category}:{lecture_code}:{completion_year}:{completion_semester}"
+      "The trigger that writes course data into lecture_validation (fn_snap_evidence_to_validation) was designed to be idempotent using snap_unique_hash: if the same user re-uploaded the same course, it should update the existing row rather than create a new one. \n The first version of this trigger detected the re-upload but only logged it via RAISE NOTICE and still proceeded with the INSERT. So when a user deleted their account and re-signed up with the same Kakao account (same provider_id_hash) and re-uploaded the same course, a row with the same snap_unique_hash got duplicated again, inflating total_val_score and match_count in lecture_frequency. Fixed it by having the trigger update the existing row instead of inserting a new one when a re-upload is detected, and added a partial unique index that actually enforces the no-duplicate constraint.",
+    code: `-- Before — detects the duplicate but doesn't block it
+RAISE NOTICE 'Re-upload detected: validation_id %', v_past_validation_id;
+-- INSERT still proceeds afterward → duplicate data
 
-# after — lecture_name included, so courses in the same
-# category/year/semester no longer collide
-uhashraw = f"{lecture_name}:{lecture_code}:{completion_year}:{completion_semester}"
-unique_hash = generate_unique_hash(pihash=provider_id_hash, uhashraw=uhashraw)
+-- After — updates the existing row, blocks the INSERT
+IF v_past_validation_id IS NOT NULL THEN
+    RAISE NOTICE 'Re-upload detected: validation_id %', v_past_validation_id;
+    UPDATE lecture_validation
+    SET evidence_lec_id = NEW.evidence_lec_id
+    WHERE validation_id = v_past_validation_id;
+    RETURN NEW;  -- stop here, skip the INSERT below
+END IF;
 
-def generate_unique_hash(pihash, uhashraw):
-    salt = settings.SALT
-    raw_text = f"{pihash}:{uhashraw}:{salt}"
-    return hashlib.sha256(raw_text.encode()).hexdigest()`,
+-- The old index was lookup-only — it never enforced uniqueness
+-- CREATE INDEX idx_val_snap_unique_hash ON lecture_validation(snap_unique_hash);
+
+-- A real constraint that enforces no duplicates at the database level
+CREATE UNIQUE INDEX IF NOT EXISTS idx_val_snap_unique_hash_unique
+ON lecture_validation(snap_unique_hash)
+WHERE snap_unique_hash IS NOT NULL;`,
   },
 ];
 
-// AI recommendation story
+// The AI recommendation story
 export const aiStory = {
-  title: "AI course recommendation — what two failed attempts taught me",
+  title: "AI Course Recommendation — After Two Failed Attempts",
   lead:
-    "\u201CRecommendation quality depends less on the model and more on the reliability of the input data and the stability of the pipeline.\u201D I reached that conclusion after trying to automate everything with AI, failing, trying to solve it without AI at all, and failing again.",
+    "\u201CThe quality of a recommendation depends less on the AI model itself and more on how trustworthy the input data is and how stable the pipeline producing it is.\u201D \n This is the conclusion I reached after trying to automate everything with AI and failing, then trying to handle everything manually without AI and failing again.",
   failures: [
     {
-      title: "Attempt 1 — full automation",
-      desc: "Tried parsing yearly per-department curriculum PDFs with AI to normalize a database, but hallucination wasn't controllable through prompting alone — manual verification work doubled instead of disappearing.",
+      title: "Attempt 1 — Full automation",
+      desc: "Tried to use AI to parse department/year-specific curriculum PDFs and normalize them straight into the database, but hallucinations couldn't be controlled through prompting alone, and the verification work it created doubled instead of shrinking.",
     },
     {
-      title: "Attempt 2 — manual parsing, no AI",
-      desc: "Text in table-formatted PDFs kept truncating mid-word (\u201CCollege of Desi\u201D instead of \u201CCollege of Design\u201D), and the schema changed yearly (e.g. a new Medical College added in 2024), so no fixed logic generalized.",
+      title: "Attempt 2 — Manual parsing without AI",
+      desc: "Text in the table-formatted curriculum guide PDFs kept getting cut off mid-word (e.g. \u201C디자인대학\u201D → \u201C디자인대\u201D), and the schema changed every year (e.g. a new College of Medicine added in 2024), so a fixed parsing approach didn't generalize.",
     },
   ],
   resolution:
-    "The real bottleneck was trustworthy data. I built a self-governing pipeline where uploaded transcripts accumulate and get promoted to verified course data once they clear a confidence score — and reached 50+ departments covered with zero pre-built department database.",
+    "The real bottleneck was trustworthy data. I built a self-contained data governance pipeline where uploaded official transcript data accumulates and gets promoted to verified course data once it clears a trust-score threshold — and through that, gathered data for over 50 departments without ever building a pre-made department database.",
   implementation:
-    "The backend filters candidates with a custom sort key before handing them to the LLM: 1) required-major courses, 2) courses with high completion frequency among the same admission cohort (by department code, from admission_stats), 3) most recently offered. To avoid calling the API on every request, results are cached in the DB for 30 minutes.",
+    "The backend narrows candidates down using custom sort criteria before passing them to the LLM. \n\n 1) Required major courses \n 2) Major courses with high completion frequency among students in the same admission cohort \n 3) Most recently offered courses. \n\n To avoid calling the API on every request, results are cached in the database for 30 minutes.",
 };
 
 export const techStack = [
-  { name: "FastAPI", desc: "async request handling, Pydantic-based validation" },
-  { name: "PostgreSQL · SQLAlchemy", desc: "relational data integrity; resolved ::jsonb cast conflicts with CAST(:param AS jsonb)" },
-  { name: "Apache Airflow", desc: "validation pipeline batch, connecting to the prod DB via a local SSH tunnel" },
-  { name: "Elastic Stack", desc: "indexes validation-failure logs to monitor re-upload patterns and form errors" },
-  { name: "React", desc: "Kakao OAuth-based auth flow and the user dashboard UI" },
-  { name: "Docker Compose · Nginx · AWS EC2", desc: "infrastructure tuned to run reliably on 1GB of RAM" },
+  { name: "FastAPI", desc: "Asynchronous request handling with Pydantic-based validation" },
+  { name: "PostgreSQL · SQLAlchemy", desc: "Relational data integrity; resolved ::jsonb cast conflicts using CAST(:param AS jsonb)" },
+  { name: "Apache Airflow", desc: "Batch validation pipeline, connecting to the production database via a local SSH tunnel" },
+  { name: "Elastic Stack", desc: "Indexes validation failure logs to monitor re-upload patterns and format errors" },
+  { name: "React", desc: "Kakao OAuth authentication flow and the user dashboard UI" },
+  { name: "Docker Compose · Nginx · AWS EC2", desc: "Infrastructure tuned to run reliably on just 1GB of RAM" },
 ];
 
-// Observability
+// Logging / monitoring
 export const observability = {
   intro:
-    "Elasticsearch can't run on the 1GB production server (needs 2GB+), so logs are pulled down via scp and analyzed locally through Filebeat → Elasticsearch → Kibana.",
+    "The production server (1GB RAM) can't run Elasticsearch directly (it needs at least 2GB), so logs are pulled via scp and analyzed locally through Filebeat → Elasticsearch → Kibana.",
   logTypes: [
-    { name: "transcript_val", desc: "full L1+L2 execution history per upload, rule by rule" },
-    { name: "failed_schema", desc: "L2 header mismatches — expected vs. actual header order/content" },
-    { name: "schema_mismatch_masked", desc: "a masked 50×50 cell snapshot plus a form_hash fingerprint" },
+    { name: "transcript_val", desc: "Full L1+L2 execution history per upload, broken down rule by rule" },
+    { name: "failed_schema", desc: "L2 header mismatches — comparing the expected header order/content against the actual one" },
+    { name: "schema_mismatch_masked", desc: "A masked 50×50 cell snapshot plus a form_hash fingerprint" },
   ],
   indexNote:
-    "history is a string field in failed_schema logs but a JSON object in transcript_val — mixing them in one index caused Elasticsearch mapping conflicts, so the two log families are split into separate indices (zolver-schema-*, zolver-val-*).",
+    "The history field is a string in failed_schema logs but a JSON object in transcript_val logs, which caused an Elasticsearch mapping conflict when mixed into the same index — so I split the two log types into separate indices (zolver-schema-*, zolver-val-*).",
   driftLogic:
-    "If different users repeatedly fail with the same form_hash, that hash identifies a transcript format the parser doesn't recognize yet — a signal the school changed its export format, not a one-off user mistake.",
+    "If different users keep failing with the same form_hash, that hash points to a transcript format the parser doesn't recognize yet — a signal of a school-side format change rather than a simple user mistake.",
   dashboards: [
-    "Upload success/failure ratio (is_all_success)",
-    "Schema-drift detection — failure count grouped by form_hash",
-    "Failures by logger type — failed_schema vs. schema_mismatch_masked",
-    "Failures by provider_id_hash — surfaces users hitting repeated errors",
+    "Upload success/failure rate (is_all_success)",
+    "Schema drift detection — failure counts aggregated by form_hash",
+    "Failure counts by logger type — failed_schema vs. schema_mismatch_masked",
+    "Failure counts by provider_id_hash — identifying users hitting repeated errors",
   ],
 };
 
 // Handwritten study notes
 export const studyNotes = {
   intro:
-    "Circuit-heavy courses kept giving me trouble even after switching majors, until a senior-year Operating Systems class changed that. Sketching out the logical and physical behavior of hardware by hand is a habit that's carried through from that class to now.",
+    "I struggled with circuit-related courses throughout undergrad, but switching majors and taking Operating Systems in my fourth year became a turning point. Drawing out the logical and physical behavior of hardware by hand is a habit that started then and continues today.",
   items: [
-    { topic: "Race conditions & sync", caption: "How concurrent access to shared resources is kept from colliding — the same principle behind Zolver's concurrent-upload handling", image: null },
-    { topic: "Semaphores", caption: "Worked through a sticking point on semaphore implementation by sketching it out", image: null },
-    { topic: "Virtual memory", caption: "Page tables and address translation, broken into steps", image: null },
-    { topic: "Computer architecture", caption: "The hardest course — the first one that made me buy the textbook on my own", image: null },
+    { topic: "Race Conditions & Synchronization", caption: "The principle of preventing conflicts when multiple actors access a shared resource at once — applied directly to handling concurrent uploads in Zolver", image: null },
+    { topic: "Semaphores", caption: "Notes drawn out while working through a sticking point in implementing semaphores — applied to preventing concurrent write conflicts in the trigger-based validation pipeline", image: null },
+    { topic: "Virtual Memory", caption: "Step-by-step notes on page tables and address translation", image: null },
+    { topic: "Async I/O & Context Switching", caption: "Notes on blocking I/O and context switching — applied directly to using FastAPI's async handling on a memory-constrained server (t3.micro)", image: null },
   ],
 };
 
 export const footer = {
-  note: "I trace the flow of data all the way through — less interested in what's on screen, more in what's moving underneath it.",
+  note: "I'll keep tracing data all the way through and doing my best to ensure stability.",
 };
