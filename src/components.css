@@ -368,3 +368,47 @@
   font-size: 13.5px;
 }
 .site-footer a { color: var(--dark-ink); }
+
+/* ---------- Architecture (diagram images) ---------- */
+.diagram-card { margin-bottom: 40px; }
+.diagram-card:last-child { margin-bottom: 0; }
+.diagram-title { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+.diagram-img {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  display: block;
+  margin-bottom: 10px;
+  background: #1f1d18;
+}
+.diagram-caption { font-size: 13px; color: var(--ink-soft); max-width: 680px; }
+
+/* ---------- API overview ---------- */
+.api-router-list { display: flex; flex-direction: column; gap: 0; }
+.api-router-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 14px;
+  padding: 10px 0;
+  border-top: 1px dashed var(--line);
+  font-size: 13.5px;
+}
+.api-router-row:first-child { border-top: none; }
+.api-router-prefix { font-family: var(--font-mono); color: var(--olive); font-size: 12px; }
+.api-router-desc { color: var(--ink-soft); }
+
+@media (max-width: 640px) {
+  .api-router-row { grid-template-columns: 1fr; gap: 2px; }
+}
+
+/* ---------- Observability ---------- */
+.obs-logtypes { display: flex; flex-direction: column; gap: 10px; }
+.obs-logtype { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.obs-logtype-desc { font-size: 13.5px; color: var(--ink-soft); }
+.obs-dashboards {
+  margin: 18px 0 0;
+  padding-left: 18px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+}
+.obs-dashboards li { margin-bottom: 6px; }
