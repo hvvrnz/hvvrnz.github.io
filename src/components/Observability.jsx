@@ -2,12 +2,12 @@ import Text from "./Text.jsx";
 import { useContent } from "../i18n.jsx";
 
 export default function Observability() {
-  const { observability } = useContent();
+  const { observability, sectionTitles } = useContent();
   return (
     <section className="section">
       <div className="container">
-        <span className="eyebrow">// observability</span>
-        <h2 className="section-title">Watching the pipeline after launch</h2>
+        <span className="eyebrow">{sectionTitles.observability.eyebrow}</span>
+        <h2 className="section-title">{sectionTitles.observability.title}</h2>
         <p className="prose lead" style={{ marginBottom: 28 }}><Text>{observability.intro}</Text></p>
 
         <div className="obs-logtypes">

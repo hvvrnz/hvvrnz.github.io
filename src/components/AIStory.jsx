@@ -2,11 +2,11 @@ import Text from "./Text.jsx";
 import { useContent } from "../i18n.jsx";
 
 export default function AIStory() {
-  const { aiStory } = useContent();
+  const { aiStory, sectionTitles } = useContent();
   return (
     <section className="section">
       <div className="container">
-        <span className="eyebrow">// AI usage</span>
+        <span className="eyebrow">{sectionTitles.aiStory.eyebrow}</span>
         <h2 className="section-title">{aiStory.title}</h2>
         <p className="ai-lead"><Text>{aiStory.lead}</Text></p>
 

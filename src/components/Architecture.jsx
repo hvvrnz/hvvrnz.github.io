@@ -5,12 +5,12 @@ import erdImg from "../assets/diagrams/erd.png";
 import { useContent } from "../i18n.jsx";
 
 export default function Architecture() {
-  const { architecture } = useContent();
+  const { architecture, sectionTitles } = useContent();
   return (
     <section className="section">
       <div className="container">
-        <span className="eyebrow">// system design</span>
-        <h2 className="section-title">Architecture</h2>
+        <span className="eyebrow">{sectionTitles.architecture.eyebrow}</span>
+        <h2 className="section-title">{sectionTitles.architecture.title}</h2>
         <p className="prose lead" style={{ marginBottom: 32 }}><Text>{architecture.intro}</Text></p>
 
         <div className="diagram-card">

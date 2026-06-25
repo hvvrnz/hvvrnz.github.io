@@ -7,12 +7,12 @@ const DIAGRAMS = {
 };
 
 export default function DesignInsights() {
-  const { designInsights } = useContent();
+  const { designInsights, sectionTitles } = useContent();
   return (
     <section className="section">
       <div className="container">
-        <span className="eyebrow">// design insight</span>
-        <h2 className="section-title">Design decisions</h2>
+        <span className="eyebrow">{sectionTitles.designInsights.eyebrow}</span>
+        <h2 className="section-title">{sectionTitles.designInsights.title}</h2>
 
         <div className="insight-list">
           {designInsights.map((d) => (

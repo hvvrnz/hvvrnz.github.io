@@ -3,14 +3,14 @@ import Text from "./Text.jsx";
 import { useContent } from "../i18n.jsx";
 
 export default function Troubleshooting() {
-  const { troubleshooting } = useContent();
+  const { troubleshooting, sectionTitles } = useContent();
   const [openIdx, setOpenIdx] = useState(0);
 
   return (
     <section className="section">
       <div className="container">
-        <span className="eyebrow">// troubleshooting</span>
-        <h2 className="section-title">Where I got stuck</h2>
+        <span className="eyebrow">{sectionTitles.troubleshooting.eyebrow}</span>
+        <h2 className="section-title">{sectionTitles.troubleshooting.title}</h2>
         <p className="prose lead" style={{ marginBottom: 8 }}>
           Real problems I ran into while operating the service. Click to expand.
         </p>

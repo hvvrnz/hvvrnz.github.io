@@ -8,7 +8,7 @@ export const profile = {
   greeting: "안녕하세요, 황윤정입니다.",
   role: "데이터 엔지니어링 · 백엔드 / 인프라 설계",
   tagline: "깊이 있게 공부하고, 배운 걸 기록하며, \n 그 과정을 통해 성장하는 걸 좋아합니다.",
-  current: "현재 공공데이터 활용 아이디어 공모전에 팀으로 참여 중입니다 \n (한국문화예술교육진흥원, ARTE)",
+  current: "현재 공공데이터 활용 아이디어 공모전에 팀으로 참여 중입니다. \n (한국문화예술교육진흥원, ARTE)",
   links: {
     github: "https://github.com/hvvrnz",
     velog: "https://velog.io/@0lalsoo",
@@ -41,7 +41,7 @@ export const serviceIntro = {
   description:
     "학교 포털에서 다운로드한 공식 성적표(엑셀 파일)를 올리면, 자동으로 어떤 과목을 들었는지 분류하고 졸업까지 뭐가 더 필요한지 보여줍니다. 단순히 학점만 더하는 게 아니라, 세부 항목별 이수 현황 추적, 수강 시뮬레이션, 평점(GPA) 분석, AI 수강 추천까지 제공합니다.",
   features: [
-    { title: "이수 과목 등록", desc: "성적표를 올리거나 직접 입력해서 들었던 과목을 등록" },
+    { title: "이수 과목 등록", desc: "성적표를 올리거나, 성적표 없이 기본정보만 입력하는 간단한 등록으로 member가 되면, 그 다음부터는 과목을 직접 추가·수정할 수 있음" },
     { title: "졸업요건 분석", desc: "전공 · 교양 · 기타 학점을 얼마나 채웠는지 바로 확인" },
     { title: "태그 관리", desc: "전공 · 교양의 세부 영역을 직접 만들고 최소 이수학점을 정함" },
     { title: "수강 시뮬레이션", desc: "앞으로 들을 과목을 미리 넣어보고 졸업요건이 채워지는지 확인" },
@@ -159,29 +159,16 @@ export const designInsights = [
     diagram: "kakaoLoginSequence",
   },
   {
-    title: "문제 해결 — 탈퇴 후 재가입 시 과목이 중복으로 쌓이던 문제",
+    title: "중복 판정의 기준 — 무엇을 \"같은 과목\"으로 볼 것인가",
     body:
-      "과목 데이터를 저장하는 트리거(fn_snap_evidence_to_validation)는 같은 데이터가 중복으로 들어오지 않게, 같은 사용자가 같은 과목을 다시 올리면 새로 만들지 않고 기존 데이터를 업데이트하도록 설계되어 있었습니다. \n 그런데 처음 만든 버전은 '같은 과목이 또 들어왔다'는 걸 로그로만 남기고, 실제로 막는 코드는 없었습니다 — 그래서 탈퇴 후 같은 카카오 계정으로 다시 가입한 사용자가 같은 과목을 또 올리면, 똑같은 고유 값(snap_unique_hash)을 가진 데이터가 또 쌓였고, 그 결과 신뢰도 점수와 누적 횟수가 실제보다 부풀려졌습니다. 감지했을 때 새로 추가하는 대신 기존 데이터를 업데이트하고 끝나도록 트리거를 고치고, 데이터베이스 자체에서 중복을 막아주는 제약(유니크 인덱스)도 추가해서 해결했습니다.",
-    code: `-- 수정 전 — 중복을 감지만 하고 막지는 않음
-RAISE NOTICE '재업로드 감지: validation_id % 번', v_past_validation_id;
--- 이후 그대로 새 데이터가 추가됨 → 중복 발생
-
--- 수정 후 — 기존 데이터를 업데이트하고 새로 추가하지 않음
-IF v_past_validation_id IS NOT NULL THEN
-    RAISE NOTICE '재업로드 감지: validation_id % 번', v_past_validation_id;
-    UPDATE lecture_validation
-    SET evidence_lec_id = NEW.evidence_lec_id
-    WHERE validation_id = v_past_validation_id;
-    RETURN NEW;  -- 여기서 끝내고 아래 INSERT는 실행 안 함
-END IF;
-
--- 기존 인덱스는 검색만 빠르게 해줄 뿐, 중복을 막아주진 못했음
--- CREATE INDEX idx_val_snap_unique_hash ON lecture_validation(snap_unique_hash);
-
--- 실제로 중복을 막아주는 제약 추가
-CREATE UNIQUE INDEX IF NOT EXISTS idx_val_snap_unique_hash_unique
-ON lecture_validation(snap_unique_hash)
-WHERE snap_unique_hash IS NOT NULL;`,
+      "lecture_frequency는 과목을 4개 컬럼(lecture_code, lecture_name, lecture_credit, lecture_category) 조합으로 판단해요 — user_id나 validation_id는 보지 않습니다. 의도한 거예요: 이 테이블은 'DB row가 몇 개 있는지'가 아니라 '독립된 업로드들이 이 과목의 존재에 얼마나 동의하는지'를 추적하는 거니까요. 탈퇴하면 lecture_evidence는 완전히 삭제돼서 unique_hash 자리가 비워지고, lecture_validation은 evidence_lec_id만 NULL로 남아서 이미 반영된 점수는 그대로 보존됩니다. 같은 사람이 재가입해서 같은 과목을 다시 올리면 트리거가 snap_unique_hash로 그 고아 row를 찾아내긴 하지만, 따로 막을 필요가 없어요: Airflow 배치는 lecture_validation의 한 row를 딱 한 번만 채점하도록 되어 있어서(fetch_unvalidated()가 validation_score IS NULL인 것만 골라냄), 이미 채점된 고아 row는 두 번 다시 안 뽑히고, 새로 INSERT된 row만 — 다른 일반 업로드와 똑같이 — 한 번 처리됩니다.",
+    code: null,
+  },
+  {
+    title: "권한(guest/member)을 토큰 자체에 박아넣기",
+    body:
+      "로그인 직후 단 한 번의 분기에서 guest인지 member인지를 정하고, 그 결과를 매번 DB에 다시 묻는 대신 JWT 페이로드(status: \"guest\" | \"member\")에 그대로 실어 보냅니다. Auth0나 Firebase의 custom claims도 같은 방식이에요 — 매 요청마다 등급을 확인하려고 DB를 왕복하지 않아도 된다는 장점이 있습니다. 이런 방식의 흔한 위험은 '오래된 토큰' 문제예요 — 세션 중간에 상태가 바뀌면 다음 갱신 전까지 토큰이 옛 상태를 그대로 들고 있게 되는 거죠. 이 전환이 실제로 일어나는 지점은 두 곳이에요 — 성적표를 업로드하는 경우(transcript.py)와, 성적표 없이 기본 정보만 입력하는 수동 등록 폼(register_router.py) — 그리고 lecture_router.py의 member 전용 엔드포인트 전부가 그 토큰의 status를 그대로 보고 guest는 막아버립니다. 두 전환 지점 모두 이 틈을 스스로 막아놨어요: 다음 토큰 갱신을 기다리지 않고, 각자의 응답 안에서 status=\"member\"가 박힌 새 access_token을(수동 등록 쪽은 refresh_token과 DB의 refresh_token_hash까지) 즉시 발급해서 돌려줍니다.",
+    code: null,
   },
 ];
 
@@ -250,4 +237,43 @@ export const studyNotes = {
 
 export const footer = {
   note: "데이터의 흐름을 끝까지 추적하고, 안정성을 확보하는 데 최선을 다하겠습니다.",
+};
+
+// 백엔드 API 구조 — 복원함: APIOverview.jsx가 아직 이 데이터를 읽고 있어요.
+// (예전 수정 과정에서 이 블록이 통째로 빠졌던 것 같아요. 이 섹션을 진짜로
+// 빼고 싶으면 이 export 전체와, src/App.jsx의 <APIOverview /> 줄을 같이 지우면 됩니다.)
+export const apiOverview = {
+  intro:
+    "13개 라우터가 전체 제품 영역을 다룹니다 — 로그인, 성적표 업로드 처리, 졸업요건 추적, 수강 시뮬레이션, AI 추천까지 모두 FastAPI와 비동기 SQLAlchemy로 구현했습니다.",
+  stack: [
+    { name: "FastAPI", desc: "여러 요청을 동시에 빠르게 처리하고, Pydantic으로 입력값을 검증" },
+    { name: "PostgreSQL + SQLAlchemy (async)", desc: "users / lectures / evidence / master 전반의 관계형 데이터 정합성" },
+    { name: "Kakao OAuth 2.0 + JWT", desc: "유일한 로그인 방식 — 자체 회원가입 없음, 모든 요청에서 JWT를 자동으로 검증" },
+    { name: "Google Gemini API (gemini-2.5-flash)", desc: "수강 추천 문장 생성, 결과는 캐시해서 재사용" },
+  ],
+  routers: [
+    { name: "auth", prefix: "/api/v1/auth", desc: "카카오 로그인, 토큰 갱신, 로그아웃" },
+    { name: "upload", prefix: "/api/v1/upload", desc: "성적표 .xlsx 업로드, 1·2단계 검증 워커 실행" },
+    { name: "lecture", prefix: "/api/v1/courses", desc: "이수 과목 등록·조회·수정·삭제, 초성 검색 지원" },
+    { name: "tag", prefix: "/api/v1/tags", desc: "졸업요건 태그를 직접 만들고 최소 이수학점 설정" },
+    { name: "simulation", prefix: "/api/v1/simulation", desc: "들을 과목 미리 등록, 시뮬레이션 결과 조회" },
+    { name: "user_gpa", prefix: "/api/v1/users/me/gpa-targets", desc: "목표 GPA 설정 및 시뮬레이션" },
+    { name: "ai", prefix: "/api/v1/ai", desc: "AI 수강 추천, 캐시·쿨다운 상태 조회" },
+    { name: "curriculum / user_majors", prefix: "/api/v1/curriculum, /majors", desc: "학과별 커리큘럼 버전 조회" },
+  ],
+};
+
+// 섹션 제목/라벨 — 언어 토글에 맞춰 제목도 같이 바뀌도록 분리해놓은 데이터예요.
+// (예전엔 이 텍스트들이 각 컴포넌트 안에 직접 박혀있어서, 토글해도 제목만 영어로 남았었어요.)
+export const sectionTitles = {
+  origin: { eyebrow: "// origin", title: "시간표 추천에서 졸업요건 시각화로" },
+  project: { eyebrow: "// zolver in production", title: "아이디어에서 실제 운영 서비스로" },
+  apiOverview: { eyebrow: "// backend api", title: "13개 라우터, 하나의 일관된 구조" },
+  architecture: { eyebrow: "// system design", title: "아키텍처" },
+  troubleshooting: { eyebrow: "// troubleshooting", title: "막혔던 지점들" },
+  observability: { eyebrow: "// observability", title: "런칭 후 파이프라인 지켜보기" },
+  designInsights: { eyebrow: "// design insight", title: "설계 결정" },
+  aiStory: { eyebrow: "// AI usage" },
+  techStack: { eyebrow: "// stack", title: "사용 기술" },
+  studyNotes: { eyebrow: "// study notes", title: "손으로 그려가며 정리하는 습관" },
 };

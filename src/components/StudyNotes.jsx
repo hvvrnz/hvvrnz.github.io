@@ -2,12 +2,12 @@ import Text from "./Text.jsx";
 import { useContent } from "../i18n.jsx";
 
 export default function StudyNotes() {
-  const { studyNotes } = useContent();
+  const { studyNotes, sectionTitles } = useContent();
   return (
     <section className="section">
       <div className="container">
-        <span className="eyebrow">// study notes</span>
-        <h2 className="section-title">A habit of sketching things out by hand</h2>
+        <span className="eyebrow">{sectionTitles.studyNotes.eyebrow}</span>
+        <h2 className="section-title">{sectionTitles.studyNotes.title}</h2>
         <p className="prose lead notes-intro"><Text>{studyNotes.intro}</Text></p>
 
         <div className="notes-grid">

@@ -2,12 +2,12 @@ import Text from "./Text.jsx";
 import { useContent } from "../i18n.jsx";
 
 export default function Project() {
-  const { stats, serviceIntro } = useContent();
+  const { stats, serviceIntro, sectionTitles } = useContent();
   return (
     <section className="section">
       <div className="container">
-        <span className="eyebrow">// zolver in production</span>
-        <h2 className="section-title">From idea to a running service</h2>
+        <span className="eyebrow">{sectionTitles.project.eyebrow}</span>
+        <h2 className="section-title">{sectionTitles.project.title}</h2>
 
         <div className="stats-grid">
           {stats.map((s) => (

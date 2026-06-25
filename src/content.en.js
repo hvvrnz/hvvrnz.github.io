@@ -41,7 +41,7 @@ export const serviceIntro = {
   description:
     "Upload the official transcript (an Excel file) downloaded from your school portal, and the service automatically classifies your completed courses and shows what's left to graduate. Beyond simple credit totals, it also offers tag-based detailed progress tracking, course simulation, GPA analysis, and AI course recommendations.",
   features: [
-    { title: "Register completed courses", desc: "Register your course history by uploading a transcript or entering it manually" },
+    { title: "Register completed courses", desc: "Become a verified member by uploading a transcript, or by filling out a short manual registration form — then add or edit individual courses by hand" },
     { title: "Graduation requirement analysis", desc: "See major / general education / other credit completion in real time" },
     { title: "Tag management", desc: "Create your own sub-categories for major/general education and set minimum required credits" },
     { title: "Course simulation", desc: "Pre-register future courses to check whether graduation requirements would be met" },
@@ -159,29 +159,16 @@ export const designInsights = [
     diagram: "kakaoLoginSequence",
   },
   {
-    title: "Problem Solved — Duplicate Course Data After Account Deletion & Re-signup",
+    title: "What counts as \"the same course,\" for dedup purposes",
     body:
-      "The trigger that writes course data into lecture_validation (fn_snap_evidence_to_validation) was designed to be idempotent using snap_unique_hash: if the same user re-uploaded the same course, it should update the existing row rather than create a new one. \n The first version of this trigger detected the re-upload but only logged it via RAISE NOTICE and still proceeded with the INSERT. So when a user deleted their account and re-signed up with the same Kakao account (same provider_id_hash) and re-uploaded the same course, a row with the same snap_unique_hash got duplicated again, inflating total_val_score and match_count in lecture_frequency. Fixed it by having the trigger update the existing row instead of inserting a new one when a re-upload is detected, and added a partial unique index that actually enforces the no-duplicate constraint.",
-    code: `-- Before — detects the duplicate but doesn't block it
-RAISE NOTICE 'Re-upload detected: validation_id %', v_past_validation_id;
--- INSERT still proceeds afterward → duplicate data
-
--- After — updates the existing row, blocks the INSERT
-IF v_past_validation_id IS NOT NULL THEN
-    RAISE NOTICE 'Re-upload detected: validation_id %', v_past_validation_id;
-    UPDATE lecture_validation
-    SET evidence_lec_id = NEW.evidence_lec_id
-    WHERE validation_id = v_past_validation_id;
-    RETURN NEW;  -- stop here, skip the INSERT below
-END IF;
-
--- The old index was lookup-only — it never enforced uniqueness
--- CREATE INDEX idx_val_snap_unique_hash ON lecture_validation(snap_unique_hash);
-
--- A real constraint that enforces no duplicates at the database level
-CREATE UNIQUE INDEX IF NOT EXISTS idx_val_snap_unique_hash_unique
-ON lecture_validation(snap_unique_hash)
-WHERE snap_unique_hash IS NOT NULL;`,
+      "lecture_frequency treats a course as the same unit based on four columns — lecture_code, lecture_name, lecture_credit, lecture_category — not on user_id or validation_id. That's deliberate: the table is meant to track how many independent uploads agree a course exists, not how many database rows point to it. On account deletion, lecture_evidence rows are deleted outright (freeing the unique_hash for reuse), while lecture_validation rows are kept with evidence_lec_id set to NULL, preserving the score they already contributed. If the same person re-signs up and re-uploads the same course, the trigger notices the orphaned row by snap_unique_hash but doesn't need to block anything: the Airflow batch only ever scores a lecture_validation row once (fetch_unvalidated() filters on validation_score IS NULL), so the already-scored orphan is never picked up a second time — only the freshly inserted row gets processed, exactly like any other new upload.",
+    code: null,
+  },
+  {
+    title: "Baking guest/member status into the token itself",
+    body:
+      "Guest vs. member is decided once, in a single branch right after login, and from there it's written straight into the JWT payload (status: \"guest\" | \"member\") instead of being re-queried from the DB on every request. Auth0 and Firebase's custom claims work the same way — the payoff is no DB round-trip just to check tier on each call. The usual risk with this pattern is staleness: if status changes mid-session, a cached token won't reflect it until the next refresh. There are two places where that transition actually happens — uploading a transcript (transcript.py), or filling out the short manual registration form with no transcript at all (register_router.py) — and every member-only endpoint in lecture_router.py checks status straight off the current token, with guests blocked outright. Both transition points close the gap themselves: each one issues a fresh access_token (and, for manual registration, a fresh refresh_token plus a re-hashed refresh_token_hash in the DB) with status=\"member\" directly in its own response, instead of waiting for the next refresh cycle.",
+    code: null,
   },
 ];
 
@@ -250,4 +237,44 @@ export const studyNotes = {
 
 export const footer = {
   note: "I'll keep tracing data all the way through and doing my best to ensure stability.",
+};
+
+// Backend API surface — restored: APIOverview.jsx still reads this.
+// (This block went missing from a previous edit — if you actually want
+// the "Backend API" section gone, delete this export AND remove
+// <APIOverview /> from src/App.jsx.)
+export const apiOverview = {
+  intro:
+    "13 routers cover the full product surface — auth, transcript ingestion, requirement tracking, simulation, and AI recommendation — all under FastAPI with async SQLAlchemy.",
+  stack: [
+    { name: "FastAPI", desc: "async request handling, Pydantic validation" },
+    { name: "PostgreSQL + SQLAlchemy (async)", desc: "relational integrity across users / lectures / evidence / master" },
+    { name: "Kakao OAuth 2.0 + JWT", desc: "the only login path — no native sign-up, JWT verified by a global middleware" },
+    { name: "Google Gemini API (gemini-2.5-flash)", desc: "course recommendation generation, cached" },
+  ],
+  routers: [
+    { name: "auth", prefix: "/api/v1/auth", desc: "Kakao login, token refresh, logout" },
+    { name: "upload", prefix: "/api/v1/upload", desc: "transcript .xlsx upload, triggers L1/L2 worker" },
+    { name: "lecture", prefix: "/api/v1/courses", desc: "CRUD on completed courses, chosung-aware search" },
+    { name: "tag", prefix: "/api/v1/tags", desc: "custom requirement tags, minimum-credit rules" },
+    { name: "simulation", prefix: "/api/v1/simulation", desc: "register planned courses, view simulated outcome" },
+    { name: "user_gpa", prefix: "/api/v1/users/me/gpa-targets", desc: "GPA targets and simulation" },
+    { name: "ai", prefix: "/api/v1/ai", desc: "AI course recommendation, cache/cooldown status" },
+    { name: "curriculum / user_majors", prefix: "/api/v1/curriculum, /majors", desc: "department curriculum versions" },
+  ],
+};
+
+// Section eyebrow/title pairs — used so headings actually switch language
+// with the EN/KO toggle, instead of being hardcoded inside each component.
+export const sectionTitles = {
+  origin: { eyebrow: "// origin", title: "From timetable recommendation to graduation-requirement visualization" },
+  project: { eyebrow: "// zolver in production", title: "From idea to a running service" },
+  apiOverview: { eyebrow: "// backend api", title: "13 routers, one consistent surface" },
+  architecture: { eyebrow: "// system design", title: "Architecture" },
+  troubleshooting: { eyebrow: "// troubleshooting", title: "Where I got stuck" },
+  observability: { eyebrow: "// observability", title: "Watching the pipeline after launch" },
+  designInsights: { eyebrow: "// design insight", title: "Design decisions" },
+  aiStory: { eyebrow: "// AI usage" },
+  techStack: { eyebrow: "// stack", title: "Tech stack" },
+  studyNotes: { eyebrow: "// study notes", title: "A habit of sketching things out by hand" },
 };
