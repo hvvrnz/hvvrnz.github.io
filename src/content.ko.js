@@ -19,7 +19,7 @@ export const profile = {
 
 // 핵심 운영 지표
 export const stats = [
-  { value: "172+", label: "가입자 수", sub: "2026.6.8 정식 런칭 이후" },
+  { value: "173+", label: "가입자 수", sub: "2026.6.8 정식 런칭 이후" },
   { value: "2,538+", label: "누적 처리 과목 데이터", sub: "" },
   { value: "56개", label: "확보된 학과 데이터", sub: "사전에 학과별 데이터베이스를 따로 만들지 않고 모은 수" },
   { value: "54%", label: "핵심 기능 전환율", sub: "방문자 중 성적표를 업로드하거나 직접 과목을 등록한 비율" },
@@ -33,36 +33,40 @@ export const originSurvey = [
   { label: "수기로 졸업요건 체크 \n (워드 · 엑셀 · 노션 · 메모장)", value: "64.8%" },
 ];
 
-export const originStory = `Zolver는 졸업작품으로 시작했습니다. 처음에는 '시간표 추천' 기능을 핵심으로 잡고, 대학생 68명을 대상으로 설문조사를 했습니다.
+export const originStory = `Zolver는 졸업작품으로 시작했습니다. 처음에는 '시간표 추천' 기능을 핵심으로 잡고, 대학생 68명을 대상으로 설문조사를 했습니다. \n 2025년 11월, 팀원들과 함께 로컬환경에서 개발을 완료하여 작품을 마무리하였습니다.\n 
+그러나 프로젝트가 마무리 된 후 저는 곰곰이 생각해보았습니다. \n
+시간표를 잘 추천해도, 수강신청 자체에 실패하면 아무 의미가 없는 기능이 아닐까? \n 설문 결과를 살펴보며, 학생들이 진짜 필요로 할 건 시간표 추천 보다도'내가 졸업하려면 뭐가 더 필요한지'를 한눈에 보는 것이라는 걸 알게 됐습니다. \n 
+그래서 서비스의 중심을 '졸업요건을 커스텀 하여 정리하면 깔끔하게 보여주는 것'으로 다시 정했고, 기획부터 개발, 운영까지 전부 직접 했습니다. \n 런칭 이후에는 운영자로서 사용자 문의와 버그 리포트에 직접 대응하며 서비스를 이어가고 있습니다. \n 아래는 졸업작품 당시 진행했던 설문조사 결과입니다.`;
 
-시간표를 잘 추천해도, 수강신청 자체에 실패하면 아무 의미가 없는 기능이었습니다. 설문 결과를 살펴보면서, 학생들이 진짜 원하는 건 시간표 추천이 아니라 '내가 졸업하려면 뭐가 더 필요한지'를 한눈에 보는 것이라는 걸 알게 됐습니다. 그래서 서비스의 중심을 '졸업요건을 보여주는 것'으로 다시 정했고, 기획부터 개발, 운영까지 전부 직접 했습니다.`;
+// 운영 중 실제 사용자 응대 기록 (증거 사진)
+export const originEvidence = {
+  caption: "오픈채팅으로 들어온 실제 사용자 문의에 직접 대응한 기록입니다.",
+  images: ["userSupportChat1", "userSupportChat2"],
+};
 
 export const serviceIntro = {
   description:
     "학교 포털에서 다운로드한 공식 성적표(엑셀 파일)를 올리면, 자동으로 어떤 과목을 들었는지 분류하고 졸업까지 뭐가 더 필요한지 보여줍니다. 단순히 학점만 더하는 게 아니라, 세부 항목별 이수 현황 추적, 수강 시뮬레이션, 평점(GPA) 분석, AI 수강 추천까지 제공합니다.",
   features: [
-    { title: "이수 과목 등록", desc: "성적표를 올리거나, 성적표 없이 기본정보만 입력하는 간단한 등록으로 member가 되면, 그 다음부터는 과목을 직접 추가·수정할 수 있음" },
-    { title: "졸업요건 분석", desc: "전공 · 교양 · 기타 학점을 얼마나 채웠는지 바로 확인" },
-    { title: "태그 관리", desc: "전공 · 교양의 세부 영역을 직접 만들고 최소 이수학점을 정함" },
-    { title: "수강 시뮬레이션", desc: "앞으로 들을 과목을 미리 넣어보고 졸업요건이 채워지는지 확인" },
-    { title: "GPA 분석", desc: "학기별 평점 변화를 그래프로 보고, 목표 평점을 달성하는 시뮬레이션" },
-    { title: "과목 모아보기", desc: "관리자가 등록하고 신뢰도 점수로 검증된 과목 정보를 검색" },
-    { title: "AI 수강 추천", desc: "졸업요건 · 평점 · 학번 · 학과 데이터를 바탕으로 추천 (Gemini API 사용)" },
-    { title: "카카오 로그인", desc: "카카오 계정으로 간편하게 로그인" },
+    { title: "이수 과목 등록", desc: "성적표를 올리거나, 성적표 없이 기본정보만 입력하는 간단한 등록으로 유저가 되면, 모든 기능을 이용할 수 있습니다.", image: null },
+    { title: "졸업요건 분석", desc: "전공 · 교양 · 기타 학점을 얼마나 채웠는지 바로 확인", image: null },
+    { title: "태그 관리", desc: "전공 · 교양의 세부 영역을 직접 만들고 최소 이수학점을 정함", image: null },
+    { title: "수강 시뮬레이션", desc: "앞으로 들을 과목을 미리 넣어보고 졸업요건이 채워지는지 확인", image: null },
+    { title: "GPA 분석", desc: "학기별 평점 변화를 그래프로 보고, 목표 평점을 달성하는 시뮬레이션", image: null },
+    { title: "과목 모아보기", desc: "관리자가 등록하고 신뢰도 점수로 검증된 과목 정보를 검색", image: null },
+    { title: "AI 수강 추천", desc: "졸업요건 · 평점 · 학번 · 학과 데이터를 바탕으로 추천 (Gemini API 사용)", image: null },
+    { title: "카카오 로그인", desc: "카카오 계정으로 간편하게 로그인", image: null },
   ],
 };
-
-export const pipelineNote =
-  "한 사람의 성적표만 그대로 믿으면 입력 실수나 조작에 취약합니다. 여러 명이 올린 데이터가 서로 일치할 때만 그 데이터를 \u201C신뢰할 수 있다\u201D고 판단합니다.";
 
 // 아키텍처 다이어그램 — 실제 시스템 구조
 export const architecture = {
   intro:
-    "서버 구조 그림, 검증 과정 그림, 데이터베이스 구조 그림",
+    "인프라 아키텍처, 파이프라인 구조, ERD입니다.",
   infra: {
     title: "서버 구조",
     caption:
-      "서버 한 대(AWS EC2, Ubuntu, 메모리 1GB)로 운영합니다. Nginx가 React로 만든 화면을 보여주고, /api로 들어오는 요청은 FastAPI(백엔드)로 전달합니다. 1단계·2단계 검증은 업로드 즉시 같은 서버 안에서 처리되고 결과를 PostgreSQL(데이터베이스)에 저장합니다. 3단계 신뢰도 계산은 메모리가 적은 운영 서버 대신 제 컴퓨터에서 정해진 시간마다(Airflow) 실행하고, SSH로 안전하게 연결해서 운영 데이터베이스에 접근합니다 — 메모리 1GB짜리 서버가 무거운 작업까지 직접 하지 않도록 나눈 구조입니다.",
+      "서버 한 대(AWS EC2, Ubuntu, 메모리 1GB)로 운영합니다. \n 프론트엔드는 도커 컨테이너로 띄우는 대신 React 빌드 결과물을 정적 파일로 변환해 Nginx가 직접 서빙하도록 했습니다. 컨테이너로 띄울 경우 추가 프로세스가 상주하면서 메모리를 점유하게 되는데, 1GB 메모리 환경에서는 이 오버헤드가 부담이 크다고 판단했습니다. \n Nginx는 API 프록시 역할로 이미 떠있는 프로세스이기 때문에, 현재로선 정적 파일 서빙을 추가해도 별도의 메모리 점유가 거의 발생하지 않습니다. \n 다만 사용자 수가 크게 늘어나거나 해외 사용자가 유입되는 시점, 혹은 빌드 파일 중 다량의 이미지 혹은 비디오 파일을 서빙해야하는 경우 빌드 파일을 S3·CloudFront 기반 CDN으로 분리해 EC2가 API 처리에만 집중하도록 전환하는 방법도 좋을 것같다고 생각합니다. \n 1단계·2단계 검증은 업로드 즉시 같은 서버 안에서 처리되고 결과를 PostgreSQL에 저장합니다. 3단계 신뢰도 계산은 메모리가 적은 운영 서버 대신 제 컴퓨터에서 정해진 시간마다(Airflow) 실행하고, SSH로 안전하게 연결해서 운영 데이터베이스에 접근합니다 — 서버가 무거운 작업까지 직접 하지 않도록 나눴습니다.",
   },
   pipeline: {
     title: "검증 과정 (전체 단계)",
@@ -95,6 +99,7 @@ export const troubleshooting = [
       "성적표마다 인적사항 부분이 여러 번 반복되거나 줄 전체가 밀려 있는 경우가 있어서, 정해진 위치만 보고 읽는 방식으로는 많이 실패했습니다.",
     solution:
       "anchor_resolver라는 도구를 만들었습니다: '개인별 전체 성적조회'라는 항상 똑같이 나오는 문구를 기준점으로 찾고, 그 위치를 기준으로 표의 시작 위치를 계산합니다. 또 검증에 실패하면 바로 지우지 않고, 이 동적 탐색을 한 번 더 시도해본 다음에만 지우도록 순서를 바꿨습니다.",
+    images: ["duplicateHeaderUserReport"],
   },
   {
     title: "같은 양식이 반복적으로 실패하는 문제 발견",
@@ -103,6 +108,7 @@ export const troubleshooting = [
       "로그 분석 화면(Kibana)에서 같은 양식 패턴(form_hash)이 여러 사람한테서 반복적으로 실패하는 게 보였습니다 — 특정 학과나 특정 버전의 성적표를 프로그램이 아직 읽지 못하는 경우였습니다.",
     solution:
       "schema_drift_viewer.html이라는 화면을 직접 만들어서, 실패한 성적표의 칸 구조를 시각적으로 비교할 수 있게 했습니다. 이걸로 단순히 사용자가 잘못 올린 경우와 학교에서 양식을 바꾼 경우를 구분했고, 학교 측 양식 변경인 경우만 골라서 프로그램이 새 양식도 읽을 수 있게 고쳤습니다.",
+    images: ["schemaViewerInput", "schemaViewerGrid"],
   },
   {
     title: "빈 값을 바꾸는 코드가 조용히 작동 안 하던 문제",
@@ -128,6 +134,14 @@ export const troubleshooting = [
     solution:
       "한글 한 글자가 어떤 코드 번호로 저장되는지 활용해서, '가'를 기준으로 588(21×28)씩 늘어날 때마다 초성이 바뀌는 규칙을 이용해 초성만 뽑아내는 기능을 만들었습니다. 예를 들어 '자료구조'를 입력하면 'ㅈㄹㄱㅈ'와 매칭됩니다.",
   },
+  {
+    title: "L3 신뢰도 점수 계산·승격, dump 단계 오류 (해결 중)",
+    tag: "Airflow · PostgreSQL",
+    problem:
+      "TODO: 신뢰도 점수 계산 및 lecture_master 승격 단계, 그리고 배치 마지막의 db_dump 단계에서 오류가 발생하고 있습니다. 정확한 증상과 원인을 정리할 예정입니다.",
+    solution:
+      "TODO: 원인 분석 및 해결 과정 작성 예정.",
+  },
 ];
 
 // 설계할 때 고민하고 배운 것들
@@ -135,15 +149,19 @@ export const designInsights = [
   {
     title: "공통 기능은 상속으로, 도구는 따로 가져와서 조합",
     body:
-      "검증 단계가 늘어날수록, 한 줄로 쭉 이어지는 상속 구조만으로는 클래스가 점점 다루기 어려워졌습니다. 그래서 BaseValidator라는 부모 클래스에는 모든 검증기가 공통으로 쓰는 기능(실행 순서 관리, 실패 처리, 로그 형식)만 두고, 실제로 데이터를 읽어내는 로직(Extractor)은 상속이 아니라 각 검증기가 따로 가져와서 쓰는 방식(조합)으로 분리했습니다. 새로운 검증 종류가 추가돼도 단계 목록과 전용 Extractor만 바꿔 끼우면 됩니다.",
+      "검증 단계가 늘어날수록, 한 줄로 쭉 이어지는 상속 구조만으로는 클래스가 점점 다루기 어려워졌습니다. 그래서 BaseValidator라는 부모 클래스에는 모든 검증기가 공통으로 쓰는 기능(단계를 순서대로 실행, 실패 처리, 로그 형식)만 두고, 실제 작업(성적표를 추출·변환·적재하는 것)은 상속이 아니라 각 검증기가 TranscriptPipeline 객체를 직접 만들어 쓰는 방식(조합)으로 분리했습니다. steps 목록은 RuleCode와 실행할 함수를 한 쌍으로 묶어둬서, 어떤 규칙이 실패했는지와 그걸 실행한 함수가 항상 같이 따라다닙니다. 새로운 검증 종류가 추가돼도 BaseValidator는 그대로 두고 steps 목록과 pipeline만 새로 끼우면 됩니다.",
     code: `class L2TranscriptValidator(BaseValidator):
-    def __init__(self, file_path, user_id, email_hash):
-        super().__init__(file_path, user_id, email_hash)
+    def __init__(self, log_helper):
+        super().__init__(log_helper)
+        self.pipeline = TranscriptPipeline(log_helper)  # 조합(따로 만들어서 사용)
         self.steps = [
-            self.verify_is_in_whitelist,
-            self.verify_schema_coords,
-        ]
-        self.extractor = TranscriptExtractor(self.file_path)  # 조합(따로 가져와서 사용)`,
+            (RuleCode.CONTENT_SCAN, lambda: ExcelUtil.check_word_in_excel(self.file_path, WHITELIST)),
+            (RuleCode.SCHEMA_EXTRACT, self.prepare_schema_check),
+            (RuleCode.SCHEMA_COORDS, self.verify_schema_coords),
+            (RuleCode.DATA_EXTRACT, lambda: self.pipeline.extract(self.transcript_df)),
+            (RuleCode.DATA_TRANSFORM, lambda: self.pipeline.transform()),
+            (RuleCode.DATA_LOAD, lambda: self.pipeline.load())
+        ]`,
   },
   {
     title: "상황에 맞게 데이터베이스 조회 방법을 골라 쓰기",
@@ -181,10 +199,12 @@ export const aiStory = {
     {
       title: "1차 시도 — 전부 AI로 자동화",
       desc: "학과·연도별 커리큘럼이 적힌 PDF를 AI로 읽어서 데이터베이스를 자동으로 정리하려 했지만, AI가 사실과 다른 내용을 만들어내는 문제(환각)가 프롬프트(지시문)만으로는 잡히지 않았고, 결과를 검증하는 작업이 줄어들기는커녕 오히려 두 배로 늘었습니다.",
+      notebookUrl: "https://nbviewer.org/url/hvvrnz.github.io/notebooks/02_llm_json_structure_test.ipynb",
     },
     {
       title: "2차 시도 — AI 없이 직접 코드로 파싱",
-      desc: "요람(커리큘럼 안내서) PDF의 표 형식 텍스트가 중간에 잘리고(예: \u201C디자인대학\u201D이 \u201C디자인대\u201D로 잘림), 매년 표의 구조가 바뀌어서(예: 2024년에 의대가 새로 생김) 정해진 규칙으로 읽는 방식이 모든 경우에 통하지 않았습니다.",
+      desc: "그래서 규칙 기반으로 직접 파싱하는 코드를 짰지만, 단과대학명과 학과명을 구분하는 토큰 처리 로직이 예상 못 한 케이스를 만나 ValueError로 그대로 죽었습니다. 게다가 매년 표의 구조가 바뀌어서(예: 2024년 의대 신설 등) 정해진 규칙으로는 모든 경우를 감당할 수 없었습니다.",
+      notebookUrl: "https://nbviewer.org/url/hvvrnz.github.io/notebooks/03_before_llm_data_restruct.ipynb",
     },
   ],
   resolution:
@@ -226,12 +246,10 @@ export const observability = {
 // 손필기 노트
 export const studyNotes = {
   intro:
-    "학부 시절 회로 관련 과목들을 계속 어려워했는데, 전공을 옮긴 뒤 4학년 때 들은 운영체제 수업이 전환점이 됐습니다. 하드웨어가 논리적·물리적으로 어떻게 동작하는지 손으로 직접 그려가며 정리하는 습관이 그때부터 지금까지 이어지고 있습니다.",
+    "학부 시절 회로 및 하드웨어 관련 과목 학습에 지속적으로 어려움이 있었습니다. 그러나, 컴퓨터공학과로 전공을 옮긴 후 4학년 때 들은 운영체제 수업이 전환점이 되었습니다. 하드웨어가 논리적·물리적으로 어떻게 동작하는지 손으로 직접 그려가며 정리하는 습관이 그때부터 지금까지 이어지고 있습니다.",
   items: [
-    { topic: "경쟁 상태(Race Condition)와 동기화", caption: "여러 주체가 같은 자원에 동시에 접근할 때 생기는 충돌을 막는 원리 — Zolver에서 여러 사람이 동시에 업로드할 때 생기는 충돌을 막는 데도 똑같이 적용됨", image: null },
-    { topic: "세마포어", caption: "세마포어를 구현하다가 막혔던 부분을 직접 그려가며 정리한 노트 — 데이터베이스 트리거 기반 검증 과정에서 동시에 쓰기가 일어날 때 생기는 충돌을 막는 데 적용", image: null },
-    { topic: "가상 메모리", caption: "페이지 테이블과 주소 변환 과정을 단계별로 정리한 노트", image: null },
-    { topic: "비동기 입출력(I/O)과 컨텍스트 전환", caption: "작업이 멈춰서 기다리는 입출력(blocking I/O)과 작업을 전환하는 개념을 정리한 노트 — 메모리가 적은 서버(t3.micro)에서 FastAPI의 비동기 처리를 직접 적용하는 데 활용", image: null },
+    { topic: "경쟁 상태(Race Condition)와 동기화", caption: "여러 주체가 같은 자원에 동시에 접근할 때 생기는 충돌을 막는 원리 \n Zolver에서 여러 사람이 동시에 업로드할 때 생기는 충돌을 막는 데도 똑같이 적용됩니다.", image: "raceConditionNote" },
+    { topic: "가상 메모리", caption: "페이지 테이블과 주소 변환 과정을 단계별로 정리한 노트", image: "virtualMemoryNote" },
   ],
 };
 
@@ -239,41 +257,16 @@ export const footer = {
   note: "데이터의 흐름을 끝까지 추적하고, 안정성을 확보하는 데 최선을 다하겠습니다.",
 };
 
-// 백엔드 API 구조 — 복원함: APIOverview.jsx가 아직 이 데이터를 읽고 있어요.
-// (예전 수정 과정에서 이 블록이 통째로 빠졌던 것 같아요. 이 섹션을 진짜로
-// 빼고 싶으면 이 export 전체와, src/App.jsx의 <APIOverview /> 줄을 같이 지우면 됩니다.)
-export const apiOverview = {
-  intro:
-    "13개 라우터가 전체 제품 영역을 다룹니다 — 로그인, 성적표 업로드 처리, 졸업요건 추적, 수강 시뮬레이션, AI 추천까지 모두 FastAPI와 비동기 SQLAlchemy로 구현했습니다.",
-  stack: [
-    { name: "FastAPI", desc: "여러 요청을 동시에 빠르게 처리하고, Pydantic으로 입력값을 검증" },
-    { name: "PostgreSQL + SQLAlchemy (async)", desc: "users / lectures / evidence / master 전반의 관계형 데이터 정합성" },
-    { name: "Kakao OAuth 2.0 + JWT", desc: "유일한 로그인 방식 — 자체 회원가입 없음, 모든 요청에서 JWT를 자동으로 검증" },
-    { name: "Google Gemini API (gemini-2.5-flash)", desc: "수강 추천 문장 생성, 결과는 캐시해서 재사용" },
-  ],
-  routers: [
-    { name: "auth", prefix: "/api/v1/auth", desc: "카카오 로그인, 토큰 갱신, 로그아웃" },
-    { name: "upload", prefix: "/api/v1/upload", desc: "성적표 .xlsx 업로드, 1·2단계 검증 워커 실행" },
-    { name: "lecture", prefix: "/api/v1/courses", desc: "이수 과목 등록·조회·수정·삭제, 초성 검색 지원" },
-    { name: "tag", prefix: "/api/v1/tags", desc: "졸업요건 태그를 직접 만들고 최소 이수학점 설정" },
-    { name: "simulation", prefix: "/api/v1/simulation", desc: "들을 과목 미리 등록, 시뮬레이션 결과 조회" },
-    { name: "user_gpa", prefix: "/api/v1/users/me/gpa-targets", desc: "목표 GPA 설정 및 시뮬레이션" },
-    { name: "ai", prefix: "/api/v1/ai", desc: "AI 수강 추천, 캐시·쿨다운 상태 조회" },
-    { name: "curriculum / user_majors", prefix: "/api/v1/curriculum, /majors", desc: "학과별 커리큘럼 버전 조회" },
-  ],
-};
+// 섹션 제목/라벨 — 언어 토글에 맞춰 제목도 같이 바뀌도록 분리해놓은 데이터
 
-// 섹션 제목/라벨 — 언어 토글에 맞춰 제목도 같이 바뀌도록 분리해놓은 데이터예요.
-// (예전엔 이 텍스트들이 각 컴포넌트 안에 직접 박혀있어서, 토글해도 제목만 영어로 남았었어요.)
 export const sectionTitles = {
   origin: { eyebrow: "// origin", title: "시간표 추천에서 졸업요건 시각화로" },
-  project: { eyebrow: "// zolver in production", title: "아이디어에서 실제 운영 서비스로" },
-  apiOverview: { eyebrow: "// backend api", title: "13개 라우터, 하나의 일관된 구조" },
+  project: { eyebrow: "// zolver in production", title: "로컬 프로젝트에서 실제 운영 서비스로" },
   architecture: { eyebrow: "// system design", title: "아키텍처" },
-  troubleshooting: { eyebrow: "// troubleshooting", title: "막혔던 지점들" },
-  observability: { eyebrow: "// observability", title: "런칭 후 파이프라인 지켜보기" },
+  troubleshooting: { eyebrow: "// troubleshooting", title: "트러블슈팅", lead: "운영하면서 실제로 부딪힌 문제와 해결 과정입니다. 클릭하면 펼쳐집니다." },
+  observability: { eyebrow: "// observability", title: "런칭 후 파이프라인 모니터링" },
   designInsights: { eyebrow: "// design insight", title: "설계 결정" },
   aiStory: { eyebrow: "// AI usage" },
   techStack: { eyebrow: "// stack", title: "사용 기술" },
-  studyNotes: { eyebrow: "// study notes", title: "손으로 그려가며 정리하는 습관" },
+  studyNotes: { eyebrow: "// study notes", title: "전과생의 손으로 구조화하여 정리하는 습관" },
 };

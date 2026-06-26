@@ -4,8 +4,8 @@
 // ============================================================
 
 export const profile = {
-  name: "Yoonjung Hwang (hvvrnz)",
-  greeting: "Hi, I'm Yoonjung Hwang.",
+  name: "Yoonjeong Hwang (hvvrnz)",
+  greeting: "Hi, I'm Yoonjeong Hwang.",
   role: "Data Engineering · Backend / Infrastructure Design",
   tagline: "I enjoy studying things deeply, documenting what I learn, \n and growing through that process.",
   current: "Currently participating as a team in a public-data idea contest \n (Korea Arts & Culture Education Service, ARTE)",
@@ -35,20 +35,26 @@ export const originSurvey = [
 
 export const originStory = `Zolver started as a graduation project. The original core feature was "timetable recommendation," and I ran a survey of 68 university students to validate it.
 
-But a great timetable recommendation is useless if the student fails to register for the class in the first place. While analyzing the survey, I realized students didn't actually need a timetable recommender — what they needed was a clear, at-a-glance view of what they still needed to graduate. Based on that finding, I redefined the problem around visualizing graduation requirements, and handled everything from planning to development to operations myself from there.`;
+But a great timetable recommendation is useless if the student fails to register for the class in the first place. While analyzing the survey, I realized students didn't actually need a timetable recommender — what they needed was a clear, at-a-glance view of what they still needed to graduate. Based on that finding, I redefined the problem around visualizing graduation requirements, and handled everything from planning to development to operations myself from there. Since launch, I've also been handling user inquiries and bug reports directly as the service's sole operator.`;
+
+// Real user support interactions during operation (evidence)
+export const originEvidence = {
+  caption: "Records of directly responding to real user inquiries through an open chat channel.",
+  images: ["userSupportChat1", "userSupportChat2"],
+};
 
 export const serviceIntro = {
   description:
     "Upload the official transcript (an Excel file) downloaded from your school portal, and the service automatically classifies your completed courses and shows what's left to graduate. Beyond simple credit totals, it also offers tag-based detailed progress tracking, course simulation, GPA analysis, and AI course recommendations.",
   features: [
-    { title: "Register completed courses", desc: "Become a verified member by uploading a transcript, or by filling out a short manual registration form — then add or edit individual courses by hand" },
-    { title: "Graduation requirement analysis", desc: "See major / general education / other credit completion in real time" },
-    { title: "Tag management", desc: "Create your own sub-categories for major/general education and set minimum required credits" },
-    { title: "Course simulation", desc: "Pre-register future courses to check whether graduation requirements would be met" },
-    { title: "GPA analysis", desc: "Visualize semester-by-semester GPA trends and simulate reaching a target GPA" },
-    { title: "Course catalog", desc: "Search admin-registered, trust-score-verified course data" },
-    { title: "AI course recommendation", desc: "Recommendations based on graduation requirements, GPA, admission year, and department data (via Gemini API)" },
-    { title: "Kakao login", desc: "Simple sign-in via Kakao OAuth" },
+    { title: "Register completed courses", desc: "Become a verified member by uploading a transcript, or by filling out a short manual registration form — then add or edit individual courses by hand", image: null },
+    { title: "Graduation requirement analysis", desc: "See major / general education / other credit completion in real time", image: null },
+    { title: "Tag management", desc: "Create your own sub-categories for major/general education and set minimum required credits", image: null },
+    { title: "Course simulation", desc: "Pre-register future courses to check whether graduation requirements would be met", image: null },
+    { title: "GPA analysis", desc: "Visualize semester-by-semester GPA trends and simulate reaching a target GPA", image: null },
+    { title: "Course catalog", desc: "Search admin-registered, trust-score-verified course data", image: null },
+    { title: "AI course recommendation", desc: "Recommendations based on graduation requirements, GPA, admission year, and department data (via Gemini API)", image: null },
+    { title: "Kakao login", desc: "Simple sign-in via Kakao OAuth", image: null },
   ],
 };
 
@@ -95,6 +101,7 @@ export const troubleshooting = [
       "Some transcripts repeated the personal-info block multiple times or had entire rows shifted, so parsing based on fixed coordinates failed for a significant share of uploads.",
     solution:
       "Built anchor_resolver: it locates the fixed phrase \u201C개인별 전체 성적조회\u201D (full personal grade report) as an anchor, then calculates the header and data start rows relative to that anchor. Also changed the order so that, on a validation failure, the record isn't deleted immediately — dynamic anchor detection is retried first, and deletion only happens if that also fails.",
+    images: ["duplicateHeaderUserReport"],
   },
   {
     title: "Detecting recurring format failures (schema drift)",
@@ -103,6 +110,7 @@ export const troubleshooting = [
       "In Kibana, the same form_hash kept failing across multiple different users — indicating the parser didn't support a particular department's or version's transcript format.",
     solution:
       "Built schema_drift_viewer.html to visualize the cell structure of failed cases and compare them side by side. This let me distinguish simple user mistakes from actual school-side format changes, and only the latter triggered an L2 parser update via dynamic anchor detection.",
+    images: ["schemaViewerInput", "schemaViewerGrid"],
   },
   {
     title: "pandas mask() silently failing to replace None",
@@ -128,6 +136,14 @@ export const troubleshooting = [
     solution:
       "Extracted initial consonants by exploiting the Unicode structure of Korean syllable blocks, where the initial consonant shifts every 588 (21×28) code points starting from \u201C가.\u201D For example, \u201C자료구조\u201D (data structures) matches against \u201Cㅈㄹㄱㅈ.\u201D",
   },
+  {
+    title: "L3 trust score calculation, promotion & dump step failure (in progress)",
+    tag: "Airflow · PostgreSQL",
+    problem:
+      "TODO: Currently debugging failures in the trust score calculation / lecture_master promotion step, and in the db_dump step at the end of the batch. Symptoms and root cause to be documented.",
+    solution:
+      "TODO: Root-cause analysis and fix to be written up.",
+  },
 ];
 
 // Design insights
@@ -135,15 +151,19 @@ export const designInsights = [
   {
     title: "Inheritance for the shared engine, composition for tools",
     body:
-      "As more validation stages were added, a purely inheritance-based structure became increasingly rigid. BaseValidator provides the shared engine via inheritance — the execution loop, failure handling, log formatting — while the actual extraction logic (Extractor) is held by composition (as an instance) inside each validator. When a new validation type is added, only the steps list and a dedicated Extractor need to be swapped in.",
+      "As more validation stages were added, a purely inheritance-based structure became increasingly rigid. BaseValidator provides the shared engine via inheritance — running each step in order, handling failures, formatting logs — while the actual work (extracting, transforming, loading the transcript) is held by composition: each validator instantiates a TranscriptPipeline object instead of inheriting that logic. The steps list pairs a RuleCode with a callable, so the rule that failed and the function that ran it stay attached to each other. Adding a new validation type just means swapping in a new steps list and pipeline, without touching BaseValidator.",
     code: `class L2TranscriptValidator(BaseValidator):
-    def __init__(self, file_path, user_id, email_hash):
-        super().__init__(file_path, user_id, email_hash)
+    def __init__(self, log_helper):
+        super().__init__(log_helper)
+        self.pipeline = TranscriptPipeline(log_helper)  # composition
         self.steps = [
-            self.verify_is_in_whitelist,
-            self.verify_schema_coords,
-        ]
-        self.extractor = TranscriptExtractor(self.file_path)  # composition`,
+            (RuleCode.CONTENT_SCAN, lambda: ExcelUtil.check_word_in_excel(self.file_path, WHITELIST)),
+            (RuleCode.SCHEMA_EXTRACT, self.prepare_schema_check),
+            (RuleCode.SCHEMA_COORDS, self.verify_schema_coords),
+            (RuleCode.DATA_EXTRACT, lambda: self.pipeline.extract(self.transcript_df)),
+            (RuleCode.DATA_TRANSFORM, lambda: self.pipeline.transform()),
+            (RuleCode.DATA_LOAD, lambda: self.pipeline.load())
+        ]`,
   },
   {
     title: "Picking the right SQLAlchemy result method for the situation",
@@ -181,10 +201,12 @@ export const aiStory = {
     {
       title: "Attempt 1 — Full automation",
       desc: "Tried to use AI to parse department/year-specific curriculum PDFs and normalize them straight into the database, but hallucinations couldn't be controlled through prompting alone, and the verification work it created doubled instead of shrinking.",
+      notebookUrl: "https://nbviewer.org/url/hvvrnz.github.io/notebooks/02_llm_json_structure_test.ipynb",
     },
     {
       title: "Attempt 2 — Manual parsing without AI",
-      desc: "Text in the table-formatted curriculum guide PDFs kept getting cut off mid-word (e.g. \u201C디자인대학\u201D → \u201C디자인대\u201D), and the schema changed every year (e.g. a new College of Medicine added in 2024), so a fixed parsing approach didn't generalize.",
+      desc: "So I switched to rule-based parsing instead, but the token-handling logic that distinguished college names from department names hit a case it didn't expect (a department-like token with no numbers following it) and crashed with a ValueError. On top of that, the table schema changed every year (e.g. a new College of Medicine added in 2024), so a fixed parsing approach couldn't cover every case.",
+      notebookUrl: "https://nbviewer.org/url/hvvrnz.github.io/notebooks/03_before_llm_data_restruct.ipynb",
     },
   ],
   resolution:
@@ -226,12 +248,10 @@ export const observability = {
 // Handwritten study notes
 export const studyNotes = {
   intro:
-    "I struggled with circuit-related courses throughout undergrad, but switching majors and taking Operating Systems in my fourth year became a turning point. Drawing out the logical and physical behavior of hardware by hand is a habit that started then and continues today.",
+    "I struggled with circuit-related courses early on, but after transferring majors, an operating systems course in my senior year became a turning point. Since then I've kept the habit of hand-drawing how hardware works, both logically and physically.",
   items: [
-    { topic: "Race Conditions & Synchronization", caption: "The principle of preventing conflicts when multiple actors access a shared resource at once — applied directly to handling concurrent uploads in Zolver", image: null },
-    { topic: "Semaphores", caption: "Notes drawn out while working through a sticking point in implementing semaphores — applied to preventing concurrent write conflicts in the trigger-based validation pipeline", image: null },
-    { topic: "Virtual Memory", caption: "Step-by-step notes on page tables and address translation", image: null },
-    { topic: "Async I/O & Context Switching", caption: "Notes on blocking I/O and context switching — applied directly to using FastAPI's async handling on a memory-constrained server (t3.micro)", image: null },
+    { topic: "Race conditions & synchronization", caption: "Principles for preventing conflicts when multiple actors access the same resource — applied directly to preventing conflicts when multiple users upload transcripts to Zolver at the same time", image: "raceConditionNote" },
+    { topic: "Virtual memory", caption: "Step-by-step notes on page tables and the address translation process", image: "virtualMemoryNote" },
   ],
 };
 
@@ -239,39 +259,14 @@ export const footer = {
   note: "I'll keep tracing data all the way through and doing my best to ensure stability.",
 };
 
-// Backend API surface — restored: APIOverview.jsx still reads this.
-// (This block went missing from a previous edit — if you actually want
-// the "Backend API" section gone, delete this export AND remove
-// <APIOverview /> from src/App.jsx.)
-export const apiOverview = {
-  intro:
-    "13 routers cover the full product surface — auth, transcript ingestion, requirement tracking, simulation, and AI recommendation — all under FastAPI with async SQLAlchemy.",
-  stack: [
-    { name: "FastAPI", desc: "async request handling, Pydantic validation" },
-    { name: "PostgreSQL + SQLAlchemy (async)", desc: "relational integrity across users / lectures / evidence / master" },
-    { name: "Kakao OAuth 2.0 + JWT", desc: "the only login path — no native sign-up, JWT verified by a global middleware" },
-    { name: "Google Gemini API (gemini-2.5-flash)", desc: "course recommendation generation, cached" },
-  ],
-  routers: [
-    { name: "auth", prefix: "/api/v1/auth", desc: "Kakao login, token refresh, logout" },
-    { name: "upload", prefix: "/api/v1/upload", desc: "transcript .xlsx upload, triggers L1/L2 worker" },
-    { name: "lecture", prefix: "/api/v1/courses", desc: "CRUD on completed courses, chosung-aware search" },
-    { name: "tag", prefix: "/api/v1/tags", desc: "custom requirement tags, minimum-credit rules" },
-    { name: "simulation", prefix: "/api/v1/simulation", desc: "register planned courses, view simulated outcome" },
-    { name: "user_gpa", prefix: "/api/v1/users/me/gpa-targets", desc: "GPA targets and simulation" },
-    { name: "ai", prefix: "/api/v1/ai", desc: "AI course recommendation, cache/cooldown status" },
-    { name: "curriculum / user_majors", prefix: "/api/v1/curriculum, /majors", desc: "department curriculum versions" },
-  ],
-};
 
 // Section eyebrow/title pairs — used so headings actually switch language
 // with the EN/KO toggle, instead of being hardcoded inside each component.
 export const sectionTitles = {
   origin: { eyebrow: "// origin", title: "From timetable recommendation to graduation-requirement visualization" },
   project: { eyebrow: "// zolver in production", title: "From idea to a running service" },
-  apiOverview: { eyebrow: "// backend api", title: "13 routers, one consistent surface" },
   architecture: { eyebrow: "// system design", title: "Architecture" },
-  troubleshooting: { eyebrow: "// troubleshooting", title: "Where I got stuck" },
+  troubleshooting: { eyebrow: "// troubleshooting", title: "Where I got stuck", lead: "Real problems I ran into while operating the service. Click to expand." },
   observability: { eyebrow: "// observability", title: "Watching the pipeline after launch" },
   designInsights: { eyebrow: "// design insight", title: "Design decisions" },
   aiStory: { eyebrow: "// AI usage" },

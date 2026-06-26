@@ -1,5 +1,12 @@
 import Text from "./Text.jsx";
 import { useContent } from "../i18n.jsx";
+import raceConditionNote from "../assets/notes/race_condition_note.jpg";
+import virtualMemoryNote from "../assets/notes/virtual_memory_note.jpg";
+
+const IMAGES = {
+  raceConditionNote,
+  virtualMemoryNote
+};
 
 export default function StudyNotes() {
   const { studyNotes, sectionTitles } = useContent();
@@ -15,7 +22,7 @@ export default function StudyNotes() {
             <div className="note-card" key={n.topic}>
               <div className="note-image-slot">
                 {n.image ? (
-                  <img src={n.image} alt={n.topic} />
+                  <img src={IMAGES[n.image]} alt={n.topic} />
                 ) : (
                   <span>scan coming soon</span>
                 )}

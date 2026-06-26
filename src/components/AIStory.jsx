@@ -1,6 +1,7 @@
 import Text from "./Text.jsx";
 import { useContent } from "../i18n.jsx";
 
+
 export default function AIStory() {
   const { aiStory, sectionTitles } = useContent();
   return (
@@ -15,6 +16,19 @@ export default function AIStory() {
             <div className="ai-fail-card" key={f.title}>
               <div className="ai-fail-title">{f.title}</div>
               <div className="ai-fail-desc"><Text>{f.desc}</Text></div>
+
+              {f.notebookUrl && (
+                <a
+                  className="ai-fail-notebook-link"
+                  href={f.notebookUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <br/>
+                  
+                  view notebook →
+                </a>
+              )}
             </div>
           ))}
         </div>

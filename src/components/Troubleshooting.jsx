@@ -1,6 +1,15 @@
 import { useState } from "react";
 import Text from "./Text.jsx";
 import { useContent } from "../i18n.jsx";
+import schemaViewerInput from "../assets/screenshots/schema_viewer_input.png";
+import schemaViewerGrid from "../assets/screenshots/schema_viewer_grid.png";
+import duplicateHeaderUserReport from "../assets/screenshots/duplicate_header_user_report.png";
+
+const IMAGES = {
+  schemaViewerInput,
+  schemaViewerGrid,
+  duplicateHeaderUserReport,
+};
 
 export default function Troubleshooting() {
   const { troubleshooting, sectionTitles } = useContent();
@@ -12,7 +21,7 @@ export default function Troubleshooting() {
         <span className="eyebrow">{sectionTitles.troubleshooting.eyebrow}</span>
         <h2 className="section-title">{sectionTitles.troubleshooting.title}</h2>
         <p className="prose lead" style={{ marginBottom: 8 }}>
-          Real problems I ran into while operating the service. Click to expand.
+          <Text>{sectionTitles.troubleshooting.lead}</Text>
         </p>
 
         <div className="ts-list">
@@ -41,6 +50,13 @@ export default function Troubleshooting() {
                       <span className="ts-block-label">solution</span>
                       <span className="ts-solution-text"><Text>{t.solution}</Text></span>
                     </div>
+                    {t.images && (
+                      <div className="ts-images">
+                        {t.images.map((imgKey) => (
+                          <img key={imgKey} src={IMAGES[imgKey]} alt={t.title} />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
