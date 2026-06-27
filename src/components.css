@@ -378,7 +378,7 @@
   text-align: center;
   padding: 12px;
 }
-.note-image-slot img { width: 500px; height: 500px; object-fit: cover; display: block; }
+.note-image-slot img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .note-topic {
   font-family: var(--font-mono);
   font-weight: 600;
