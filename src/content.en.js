@@ -8,7 +8,7 @@ export const profile = {
   greeting: "Hi, I'm Yoonjeong Hwang.",
   role: "Data Engineering · Backend / Infrastructure Design",
   tagline: "I enjoy studying things deeply, documenting what I learn, \n and growing through that process.",
-  current: "Currently participating as a team in a public-data idea contest \n (Korea Arts & Culture Education Service, ARTE)",
+  // current: "Currently,
   links: {
     github: "https://github.com/hvvrnz",
     velog: "https://velog.io/@0lalsoo",

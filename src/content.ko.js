@@ -8,7 +8,7 @@ export const profile = {
   greeting: "안녕하세요, 황윤정입니다.",
   role: "데이터 엔지니어링 · 백엔드 / 인프라 설계",
   tagline: "깊이 있게 공부하고, 배운 걸 기록하며, \n 그 과정을 통해 성장하는 걸 좋아합니다.",
-  current: "현재 공공데이터 활용 아이디어 공모전에 팀으로 참여 중입니다. \n (한국문화예술교육진흥원, ARTE)",
+  // current: "현재 공공데이터 활용 아이디어 공모전 \n ",
   links: {
     github: "https://github.com/hvvrnz",
     velog: "https://velog.io/@0lalsoo",
