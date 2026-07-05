@@ -246,14 +246,14 @@ export const observability = {
 };
 
 // Handwritten study notes
-export const studyNotes = {
-  intro:
-    "I struggled with circuit-related courses early on, but after transferring majors, an operating systems course in my senior year became a turning point. Since then I've kept the habit of hand-drawing how hardware works, both logically and physically.",
-  items: [
-    { topic: "Race conditions & synchronization", caption: "Principles for preventing conflicts when multiple actors access the same resource — applied directly to preventing conflicts when multiple users upload transcripts to Zolver at the same time", image: "raceConditionNote" },
-    { topic: "Virtual memory", caption: "Step-by-step notes on page tables and the address translation process", image: "virtualMemoryNote" },
-  ],
-};
+// export const studyNotes = {
+//   intro:
+//     "I struggled with circuit-related courses early on, but after transferring majors, an operating systems course in my senior year became a turning point. Since then I've kept the habit of hand-drawing how hardware works, both logically and physically.",
+//   items: [
+//     { topic: "Race conditions & synchronization", caption: "Principles for preventing conflicts when multiple actors access the same resource — applied directly to preventing conflicts when multiple users upload transcripts to Zolver at the same time", image: "raceConditionNote" },
+//     { topic: "Virtual memory", caption: "Step-by-step notes on page tables and the address translation process", image: "virtualMemoryNote" },
+//   ],
+// };
 
 export const footer = {
   note: "I'll keep tracing data all the way through and doing my best to ensure stability.",

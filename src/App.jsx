@@ -11,7 +11,6 @@ import Observability from "./components/Observability.jsx";
 import DesignInsights from "./components/DesignInsights.jsx";
 import AIStory from "./components/AIStory.jsx";
 import TechStack from "./components/TechStack.jsx";
-import StudyNotes from "./components/StudyNotes.jsx";
 import Footer from "./components/Footer.jsx";
 
 export default function App() {
@@ -27,7 +26,6 @@ export default function App() {
       <Reveal><DesignInsights /></Reveal>
       <Reveal><AIStory /></Reveal>
       <Reveal><TechStack /></Reveal>
-      <Reveal><StudyNotes /></Reveal>
       <Footer />
     </LanguageProvider>
   );
