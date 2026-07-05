@@ -266,15 +266,6 @@ export const observability = {
   ],
 };
 
-// 손필기 노트
-// export const studyNotes = {
-//   intro:
-//     "학부 시절 회로 및 하드웨어 관련 과목 학습에 지속적으로 어려움이 있었습니다. 그러나, 컴퓨터공학과로 전공을 옮긴 후 4학년 때 들은 운영체제 수업이 전환점이 되었습니다. 하드웨어가 논리적·물리적으로 어떻게 동작하는지 손으로 직접 그려가며 정리하는 습관이 그때부터 지금까지 이어지고 있습니다.",
-//   items: [
-//     { topic: "경쟁 상태(Race Condition)와 동기화", caption: "여러 주체가 같은 자원에 동시에 접근할 때 생기는 충돌을 막는 원리 \n Zolver에서 여러 사람이 동시에 업로드할 때 생기는 충돌을 막는 데도 똑같이 적용됩니다.", image: "raceConditionNote" },
-//     { topic: "가상 메모리", caption: "페이지 테이블과 주소 변환 과정을 단계별로 정리한 노트", image: "virtualMemoryNote" },
-//   ],
-// };
 
 export const footer = {
   note: "데이터의 흐름을 끝까지 추적하고, 안정성을 확보하는 데 최선을 다하겠습니다.",
