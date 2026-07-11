@@ -19,9 +19,9 @@ export const profile = {
 
 // Key operating metrics
 export const stats = [
-  { value: "172+", label: "Registered users", sub: "Since official launch on 2026.6.8" },
-  { value: "2,538+", label: "Total courses processed", sub: "" },
-  { value: "56", label: "Departments covered", sub: "Without building a pre-made department database" },
+  { value: "197+", label: "Registered users", sub: "Since official launch on 2026.6.8" },
+  { value: "3,002+", label: "Total courses processed", sub: "" },
+  { value: "63", label: "Departments covered", sub: "Without building a pre-made department database" },
   { value: "54%", label: "Core feature conversion rate", sub: "Visitors who uploaded a transcript or manually registered courses" },
   { value: "86%", label: "Pipeline parsing success rate", sub: "Based on ELK log analysis" },
 ];
@@ -244,16 +244,6 @@ export const observability = {
     "Failure counts by provider_id_hash — identifying users hitting repeated errors",
   ],
 };
-
-// Handwritten study notes
-// export const studyNotes = {
-//   intro:
-//     "I struggled with circuit-related courses early on, but after transferring majors, an operating systems course in my senior year became a turning point. Since then I've kept the habit of hand-drawing how hardware works, both logically and physically.",
-//   items: [
-//     { topic: "Race conditions & synchronization", caption: "Principles for preventing conflicts when multiple actors access the same resource — applied directly to preventing conflicts when multiple users upload transcripts to Zolver at the same time", image: "raceConditionNote" },
-//     { topic: "Virtual memory", caption: "Step-by-step notes on page tables and the address translation process", image: "virtualMemoryNote" },
-//   ],
-// };
 
 export const footer = {
   note: "I'll keep tracing data all the way through and doing my best to ensure stability.",
