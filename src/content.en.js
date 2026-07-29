@@ -9,7 +9,7 @@ export const profile = {
   greeting: "Hi, I'm Yoonjeong Hwang.",
   role: "Data Engineering · Backend / Infrastructure Design",
   tagline: "I like studying deeply, documenting what I learn, \n and growing through that process.",
-  // current: "Currently working on a public-data idea competition \n ",
+  current: "Currently developing a project as part of a 2-person finalist team in the Yogiyo × Oracle Hackathon.",
   links: {
     github: "https://github.com/hvvrnz",
     velog: "https://velog.io/@0lalsoo",
@@ -20,7 +20,7 @@ export const profile = {
 
 // Core operating metrics
 export const stats = [
-  { value: "197+", label: "Registered Users", sub: "Since official launch on 2026.6.8" },
+  { value: "208+", label: "Registered Users", sub: "Since official launch on 2026.6.8" },
   { value: "3,002+", label: "Courses Processed to Date", sub: "" },
   { value: "63 Departments", label: "Department Data Secured", sub: "Number collected without pre-building a database per department" },
   { value: "54%", label: "Core Feature Conversion Rate", sub: "Share of visitors who uploaded a transcript or manually registered courses" },
