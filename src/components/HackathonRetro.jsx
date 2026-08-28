@@ -1,6 +1,7 @@
 import Text from "./Text.jsx";
 import Collapsible from "./Collapsible.jsx";
 import { useContent } from "../i18n.jsx";
+import hackathonArchitectureImg from "../assets/diagrams/hackathon_architecture.png";
 
 // 스크린샷 두 번째 장을 넣으려면 src/assets/screenshots/ 에 실제 파일을 넣고
 // 아래 줄과 IMAGES 안의 줄 주석을 풀어주세요.
@@ -10,6 +11,10 @@ import hackathonDemo1 from "../assets/screenshots/hackathon_demo_1.png";
 const IMAGES = {
   hackathonDemo1,
   // hackathonDemo2,
+};
+
+const DIAGRAMS = {
+  hackathonArchitecture: hackathonArchitectureImg,
 };
 
 export default function HackathonRetro() {
@@ -42,6 +47,13 @@ export default function HackathonRetro() {
           </Collapsible>
 
           <Collapsible title={architecture.title}>
+            {architecture.diagram && DIAGRAMS[architecture.diagram] && (
+              <img
+                className="diagram-img"
+                src={DIAGRAMS[architecture.diagram]}
+                alt={architecture.title}
+              />
+            )}
             <ol className="collapse-step-list">
               {architecture.steps.map((s, i) => (
                 <li key={i}>
@@ -52,6 +64,18 @@ export default function HackathonRetro() {
             <p className="prose" style={{ marginTop: 14 }}>
               <Text>{architecture.note}</Text>
             </p>
+            {architecture.designChoices && (
+              <div className="insight-list" style={{ marginTop: 22 }}>
+                {architecture.designChoices.map((d) => (
+                  <div className="insight-card" key={d.title}>
+                    <div className="insight-title">{d.title}</div>
+                    <div className="insight-body">
+                      <Text>{d.body}</Text>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </Collapsible>
 
           <Collapsible title={coldStart.title}>

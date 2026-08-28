@@ -330,6 +330,7 @@ export const hackathonRetro = {
   },
   architecture: {
     title: "Architecture Flow",
+    diagram: "hackathonArchitecture",
     steps: [
       "Order placed → streamed through Kafka (clustering)",
       "Nearby riders searched via Redis Geo",
@@ -341,6 +342,18 @@ export const hackathonRetro = {
     ],
     note:
       "Store-owner actions (start/finish cooking) and rider actions (accept/pick up/complete) are handled separately from this automated pipeline — FastAPI updates Oracle ADB/Redis state the moment each request comes in.",
+    designChoices: [
+      {
+        title: "Why only Kafka and Redis were containerized",
+        body:
+          "Stateful middleware (Kafka, Redis) deserved a reproducible, isolated environment. Application code that changes constantly (FastAPI, the stream processor), on the other hand, went straight onto the VM so I could edit and see changes immediately, without a container build/restart cycle slowing down hackathon-pace iteration.",
+      },
+      {
+        title: "Why brute-force search was the right call here",
+        body:
+          "What's being brute-forced isn't actual road-network routing — it's a sequencing problem: deciding the visit order for a fixed set of already-known pickup/dropoff points. Real shortest-path calculation was skipped in favor of haversine distance, and since each cluster is capped at 3 orders (MAX_CLUSTER_SIZE=3), that's at most 6 stops and at most 90 possible orderings. At that size, guaranteeing the global optimum via brute force cost less in implementation complexity than a heuristic approximation would have. That assumption breaks down as cluster size grows, which is exactly why scaling the search to larger order volumes was explicitly scoped out.",
+      },
+    ],
   },
   coldStart: {
     title: "Handling Cold Start — Vector Search Fallback Design",

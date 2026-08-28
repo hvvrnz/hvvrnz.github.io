@@ -329,6 +329,7 @@ export const hackathonRetro = {
   },
   architecture: {
     title: "아키텍처 흐름",
+    diagram: "hackathonArchitecture",
     steps: [
       "주문 발생 → Kafka 스트림 처리 (클러스터링)",
       "Redis Geo로 근처 라이더 검색",
@@ -340,6 +341,18 @@ export const hackathonRetro = {
     ],
     note:
       "사장님의 조리시작·조리완료, 라이더의 배차수락·픽업·완료는 이 자동 파이프라인과 별도로, FastAPI가 요청을 받는 즉시 Oracle ADB/Redis 상태를 갱신하도록 분리했습니다.",
+    designChoices: [
+      {
+        title: "Kafka·Redis만 Docker로 띄운 이유",
+        body:
+          "상태를 가진 미들웨어(Kafka, Redis)는 격리된 환경에서 재현 가능하게 띄우는 게 맞다고 판단했습니다. 반대로 자주 고치는 애플리케이션 코드(FastAPI, 스트림 프로세서)는 컨테이너 빌드·재시작 오버헤드 없이 VM에 직접 올려서 바로 반영되는 쪽이 해커톤처럼 반복이 잦은 개발 주기에 맞다고 봤습니다.",
+      },
+      {
+        title: "완전탐색(brute-force)을 선택한 이유",
+        body:
+          "여기서 완전탐색 대상은 도로망 위 실제 경로(길찾기)가 아니라, 이미 정해진 픽업·드롭오프 지점들을 어떤 순서로 방문할지 정하는 시퀀싱 문제입니다. 실제 최단 경로 계산 대신 haversine 거리로 근사했고, 클러스터 하나에 담기는 주문을 최대 3건(MAX_CLUSTER_SIZE=3)으로 제한해뒀기 때문에 방문 지점이 최대 6개, 순서 조합은 최대 90가지 수준으로 작습니다. 이 정도 크기에서는 휴리스틱으로 근사해를 구하는 것보다 완전탐색으로 전역 최적해를 보장하는 게 구현 복잡도 대비 이득이 크다고 판단했습니다. 다만 이 전제는 클러스터 크기가 커지면 깨지는 설계라, 대규모 주문 대비 계산량 최적화는 스코프아웃으로 명시해뒀습니다.",
+      },
+    ],
   },
   coldStart: {
     title: "콜드스타트 대응 — Vector Search Fallback 설계",
