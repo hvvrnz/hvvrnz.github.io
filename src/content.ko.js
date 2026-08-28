@@ -8,7 +8,7 @@ export const profile = {
   greeting: "안녕하세요, 황윤정입니다.",
   role: "데이터 엔지니어링 · 백엔드 / 인프라 설계",
   tagline: "깊이 있게 공부하고, 배운 걸 기록하며, \n 그 과정을 통해 성장하는 걸 좋아합니다.",
-  current: "현재 요기요 × Oracle 해커톤에서 팀으로 본선에 진출해 프로젝트를 진행하고 있습니다.",
+  current: "요기요 × Oracle 해커톤에서 팀으로 본선에 진출해 프로젝트를 진행했습니다.",
   links: {
     github: "https://github.com/hvvrnz",
     velog: "https://velog.io/@0lalsoo",
@@ -314,7 +314,71 @@ export const dataInsights = {
 export const hackathonRetro = {
   title: "요기요 × Oracle 해커톤 회고",
   summary:
-    "23:1 경쟁률을 뚫고 본선에 진출한 8팀 중 하나였지만, 수상하지는 못했습니다. 결과보다 오래 남은 건, 발표를 준비하며 스스로에게 던졌던 질문들이었습니다.",
+    "23:1 경쟁률을 뚫고 본선에 진출한 8팀 중 하나였지만, 수상하지는 못했습니다. 백엔드·인프라·배차 알고리즘·실시간 스트림 처리·조리시간 예측 보정을 맡았고, 결과보다 오래 남은 건 발표를 준비하며 스스로에게 던졌던 질문들이었습니다.",
+  overview: {
+    title: "프로젝트 개요",
+    body:
+      "동시에 접수된 여러 주문의 조리시간을 예측하고, 이를 반영해 라이더의 배달 순서를 최적화하는 시스템입니다. 조리 완료 시점까지 고려한 순서 최적화로 음식이 식지 않게, 라이더 동선은 효율적으로 만드는 것이 목표였습니다.",
+  },
+  architecture: {
+    title: "아키텍처 흐름",
+    steps: [
+      "주문 발생 → Kafka 스트림 처리 (클러스터링)",
+      "Redis Geo로 근처 라이더 검색",
+      "Sequencing Engine — 완전탐색 기반 순서 최적화 (pickup+dropoff 90가지 후보)",
+      "Oracle AI Vector Search(23ai)로 조리시간 예측 보정",
+      "Oracle Autonomous Database에 결과 저장",
+      "LLM(OCI Generative AI)으로 배차 결과 설명 생성",
+      "FastAPI로 최종 배달 순서 + 설명 반환 → 역할별(고객/사장님/라이더) 화면 표시",
+    ],
+    note:
+      "사장님의 조리시작·조리완료, 라이더의 배차수락·픽업·완료는 이 자동 파이프라인과 별도로, FastAPI가 요청을 받는 즉시 Oracle ADB/Redis 상태를 갱신하도록 분리했습니다.",
+  },
+  coldStart: {
+    title: "콜드스타트 대응 — Vector Search Fallback 설계",
+    body:
+      "자체 조리 이력이 부족한 신규 매장 문제를 Oracle AI Vector Search로 풀었습니다. 매장 상황(요일·시간대·동시주문 수·메뉴 구성)을 Cohere Embed로 1024차원 벡터화하고, 아래 순서로 검색 범위를 넓혀가며 유사 사례를 찾습니다.",
+    steps: [
+      "자체 매장 이력",
+      "같은 지역 + 같은 브랜드",
+      "타 지역 + 같은 브랜드",
+      "같은 지역 + 같은 카테고리 (다른 브랜드)",
+      "카테고리 전체 (지역 무관)",
+    ],
+    note:
+      "지역보다 브랜드를 fallback 우선순위로 둔 이유: 같은 지역이라도 브랜드가 다르면 조리법·메뉴 구성·주방 동선이 달라 참고가 약한 반면, 타 지역이라도 같은 브랜드면 조리법과 매뉴얼이 동일해 더 유효한 참고값이 됩니다. 실제 조리완료 시각은 매 주문마다 vector_cases에 새 사례로 쌓여 다음 예측의 근거가 됩니다.",
+  },
+  techStackTitle: "기술 스택",
+  techStack: [
+    { name: "Kafka (KRaft 모드)", desc: "실시간으로 들어오는 주문을 스트림 처리하며 클러스터링. Zookeeper 없이 KRaft 모드로 구성해 인프라 구성 요소를 줄였습니다." },
+    { name: "Redis (Geo 인덱스)", desc: "클러스터 근처 라이더를 지리 정보 기반으로 검색. 자주 바뀌는 라이더 위치·배정 가능 여부(BUSY/AVAILABLE)를 실시간으로 전담." },
+    { name: "Python 완전탐색 스코어링", desc: "클러스터 내 배달 순서(픽업+드롭오프 90가지 후보)를 전부 계산해 최적 순서를 도출하는 Sequencing Engine." },
+    { name: "Oracle AI Vector Search (23ai) + Cohere Embed", desc: "과거 유사 조리 사례를 임베딩으로 조회해 조리시간 예측을 보정. 콜드스타트 매장 대응의 핵심." },
+    { name: "Oracle Autonomous Database (ADB, Developer Free)", desc: "주문·배차 데이터 저장. Vector Search를 DB 레벨에서 바로 지원해 별도 벡터 DB 없이 구성." },
+    { name: "LLM (OCI Generative AI)", desc: "여러 경우의 수를 종합해 설명해야 하는 지점(사장님 화면 안내 문구)에만 선택적으로 적용. 라이더 교통 안내·소비자 지연 안내처럼 판단이 필요 없는 곳은 템플릿으로 처리해 LLM 호출을 최소화." },
+    { name: "FastAPI", desc: "역할별(고객/사장님/라이더) API 서버. handler(판단·계산)와 repository(DB 접근)를 분리해 라우터가 직접 SQL을 짜지 않도록 설계." },
+    { name: "Vite + React", desc: "역할별 화면을 렌더링하는 얇은 로더 구조의 프론트엔드." },
+    { name: "OCI Compute VM + Docker", desc: "VM.Standard.E4.Flex(4 OCPU/32GB, Oracle Linux 8) 위에 Kafka·Redis만 컨테이너화하고, Python 서비스는 VM에 직접 설치해 실행." },
+  ],
+  scope: {
+    title: "구현 범위 / 스코프아웃",
+    doneLabel: "구현 완료",
+    scopedOutLabel: "스코프 아웃",
+    done: [
+      "Kafka 기반 실시간 주문 처리, 클러스터링, 완전탐색 배차 경로 최적화",
+      "Vector Search 5단계 fallback (실제 실행 및 검증 완료)",
+      "최소 수익 기준 미달 배차 필터링",
+      "조리시간 예측-실측 피드백 루프 (vector_cases.actual_cook_time 저장 및 재활용)",
+    ],
+    scopedOut: [
+      "라이더 거절/응답 시간 초과에 대한 후속 처리",
+      "여러 라이더 후보를 비교하는 로직 (현재는 최근접 1명 그리디 선택)",
+      "vector_cases 정기 재계산 배치 (스케줄 미가동)",
+      "대규모 주문(수백 건 이상 동시 처리) 대비 클러스터링 계산량 최적화",
+      "실시간 GPS 연동 (현재는 시뮬레이션)",
+    ],
+  },
+  pointsTitle: "회고",
   points: [
     {
       title: "Vector Search 도입 비용을 사전에 정량화하지 않은 것",
@@ -332,6 +396,7 @@ export const hackathonRetro = {
         "메뉴 단위 조리시간 데이터가 존재하지 않아, 주문 전체 조리시간(사장님이 입력한 단일 값)에서 메뉴별 기여도를 역산하는 회귀 기반 접근을 대안으로 제시했지만 실제 구현·검증까지는 하지 못했습니다. 이 부분은 가설로만 남겨뒀고, 프로덕션 데이터 없이는 검증이 불가능하다는 한계를 발표에서 그대로 인정했습니다.",
     },
   ],
+  images: ["hackathonDemo1", "hackathonDemo2"],
 };
 
 export const footer = {
@@ -351,5 +416,5 @@ export const sectionTitles = {
   techStack: { eyebrow: "// stack", title: "사용 기술" },
   studyNotes: { eyebrow: "// study notes", title: "전과생의 손으로 구조화하여 정리하는 습관" },
   dataInsights: { eyebrow: "// data insights", title: "운영 DB로 직접 확인한 숫자들" },
-  hackathonRetro: { eyebrow: "// hackathon retro", title: "요기요 × Oracle 해커톤 회고" },
+  hackathonRetro: { eyebrow: "// hackathon retro", title: "요기요 × Oracle 해커톤 회고", lead: "카테고리별로 접혀 있습니다. 클릭하면 펼쳐집니다." },
 };
