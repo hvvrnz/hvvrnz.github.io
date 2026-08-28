@@ -399,6 +399,25 @@ export const hackathonRetro = {
       "Live GPS integration (currently simulated)",
     ],
   },
+  troubleshootingTitle: "Troubleshooting",
+  troubleshooting: [
+    {
+      title: "Kafka consumer couldn't read messages",
+      tag: "Kafka",
+      problem:
+        "The order-events topic existed fine, and GetOffsetShell confirmed 10 messages were actually sitting in the partition. But neither the Python KafkaConsumer nor kafka-console-consumer could read them, and consumer-group describe kept failing with TimeoutException / FIND_COORDINATOR errors. The container logs showed Kafka's internal __consumer_offsets topic failing to create hundreds of times a second with INVALID_REPLICATION_FACTOR. This project ran KRaft mode with a single broker, but Kafka's default requires that internal topic to be created with 3 replicas — physically impossible with one broker. The real problem wasn't order-events or the messages at all; it was that the internal system topic Consumer Group functionality depends on could never be created due to the broker count.",
+      solution:
+        "Added KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1 to docker-compose.yml so __consumer_offsets would be created with a single replica from the start, then recreated the containers. I could have worked around it by manually creating the topic, but since that would recur every time containers were rebuilt, I fixed the config file itself instead. Also added volume mounts for kafka-data/redis-data so data would survive container recreation. After rebuilding, resending a dummy order confirmed the Python KafkaConsumer was reading messages normally.",
+    },
+    {
+      title: "Kafka container stuck in a restart loop (Cluster ID error)",
+      tag: "Kafka",
+      problem:
+        "The ygy-kafka container kept showing Restarting(1) instead of Up (Redis was fine). The cause was that CLUSTER_ID in docker-compose.yml had been set to an arbitrary string (ygyteam07kraftclusterid). KRaft's Cluster ID has to be an exact 22-character Base64 encoding of 16 bytes — the format mismatch made the container fail validation immediately on startup and crash-loop.",
+      solution:
+        "Generated a valid 22-character Cluster ID with kafka-storage random-uuid, replaced the CLUSTER_ID value in docker-compose.yml, cleaned up the failed containers and volumes, and restarted. To prevent a repeat, I decided to never hand-write a Cluster ID again — always generate it with kafka-storage random-uuid.",
+    },
+  ],
   pointsTitle: "Retrospective",
   points: [
     {

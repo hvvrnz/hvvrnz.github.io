@@ -398,6 +398,25 @@ export const hackathonRetro = {
       "실시간 GPS 연동 (현재는 시뮬레이션)",
     ],
   },
+  troubleshootingTitle: "트러블슈팅",
+  troubleshooting: [
+    {
+      title: "Kafka Consumer가 메시지를 못 읽는 문제",
+      tag: "Kafka",
+      problem:
+        "order-events 토픽은 정상 존재했고, GetOffsetShell로 확인하면 파티션에 메시지 10건이 실제로 쌓여 있었습니다. 그런데 Python KafkaConsumer도, kafka-console-consumer도 메시지를 못 읽었고, consumer-group describe 명령은 TimeoutException·FIND_COORDINATOR 에러로 계속 실패했습니다. 컨테이너 로그를 보니 Kafka 내부 시스템 토픽인 __consumer_offsets가 INVALID_REPLICATION_FACTOR로 초당 수백 번 생성 실패를 반복하고 있었습니다. 이 프로젝트는 KRaft 모드로 브로커 1대만 띄운 구성인데, Kafka 기본값은 이 내부 토픽을 복제본 3개로 만들도록 되어 있어 물리적으로 생성이 불가능했던 것입니다. 즉 문제는 order-events나 메시지 자체가 아니라, Consumer Group 기능이 의존하는 내부 시스템 토픽이 브로커 개수 부족으로 아예 만들어지지 못한 것이었습니다.",
+      solution:
+        "docker-compose.yml에 KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1을 추가해 __consumer_offsets가 처음부터 복제본 1개로 생성되도록 수정하고 컨테이너를 재생성했습니다. 즉시 명령으로 토픽만 수동 생성해 우회할 수도 있었지만, 컨테이너를 다시 만들 때마다 문제가 재발하므로 설정 파일 자체를 고치는 쪽을 택했습니다. 컨테이너가 지워져도 데이터가 남도록 kafka-data/redis-data 볼륨 마운트도 같이 추가했고, 재생성 후 더미 주문을 다시 보내 Python KafkaConsumer가 정상적으로 메시지를 수신하는 것을 확인했습니다.",
+    },
+    {
+      title: "Kafka 컨테이너 재시작 반복 (Cluster ID 오류)",
+      tag: "Kafka",
+      problem:
+        "ygy-kafka 컨테이너 상태가 Up이 아니라 Restarting(1)을 계속 반복했습니다 (Redis는 정상). 원인은 docker-compose.yml의 CLUSTER_ID를 임의 문자열(ygyteam07kraftclusterid)로 직접 지정했기 때문이었습니다. KRaft의 Cluster ID는 16바이트를 Base64로 인코딩한 정확히 22자짜리 형식이어야 하는데, 형식이 맞지 않아 컨테이너가 시작 직후 검증에 실패하며 크래시 루프에 빠졌습니다.",
+      solution:
+        "kafka-storage random-uuid 명령으로 유효한 22자 Cluster ID를 새로 생성해 docker-compose.yml의 CLUSTER_ID 값을 교체하고, 기존 실패 컨테이너와 볼륨을 정리한 뒤 재시작했습니다. 재발 방지 차원에서, 이후로는 Cluster ID를 임의로 지어내지 않고 항상 kafka-storage random-uuid로 생성한 값만 쓰기로 정했습니다.",
+    },
+  ],
   pointsTitle: "회고",
   points: [
     {
