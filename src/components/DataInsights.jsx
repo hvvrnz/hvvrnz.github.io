@@ -5,7 +5,7 @@ import { useContent } from "../i18n.jsx";
 export default function DataInsights() {
   const { dataInsights, sectionTitles } = useContent();
   return (
-    <section className="section">
+    <section className="section" id="data-insights">
       <div className="container">
         <span className="eyebrow">{sectionTitles.dataInsights.eyebrow}</span>
         <h2 className="section-title">{sectionTitles.dataInsights.title}</h2>

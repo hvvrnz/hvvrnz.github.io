@@ -8,7 +8,7 @@ import { useContent } from "../i18n.jsx";
 export default function Architecture() {
   const { architecture, sectionTitles } = useContent();
   return (
-    <section className="section">
+    <section className="section" id="architecture">
       <div className="container">
         <span className="eyebrow">{sectionTitles.architecture.eyebrow}</span>
         <h2 className="section-title">{sectionTitles.architecture.title}</h2>

@@ -5,7 +5,7 @@ import { useContent } from "../i18n.jsx";
 export default function AIStory() {
   const { aiStory, sectionTitles } = useContent();
   return (
-    <section className="section">
+    <section className="section" id="ai-story">
       <div className="container">
         <span className="eyebrow">{sectionTitles.aiStory.eyebrow}</span>
         <h2 className="section-title">{aiStory.title}</h2>

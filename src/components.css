@@ -561,6 +561,54 @@
 .hero-badge svg { width: 14px; height: 14px; flex-shrink: 0; }
 .hero-badge-icon { width: 15px; height: 15px; border-radius: 4px; flex-shrink: 0; display: block; }
 
+/* ---------- Sticky site header / nav ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: rgba(246, 241, 231, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.site-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  height: 56px;
+}
+.site-header-brand {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+.site-header-brand:hover { text-decoration: none; color: var(--brown); }
+.site-header-nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.site-header-nav::-webkit-scrollbar { display: none; }
+.site-header-nav a {
+  font-size: 13px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+.site-header-nav a:hover { color: var(--brown); text-decoration: none; }
+
+@media (max-width: 640px) {
+  .site-header-inner { height: 48px; gap: 12px; }
+  .site-header-brand { font-size: 12.5px; }
+  .site-header-nav { gap: 14px; }
+  .site-header-nav a { font-size: 12px; }
+}
+
 /* ---------- Language toggle ---------- */
 .lang-toggle {
   position: fixed;
@@ -579,11 +627,40 @@
   padding: 7px 12px;
   cursor: pointer;
   transition: border-color 0.15s, transform 0.15s;
+  animation: lang-toggle-pulse 1.8s ease-in-out 4;
 }
-.lang-toggle:hover { border-color: var(--brown); transform: translateY(-1px); }
+.lang-toggle:hover {
+  border-color: var(--brown);
+  transform: translateY(-1px);
+  animation: none;
+}
 .lang-toggle .lang-active { color: var(--brown); font-weight: 700; }
 .lang-sep { color: var(--line); }
 
+@keyframes lang-toggle-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(147, 112, 74, 0.38);
+    transform: scale(1);
+    border-color: var(--line);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(147, 112, 74, 0);
+    transform: scale(1.06);
+    border-color: var(--brown);
+  }
+}
+
 @media (max-width: 640px) {
   .lang-toggle { top: 10px; right: 10px; padding: 6px 10px; font-size: 11px; }
+}
+
+/* Inline variant — used inside the sticky header instead of floating */
+.lang-toggle-inline {
+  position: static;
+  animation: none;
+  padding: 5px 10px;
+  flex-shrink: 0;
+}
+@media (max-width: 640px) {
+  .lang-toggle-inline { padding: 4px 8px; font-size: 11px; top: auto; right: auto; }
 }

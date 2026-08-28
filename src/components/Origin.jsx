@@ -5,7 +5,7 @@ export default function Origin() {
   const { originStory, originSurvey, sectionTitles } = useContent();
   const paragraphs = originStory.trim().split("\n\n");
   return (
-    <section className="section">
+    <section className="section" id="origin">
       <div className="container">
         <span className="eyebrow">{sectionTitles.origin.eyebrow}</span>
         <h2 className="section-title">{sectionTitles.origin.title}</h2>

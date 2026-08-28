@@ -16,7 +16,7 @@ export default function Troubleshooting() {
   const [openIdx, setOpenIdx] = useState(0);
 
   return (
-    <section className="section">
+    <section className="section" id="troubleshooting">
       <div className="container">
         <span className="eyebrow">{sectionTitles.troubleshooting.eyebrow}</span>
         <h2 className="section-title">{sectionTitles.troubleshooting.title}</h2>

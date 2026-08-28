@@ -4,7 +4,7 @@ import { useContent } from "../i18n.jsx";
 export default function Project() {
   const { stats, serviceIntro, sectionTitles } = useContent();
   return (
-    <section className="section">
+    <section className="section" id="project">
       <div className="container">
         <span className="eyebrow">{sectionTitles.project.eyebrow}</span>
         <h2 className="section-title">{sectionTitles.project.title}</h2>

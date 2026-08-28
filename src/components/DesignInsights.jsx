@@ -10,7 +10,7 @@ const DIAGRAMS = {
 export default function DesignInsights() {
   const { designInsights, sectionTitles } = useContent();
   return (
-    <section className="section">
+    <section className="section" id="design-insights">
       <div className="container">
         <span className="eyebrow">{sectionTitles.designInsights.eyebrow}</span>
         <h2 className="section-title">{sectionTitles.designInsights.title}</h2>

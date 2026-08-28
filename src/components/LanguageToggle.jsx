@@ -1,11 +1,11 @@
 import { useLanguage } from "../i18n.jsx";
 
-export default function LanguageToggle() {
+export default function LanguageToggle({ inline = false }) {
   const { lang, toggle } = useLanguage();
 
   return (
     <button
-      className="lang-toggle"
+      className={inline ? "lang-toggle lang-toggle-inline" : "lang-toggle"}
       onClick={toggle}
       aria-label="Switch language / 언어 전환"
     >

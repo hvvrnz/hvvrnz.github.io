@@ -5,7 +5,7 @@ import { useContent } from "../i18n.jsx";
 export default function Observability() {
   const { observability, sectionTitles } = useContent();
   return (
-    <section className="section">
+    <section className="section" id="observability">
       <div className="container">
         <span className="eyebrow">{sectionTitles.observability.eyebrow}</span>
         <h2 className="section-title">{sectionTitles.observability.title}</h2>

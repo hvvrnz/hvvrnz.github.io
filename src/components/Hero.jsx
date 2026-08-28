@@ -7,7 +7,7 @@ import { useContent } from "../i18n.jsx";
 export default function Hero() {
   const { profile } = useContent();
   return (
-    <header className="hero">
+    <header className="hero" id="top">
       <div className="container hero-inner">
         <div className="hero-top">
           <div className="hero-text">

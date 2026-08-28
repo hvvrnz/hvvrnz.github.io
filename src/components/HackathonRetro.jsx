@@ -23,7 +23,7 @@ export default function HackathonRetro() {
     hackathonRetro;
 
   return (
-    <section className="section">
+    <section className="section" id="hackathon-retro">
       <div className="container">
         <span className="eyebrow">{sectionTitles.hackathonRetro.eyebrow}</span>
         <h2 className="section-title">{hackathonRetro.title}</h2>

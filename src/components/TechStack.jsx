@@ -4,7 +4,7 @@ import { useContent } from "../i18n.jsx";
 export default function TechStack() {
   const { techStack, sectionTitles } = useContent();
   return (
-    <section className="section">
+    <section className="section" id="tech-stack">
       <div className="container">
         <span className="eyebrow">{sectionTitles.techStack.eyebrow}</span>
         <h2 className="section-title">{sectionTitles.techStack.title}</h2>
