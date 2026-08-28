@@ -3,7 +3,7 @@ import { useLanguage } from "../i18n.jsx";
 
 const NAV_ITEMS = [
   { id: "origin", ko: "소개", en: "About" },
-  { id: "project", ko: "Zolver", en: "Zolver" },
+  { id: "project", ko: "Zolver 프로젝트", en: "Zolver Project" },
   { id: "hackathon-retro", ko: "해커톤", en: "Hackathon" },
   { id: "tech-stack", ko: "기술스택", en: "Stack" },
 ];

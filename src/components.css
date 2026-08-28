@@ -591,10 +591,12 @@
   gap: 10px;
 }
 .site-header-logo-gif {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  object-fit: contain;
+  background: var(--card);
+  padding: 3px;
   display: block;
   border: 1px solid var(--line);
   flex-shrink: 0;
@@ -619,7 +621,7 @@
 @media (max-width: 640px) {
   .site-header-inner { height: 60px; gap: 12px; }
   .site-header-brand { font-size: 12.5px; }
-  .site-header-logo-gif { width: 30px; height: 30px; }
+  .site-header-logo-gif { width: 34px; height: 34px; border-radius: 9px; }
   .site-header-nav { gap: 14px; }
   .site-header-nav a { font-size: 12px; }
 }
