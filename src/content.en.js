@@ -16,15 +16,19 @@ export const profile = {
     service: "https://www.zolver.co.kr",
   },
   hashtags: ["#Positive", "#Resource_Optimization", "#Data_Integrity", "#ProblemSolving"],
+  certifications: ["Engineer Information Processing (정보처리기사)", "SQLD"],
 };
 
 // Core operating metrics
 export const stats = [
-  { value: "208+", label: "Registered Users", sub: "Since official launch on 2026.6.8" },
-  { value: "3,002+", label: "Courses Processed to Date", sub: "" },
+  { value: "309+", label: "Registered Users", sub: "Since official launch on 2026.6.8 (login_sessions)" },
+  { value: "5,558+", label: "Courses Processed to Date", sub: "Total rows in lecture_evidence (including duplicates)" },
   { value: "63 Departments", label: "Department Data Secured", sub: "Number collected without pre-building a database per department" },
   { value: "54%", label: "Core Feature Conversion Rate", sub: "Share of visitors who uploaded a transcript or manually registered courses" },
   { value: "86%", label: "Pipeline Parsing Success Rate", sub: "Success rate for automatically reading uploaded transcripts (based on log analysis)" },
+  { value: "47.9%", label: "Signup → Transcript Upload Conversion", sub: "148 of 309 pure signups uploaded a transcript (login_sessions, users)" },
+  { value: "11 users", label: "Active via manual entry only, no transcript", sub: "transcript_upload_count = 0 but has real course data on file" },
+  { value: "1,637", label: "Unique course records accumulated", sub: "Deduplicated by lecture_code · name · category" },
 ];
 
 // Origin story — the survey result that changed the service direction
@@ -268,6 +272,69 @@ export const observability = {
 };
 
 
+// Real-usage data insights, found by querying the production DB directly
+export const dataInsights = {
+  intro:
+    "There's no separate dashboard, so whenever I'm curious about a number, I've gotten into the habit of writing SQL directly against the production DB. Along the way, questions I hadn't originally thought to ask kept showing up — and those questions ended up pointing to what to fix next.",
+  metrics: [
+    {
+      label: "Signup → transcript upload conversion",
+      value: "47.9%",
+      sub: "148 of 309 pure signups uploaded a transcript",
+      query:
+        "SELECT COUNT(*) FROM login_sessions; -- 309\nSELECT COUNT(*) FROM users WHERE transcript_upload_count >= 1; -- 148",
+      note:
+        "More than half of signups leave without uploading anything, which made me want to dig further into event logs to see whether there's drop-off during onboarding.",
+    },
+    {
+      label: "Users active with manual entry only, no transcript",
+      value: "11 users",
+      sub: "transcript_upload_count = 0 but has rows in lecture_evidence",
+      query:
+        "SELECT COUNT(DISTINCT u.user_id)\nFROM users u\nJOIN lecture_evidence le ON le.user_id = u.user_id\nWHERE u.transcript_upload_count = 0;",
+      note:
+        "This was the first time I confirmed, in numbers, that people from schools where transcript upload isn't well supported yet were still actively using the service through manual entry alone. It's the moment I decided manual entry deserves to be treated as a real entry path, not just a fallback.",
+    },
+    {
+      label: "Unique course records accumulated",
+      value: "1,637",
+      sub: "Deduplicated by lecture_code · lecture_name · lecture_category",
+      query:
+        "SELECT COUNT(*) FROM (\n  SELECT lecture_name, lecture_code, lecture_category, COUNT(*) AS cnt\n  FROM lecture_evidence\n  GROUP BY lecture_code, lecture_name, lecture_category\n) sub;",
+      note:
+        "This number came purely from user uploads, with no department database pre-built ahead of time — running this query myself was the moment the validation pipeline stopped being theoretical and started feeling real.",
+    },
+  ],
+  opsNote:
+    "I also manage the notices table directly, with hands-on UPDATE/DELETE statements. There's still a record of me shipping a UI fix after a user reported that the mobile menu didn't close on background tap, then writing up the notice myself. It's a small but direct trace from a single user report to a shipped fix.",
+  reflection:
+    "The 47.9% conversion number on its own reads like meaningful drop-off, but it says nothing about the 11 users who keep using the service without ever uploading a transcript. That's the gap: aggregate metrics show what isn't working, but not why something is still working despite it. Since then, I prioritize pulling out small, exceptional segments and inspecting them separately, even when the sample size is tiny, rather than reading only the top-line rate.",
+};
+
+// Yogiyo × Oracle Hackathon retrospective
+export const hackathonRetro = {
+  title: "Yogiyo × Oracle Hackathon Retrospective",
+  summary:
+    "We beat a 23:1 selection ratio to make it to the finals as one of 8 teams, but didn't place. What stuck with me longer than the result were the questions I kept asking myself while preparing the presentation.",
+  points: [
+    {
+      title: "Never quantified the cost of adopting Vector Search up front",
+      body:
+        "We generated real embeddings with Cohere Embed and applied them to cook-time prediction, but never benchmarked token cost per query, added latency, or the accuracy drop in cold-start cases (new stores hitting fallback tier 4) against the rule-based approach before building. In practice, the rule-based fallback chain (store → brand → category → global average) ended up carrying most of the accuracy, with Vector Search functioning as a supporting input at best. Next time I'd benchmark whether embedding-based similarity search actually beats a rule-based approach at this scale (~1,000 stores) before building the prototype, not after.",
+    },
+    {
+      title: "Spread effort evenly across screens instead of concentrating it on the bottleneck",
+      body:
+        "We split dev time roughly evenly across building customer, store-owner, and rider demo screens, but the actual bottleneck was a single question: does the rider trust the dispatch enough to accept it immediately? With only two people, spreading across three screens diluted the time that should have gone toward the metric that actually mattered — dispatch acceptance rate. Next time I'd define the bottleneck metric first and cut any screen from prototype scope that doesn't directly move it.",
+    },
+    {
+      title: "Unnormalized input data was a hard limit",
+      body:
+        "Menu-level cook-time data doesn't exist — store owners enter one cook-time value per order, not per item. I proposed a regression-based approach to back out each menu item's contribution from order-level totals as a way forward, but didn't implement or validate it. I left it as an open hypothesis and said so plainly in the presentation: it can't be validated without real production data.",
+    },
+  ],
+};
+
 export const footer = {
   note: "I'll keep doing my best to trace data all the way through and ensure reliability.",
 };
@@ -284,4 +351,6 @@ export const sectionTitles = {
   aiStory: { eyebrow: "// AI usage" },
   techStack: { eyebrow: "// stack", title: "Tech Stack" },
   studyNotes: { eyebrow: "// study notes", title: "A Habit of Structuring Notes, Built by Hand After Switching Majors" },
+  dataInsights: { eyebrow: "// data insights", title: "Numbers I Confirmed Directly From the Production DB" },
+  hackathonRetro: { eyebrow: "// hackathon retro", title: "Yogiyo × Oracle Hackathon Retrospective" },
 };

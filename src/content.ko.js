@@ -15,15 +15,19 @@ export const profile = {
     service: "https://www.zolver.co.kr",
   },
   hashtags: ["#긍정적", "#자원_최적화", "#데이터_정합성", "#문제해결"],
+  certifications: ["정보처리기사", "SQLD"],
 };
 
 // 핵심 운영 지표
 export const stats = [
-  { value: "197+", label: "가입자 수", sub: "2026.6.8 정식 런칭 이후" },
-  { value: "3,002+", label: "누적 처리 과목 데이터", sub: "" },
+  { value: "309+", label: "가입자 수", sub: "2026.6.8 정식 런칭 이후 (login_sessions 기준)" },
+  { value: "5,558+", label: "누적 처리 과목 데이터", sub: "lecture_evidence 전체 row 수 (중복 포함)" },
   { value: "63개", label: "확보된 학과 데이터", sub: "사전에 학과별 데이터베이스를 따로 만들지 않고 모은 수" },
   { value: "54%", label: "핵심 기능 전환율", sub: "방문자 중 성적표를 업로드하거나 직접 과목을 등록한 비율" },
   { value: "86%", label: "파이프라인 파싱 성공률", sub: "업로드된 성적표를 자동으로 읽어내는 데 성공한 비율 (로그 분석 기준)" },
+  { value: "47.9%", label: "가입 → 성적표 업로드 전환율", sub: "순수 가입자 309명 중 148명이 성적표 업로드 (login_sessions, users 기준)" },
+  { value: "11명", label: "성적표 없이 수기 입력만으로 이용 중인 사용자", sub: "transcript_upload_count = 0 이지만 실제 과목 데이터를 보유한 유저 수" },
+  { value: "1,637건", label: "누적 확보된 고유 과목 데이터", sub: "lecture_code · name · category 조합 기준 중복 제거" },
 ];
 
 // 시작 배경 — 서비스 방향을 바꾼 설문 결과
@@ -267,6 +271,69 @@ export const observability = {
 };
 
 
+// 운영 DB를 직접 쿼리하며 확인한 실사용 데이터 인사이트
+export const dataInsights = {
+  intro:
+    "대시보드가 따로 없다 보니, 숫자가 궁금할 때마다 운영 DB에 직접 SQL을 짜서 확인하는 게 습관이 됐습니다. 그 과정에서 처음엔 궁금하지도 않았던 질문들이 따라붙었고, 그 질문들이 오히려 다음에 뭘 고쳐야 할지를 알려줬습니다.",
+  metrics: [
+    {
+      label: "가입 → 성적표 업로드 전환율",
+      value: "47.9%",
+      sub: "순수 가입자 309명 중 148명이 성적표를 업로드",
+      query:
+        "SELECT COUNT(*) FROM login_sessions; -- 309\nSELECT COUNT(*) FROM users WHERE transcript_upload_count >= 1; -- 148",
+      note:
+        "가입만 하고 아무것도 안 남긴 사람이 절반 넘게 있다는 뜻이라, 온보딩 단계에서 이탈이 있는 건지 다음에 이벤트 로그로 더 들여다볼 필요가 있다고 판단했습니다.",
+    },
+    {
+      label: "성적표 없이 수기 입력만으로 이용 중인 사용자",
+      value: "11명",
+      sub: "transcript_upload_count = 0 이지만 lecture_evidence에 데이터가 있는 사용자",
+      query:
+        "SELECT COUNT(DISTINCT u.user_id)\nFROM users u\nJOIN lecture_evidence le ON le.user_id = u.user_id\nWHERE u.transcript_upload_count = 0;",
+      note:
+        "성적표 업로드가 진입장벽이 될 수 있는 학교(포맷이 아직 지원되지 않는 경우 등)에서도, 수기 입력 경로만으로 실제 이용까지 이어진 사람이 있다는 걸 숫자로 처음 확인했습니다. 수기 입력을 '차선책'이 아니라 정식 진입 경로로 더 신경 써서 다듬어야겠다고 생각한 계기였습니다.",
+    },
+    {
+      label: "누적 확보된 고유 과목 데이터",
+      value: "1,637건",
+      sub: "lecture_code · lecture_name · lecture_category 조합 기준 중복 제거",
+      query:
+        "SELECT COUNT(*) FROM (\n  SELECT lecture_name, lecture_code, lecture_category, COUNT(*) AS cnt\n  FROM lecture_evidence\n  GROUP BY lecture_code, lecture_name, lecture_category\n) sub;",
+      note:
+        "학과별 DB를 미리 만들어두지 않고 사용자 업로드만으로 쌓인 숫자라서, '검증 파이프라인이 실제로 돌아가고 있다'는 걸 스스로도 이 쿼리를 돌려보고 나서야 체감했습니다.",
+    },
+  ],
+  opsNote:
+    "공지사항(notices) 테이블도 운영하면서 직접 UPDATE·DELETE로 관리하고 있습니다. 예를 들어 모바일 메뉴가 배경 터치로 닫히지 않는다는 사용자 의견을 받은 뒤 UI를 수정하고, 그 내용을 공지로 직접 작성해 반영한 이력이 그대로 남아 있습니다. 사용자 문의 하나가 배포까지 이어지는 걸 스스로 확인할 수 있었던 부분입니다.",
+  reflection:
+    "전환율(47.9%)만 보면 이탈이 큰 것처럼 보이지만, 11명이라는 소수 집단이 성적표 업로드 없이도 서비스를 지속 이용하고 있다는 사실은 전환율 수치 하나로는 드러나지 않습니다. 평균/비율 지표는 '무엇이 잘 안 되는가'는 보여줘도 '그럼에도 왜 되고 있는가'는 설명하지 못한다는 걸 이 케이스로 확인했고, 이후로는 집계 지표를 확인할 때 표본이 작더라도 예외적으로 남아있는 세그먼트를 별도로 필터링해서 보는 걸 우선순위로 두고 있습니다.",
+};
+
+// 요기요 × Oracle 해커톤 회고
+export const hackathonRetro = {
+  title: "요기요 × Oracle 해커톤 회고",
+  summary:
+    "23:1 경쟁률을 뚫고 본선에 진출한 8팀 중 하나였지만, 수상하지는 못했습니다. 결과보다 오래 남은 건, 발표를 준비하며 스스로에게 던졌던 질문들이었습니다.",
+  points: [
+    {
+      title: "Vector Search 도입 비용을 사전에 정량화하지 않은 것",
+      body:
+        "Cohere Embed로 실제 임베딩을 생성해 조리시간 예측에 적용까지 마쳤지만, 쿼리당 토큰 비용·응답 지연·콜드 스타트(신규 매장 fallback 4단계) 상황에서의 정확도 저하를 설계 단계에서 수치로 비교하지 않고 진행했습니다. 결과적으로 규칙 기반 fallback(store→brand→category→global)이 사실상 정확도를 떠받치는 구조가 됐고, Vector Search는 이를 보조하는 입력값 정도의 역할에 그쳤습니다. 다음엔 '이 정도 규모(매장 1,000곳)에서 임베딩 기반 유사도 검색이 규칙 기반 대비 실제로 얼마나 이득인가'를 프로토타입 이전에 벤치마크로 먼저 확인할 계획입니다.",
+    },
+    {
+      title: "복잡도 대비 임팩트 배분이 균등하지 않았던 것",
+      body:
+        "고객·사장님·라이더 세 화면을 모두 데모 수준으로 완성하는 데 개발 리소스를 균등 분배했지만, 실제 병목은 라이더가 배차를 신뢰하고 즉시 수락하는지 여부 하나였습니다. 2인 팀 리소스로 세 화면을 넓게 가져간 결정이 결과적으로 핵심 지표(배차 수락률) 개선에 쓰였어야 할 시간을 분산시켰다고 판단합니다. 다음엔 문제의 병목 지점을 먼저 지표로 정의하고, 그 지표에 직접 기여하지 않는 화면은 프로토타입 범위에서 제외하는 방식으로 접근할 것 같습니다.",
+    },
+    {
+      title: "정규화되지 않은 입력 데이터의 한계",
+      body:
+        "메뉴 단위 조리시간 데이터가 존재하지 않아, 주문 전체 조리시간(사장님이 입력한 단일 값)에서 메뉴별 기여도를 역산하는 회귀 기반 접근을 대안으로 제시했지만 실제 구현·검증까지는 하지 못했습니다. 이 부분은 가설로만 남겨뒀고, 프로덕션 데이터 없이는 검증이 불가능하다는 한계를 발표에서 그대로 인정했습니다.",
+    },
+  ],
+};
+
 export const footer = {
   note: "데이터의 흐름을 끝까지 추적하고, 안정성을 확보하는 데 최선을 다하겠습니다.",
 };
@@ -283,4 +350,6 @@ export const sectionTitles = {
   aiStory: { eyebrow: "// AI usage" },
   techStack: { eyebrow: "// stack", title: "사용 기술" },
   studyNotes: { eyebrow: "// study notes", title: "전과생의 손으로 구조화하여 정리하는 습관" },
+  dataInsights: { eyebrow: "// data insights", title: "운영 DB로 직접 확인한 숫자들" },
+  hackathonRetro: { eyebrow: "// hackathon retro", title: "요기요 × Oracle 해커톤 회고" },
 };
