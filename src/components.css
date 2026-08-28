@@ -283,6 +283,20 @@
   display: block;
 }
 
+/* ---------- DataInsights ---------- */
+.metric-list { display: flex; flex-direction: column; gap: 18px; margin-top: 28px; margin-bottom: 28px; }
+.metric-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  padding: 20px 22px;
+}
+.metric-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 4px; }
+.metric-value { font-family: var(--font-mono); font-size: 22px; font-weight: 700; color: var(--olive); }
+.metric-label { font-size: 14.5px; font-weight: 600; color: var(--ink); }
+.metric-sub { font-size: 12.5px; color: var(--ink-soft); margin-bottom: 10px; }
+.metric-note { font-size: 13.5px; color: var(--ink-soft); margin-top: 12px; }
+
 /* ---------- AIStory ---------- */
 .ai-lead { font-size: 15px; color: var(--ink); margin-bottom: 24px; }
 .ai-failures { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 24px; }
