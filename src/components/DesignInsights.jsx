@@ -1,4 +1,5 @@
 import Text from "./Text.jsx";
+import Collapsible from "./Collapsible.jsx";
 import kakaoLoginSequenceImg from "../assets/diagrams/kakao_login_sequence.png";
 import { useContent } from "../i18n.jsx";
 
@@ -14,11 +15,12 @@ export default function DesignInsights() {
         <span className="eyebrow">{sectionTitles.designInsights.eyebrow}</span>
         <h2 className="section-title">{sectionTitles.designInsights.title}</h2>
 
-        <div className="insight-list">
-          {designInsights.map((d) => (
-            <div className="insight-card" key={d.title}>
-              <div className="insight-title">{d.title}</div>
-              <div className="insight-body"><Text>{d.body}</Text></div>
+        <div className="collapse-list">
+          {designInsights.map((d, i) => (
+            <Collapsible title={d.title} key={d.title} defaultOpen={i === 0}>
+              <div className="insight-body">
+                <Text>{d.body}</Text>
+              </div>
               {d.code && <pre className="insight-code">{d.code}</pre>}
               {d.diagram && (
                 <img
@@ -27,7 +29,7 @@ export default function DesignInsights() {
                   alt={`${d.title} diagram`}
                 />
               )}
-            </div>
+            </Collapsible>
           ))}
         </div>
       </div>

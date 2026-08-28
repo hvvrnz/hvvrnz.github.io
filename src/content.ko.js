@@ -253,6 +253,10 @@ export const techStack = [
 export const observability = {
   intro:
     "운영 서버(메모리 1GB)는 Elasticsearch를 직접 돌릴 수 없어서(최소 2GB 필요), scp로 로그 파일을 제 컴퓨터로 받아와 Filebeat → Elasticsearch → Kibana 순서로 로컬에서 분석합니다.",
+  logTypesTitle: "로그 종류",
+  indexNoteTitle: "색인을 두 개로 나눈 이유",
+  driftLogicTitle: "양식 변경 감지 로직",
+  dashboardsTitle: "대시보드",
   logTypes: [
     { name: "transcript_val", desc: "업로드 한 건당 1단계+2단계 검증이 전부 어떻게 진행됐는지, 규칙 하나하나 단위로 남긴 기록" },
     { name: "failed_schema", desc: "2단계 검증에서 헤더(표의 첫 줄)가 안 맞은 경우 — 원래 예상했던 헤더와 실제 헤더의 순서·내용을 비교" },
@@ -275,6 +279,9 @@ export const observability = {
 export const dataInsights = {
   intro:
     "대시보드가 따로 없다 보니, 숫자가 궁금할 때마다 운영 DB에 직접 SQL을 짜서 확인하는 게 습관이 됐습니다. 그 과정에서 처음엔 궁금하지도 않았던 질문들이 따라붙었고, 그 질문들이 오히려 다음에 뭘 고쳐야 할지를 알려줬습니다.",
+  metricsTitle: "쿼리로 확인한 지표",
+  opsNoteTitle: "운영 노트",
+  reflectionTitle: "정리",
   metrics: [
     {
       label: "가입 → 성적표 업로드 전환율",

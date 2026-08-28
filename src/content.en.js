@@ -254,6 +254,10 @@ export const techStack = [
 export const observability = {
   intro:
     "Since the production server (1GB RAM) can't run Elasticsearch directly (it needs at least 2GB), I scp log files to my own computer and analyze them locally through Filebeat → Elasticsearch → Kibana.",
+  logTypesTitle: "Log Types",
+  indexNoteTitle: "Why the Logs Are Split Into Two Indices",
+  driftLogicTitle: "Format-Drift Detection Logic",
+  dashboardsTitle: "Dashboards",
   logTypes: [
     { name: "transcript_val", desc: "A rule-by-rule record of exactly how Stage 1 and Stage 2 validation went for each upload" },
     { name: "failed_schema", desc: "Cases where the header (the table's first row) didn't match in Stage 2 validation — comparing the expected header order/content against the actual one" },
@@ -276,6 +280,9 @@ export const observability = {
 export const dataInsights = {
   intro:
     "There's no separate dashboard, so whenever I'm curious about a number, I've gotten into the habit of writing SQL directly against the production DB. Along the way, questions I hadn't originally thought to ask kept showing up — and those questions ended up pointing to what to fix next.",
+  metricsTitle: "Metrics Confirmed by Query",
+  opsNoteTitle: "Ops Note",
+  reflectionTitle: "Takeaway",
   metrics: [
     {
       label: "Signup → transcript upload conversion",
