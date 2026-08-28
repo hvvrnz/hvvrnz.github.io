@@ -41,6 +41,15 @@ export default function Hero() {
             h === "\n" ? <br key={`br-${i}`} /> : <span className="hero-hashtag" key={h}>{h}</span>
           )}
         </div>
+
+        {profile.certifications && profile.certifications.length > 0 && (
+          <div className="hero-certs">
+            <span className="hero-certs-label">certifications</span>
+            {profile.certifications.map((c) => (
+              <span className="tag" key={c}>{c}</span>
+            ))}
+          </div>
+        )}
       </div>
     </header>
   );

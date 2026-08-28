@@ -14,7 +14,6 @@ export default function Header() {
     <header className="site-header">
       <div className="container site-header-inner">
         <a className="site-header-brand" href="#top">
-          황윤정
         </a>
         <nav className="site-header-nav">
           {NAV_ITEMS.map((item) => (

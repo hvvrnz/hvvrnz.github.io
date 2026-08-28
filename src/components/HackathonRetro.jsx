@@ -19,8 +19,7 @@ const DIAGRAMS = {
 
 export default function HackathonRetro() {
   const { hackathonRetro, sectionTitles } = useContent();
-  const { overview, architecture, coldStart, techStackTitle, techStack, scope, pointsTitle, points, images } =
-    hackathonRetro;
+  const { overview, architecture, coldStart, scope, pointsTitle, points, images } = hackathonRetro;
 
   return (
     <section className="section" id="hackathon-retro">
@@ -90,19 +89,6 @@ export default function HackathonRetro() {
             <p className="prose" style={{ marginTop: 14 }}>
               <Text>{coldStart.note}</Text>
             </p>
-          </Collapsible>
-
-          <Collapsible title={techStackTitle}>
-            <div className="stack-list">
-              {techStack.map((t) => (
-                <div className="stack-row" key={t.name}>
-                  <div className="stack-name">{t.name}</div>
-                  <div className="stack-desc">
-                    <Text>{t.desc}</Text>
-                  </div>
-                </div>
-              ))}
-            </div>
           </Collapsible>
 
           <Collapsible title={scope.title}>

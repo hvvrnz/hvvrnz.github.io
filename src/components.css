@@ -79,6 +79,8 @@
 }
 .hero-hashtags { margin-top: 28px; font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-soft); }
 .hero-hashtag { margin-right: 12px; }
+.hero-certs { margin-top: 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.hero-certs-label { font-family: var(--font-mono); font-size: 11px; color: var(--ink-soft); margin-right: 2px; }
 
 /* signature pipeline diagram wrapper inside hero */
 .hero-diagram { margin-top: 32px; }
@@ -576,13 +578,25 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  height: 56px;
+  height: 76px;
 }
 .site-header-brand {
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 14px;
   color: var(--ink);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.site-header-logo-gif {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  border: 1px solid var(--line);
   flex-shrink: 0;
 }
 .site-header-brand:hover { text-decoration: none; color: var(--brown); }
@@ -603,8 +617,9 @@
 .site-header-nav a:hover { color: var(--brown); text-decoration: none; }
 
 @media (max-width: 640px) {
-  .site-header-inner { height: 48px; gap: 12px; }
+  .site-header-inner { height: 60px; gap: 12px; }
   .site-header-brand { font-size: 12.5px; }
+  .site-header-logo-gif { width: 30px; height: 30px; }
   .site-header-nav { gap: 14px; }
   .site-header-nav a { font-size: 12px; }
 }

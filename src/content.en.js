@@ -420,6 +420,12 @@ export const hackathonRetro = {
   images: ["hackathonDemo1", "hackathonDemo2"],
 };
 
+// Combined tech stack — Zolver + Yogiyo hackathon
+export const techStackGroups = [
+  { label: "Zolver", items: techStack },
+  { label: "Yogiyo × Oracle Hackathon", items: hackathonRetro.techStack },
+];
+
 export const footer = {
   note: "I'll keep doing my best to trace data all the way through and ensure reliability.",
 };
@@ -434,7 +440,7 @@ export const sectionTitles = {
   observability: { eyebrow: "// observability", title: "Pipeline Monitoring After Launch" },
   designInsights: { eyebrow: "// design insight", title: "Design Decisions" },
   aiStory: { eyebrow: "// AI usage" },
-  techStack: { eyebrow: "// stack", title: "Tech Stack" },
+  techStack: { eyebrow: "// stack", title: "Tech Stack (Zolver + Hackathon)" },
   studyNotes: { eyebrow: "// study notes", title: "A Habit of Structuring Notes, Built by Hand After Switching Majors" },
   dataInsights: { eyebrow: "// data insights", title: "Numbers I Confirmed Directly From the Production DB" },
   hackathonRetro: { eyebrow: "// hackathon retro", title: "Yogiyo × Oracle Hackathon Retrospective", lead: "Grouped by category and collapsed by default. Click to expand." },
