@@ -14,6 +14,15 @@ export default function Header() {
     <header className="site-header">
       <div className="container site-header-inner">
         <a className="site-header-brand" href="#top">
+          <img
+            className="site-header-logo-gif"
+            src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExeTRvYWdlNWE0bXdmdTdiY2hnanozMml2MDg0Z2lrZXp5cXZpbzRpaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DdbcyAgUp5MWuCsaZ0/200w.gif"
+            alt="황윤정"
+            title="GIF by chuchuotter on GIPHY"
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+            }}
+          />
         </a>
         <nav className="site-header-nav">
           {NAV_ITEMS.map((item) => (
