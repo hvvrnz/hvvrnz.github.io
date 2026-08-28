@@ -23,6 +23,7 @@ export default function Header() {
               e.currentTarget.style.display = "none";
             }}
           />
+          <span className="site-header-handle">hvvrnz</span>
         </a>
         <nav className="site-header-nav">
           {NAV_ITEMS.map((item) => (
