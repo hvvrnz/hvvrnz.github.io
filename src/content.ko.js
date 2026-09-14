@@ -1,8 +1,3 @@
-// ============================================================
-// 포트폴리오 콘텐츠 (한국어 - 쉬운 버전)
-// 처음 보는 사람도 이해할 수 있도록 전문 용어를 풀어서 설명했습니다.
-// ============================================================
-
 export const profile = {
   name: "황윤정 (hvvrnz)",
   greeting: "안녕하세요, 황윤정입니다.",
@@ -20,13 +15,12 @@ export const profile = {
 
 // 핵심 운영 지표
 export const stats = [
-  { value: "309+", label: "가입자 수", sub: "2026.6.8 정식 런칭 이후 (login_sessions 기준)" },
+  { value: "327+", label: "가입자 수", sub: "2026.6.8 정식 런칭 이후" },
   { value: "5,558+", label: "누적 처리 과목 데이터", sub: "lecture_evidence 전체 row 수 (중복 포함)" },
-  { value: "63개", label: "확보된 학과 데이터", sub: "사전에 학과별 데이터베이스를 따로 만들지 않고 모은 수" },
-  { value: "54%", label: "핵심 기능 전환율", sub: "방문자 중 성적표를 업로드하거나 직접 과목을 등록한 비율" },
+  { value: "63개", label: "확보된 학과 데이터", sub: "사전에 학과별 데이터베이스를 따로 만들지 않고 수집" },
+  { value: "54%", label: "핵심 기능 전환율", sub: "카카오톡 로그인 가입자 중 성적표를 업로드하거나 직접 과목을 등록한 비율" },
   { value: "86%", label: "파이프라인 파싱 성공률", sub: "업로드된 성적표를 자동으로 읽어내는 데 성공한 비율 (로그 분석 기준)" },
-  { value: "47.9%", label: "가입 → 성적표 업로드 전환율", sub: "순수 가입자 309명 중 148명이 성적표 업로드 (login_sessions, users 기준)" },
-  { value: "11명", label: "성적표 없이 수기 입력만으로 이용 중인 사용자", sub: "transcript_upload_count = 0 이지만 실제 과목 데이터를 보유한 유저 수" },
+  { value: "47.4%", label: "가입 → 성적표 업로드 전환율", sub: "순수 가입자 327명 중 155명이 성적표 업로드 (login_sessions, users 기준)" },
   { value: "1,637건", label: "누적 확보된 고유 과목 데이터", sub: "lecture_code · name · category 조합 기준 중복 제거" },
 ];
 
@@ -275,53 +269,53 @@ export const observability = {
 };
 
 
-// 운영 DB를 직접 쿼리하며 확인한 실사용 데이터 인사이트
-export const dataInsights = {
-  intro:
-    "대시보드가 따로 없다 보니, 숫자가 궁금할 때마다 운영 DB에 직접 SQL을 짜서 확인하는 게 습관이 됐습니다. 그 과정에서 처음엔 궁금하지도 않았던 질문들이 따라붙었고, 그 질문들이 오히려 다음에 뭘 고쳐야 할지를 알려줬습니다.",
-  metricsTitle: "쿼리로 확인한 지표",
-  opsNoteTitle: "운영 노트",
-  reflectionTitle: "정리",
-  metrics: [
-    {
-      label: "가입 → 성적표 업로드 전환율",
-      value: "47.9%",
-      sub: "순수 가입자 309명 중 148명이 성적표를 업로드",
-      query:
-        "SELECT COUNT(*) FROM login_sessions; -- 309\nSELECT COUNT(*) FROM users WHERE transcript_upload_count >= 1; -- 148",
-      note:
-        "가입만 하고 아무것도 안 남긴 사람이 절반 넘게 있다는 뜻이라, 온보딩 단계에서 이탈이 있는 건지 다음에 이벤트 로그로 더 들여다볼 필요가 있다고 판단했습니다.",
-    },
-    {
-      label: "성적표 없이 수기 입력만으로 이용 중인 사용자",
-      value: "11명",
-      sub: "transcript_upload_count = 0 이지만 lecture_evidence에 데이터가 있는 사용자",
-      query:
-        "SELECT COUNT(DISTINCT u.user_id)\nFROM users u\nJOIN lecture_evidence le ON le.user_id = u.user_id\nWHERE u.transcript_upload_count = 0;",
-      note:
-        "성적표 업로드가 진입장벽이 될 수 있는 학교(포맷이 아직 지원되지 않는 경우 등)에서도, 수기 입력 경로만으로 실제 이용까지 이어진 사람이 있다는 걸 숫자로 처음 확인했습니다. 수기 입력을 '차선책'이 아니라 정식 진입 경로로 더 신경 써서 다듬어야겠다고 생각한 계기였습니다.",
-    },
-    {
-      label: "누적 확보된 고유 과목 데이터",
-      value: "1,637건",
-      sub: "lecture_code · lecture_name · lecture_category 조합 기준 중복 제거",
-      query:
-        "SELECT COUNT(*) FROM (\n  SELECT lecture_name, lecture_code, lecture_category, COUNT(*) AS cnt\n  FROM lecture_evidence\n  GROUP BY lecture_code, lecture_name, lecture_category\n) sub;",
-      note:
-        "학과별 DB를 미리 만들어두지 않고 사용자 업로드만으로 쌓인 숫자라서, '검증 파이프라인이 실제로 돌아가고 있다'는 걸 스스로도 이 쿼리를 돌려보고 나서야 체감했습니다.",
-    },
-  ],
-  opsNote:
-    "공지사항(notices) 테이블도 운영하면서 직접 UPDATE·DELETE로 관리하고 있습니다. 예를 들어 모바일 메뉴가 배경 터치로 닫히지 않는다는 사용자 의견을 받은 뒤 UI를 수정하고, 그 내용을 공지로 직접 작성해 반영한 이력이 그대로 남아 있습니다. 사용자 문의 하나가 배포까지 이어지는 걸 스스로 확인할 수 있었던 부분입니다.",
-  reflection:
-    "전환율(47.9%)만 보면 이탈이 큰 것처럼 보이지만, 11명이라는 소수 집단이 성적표 업로드 없이도 서비스를 지속 이용하고 있다는 사실은 전환율 수치 하나로는 드러나지 않습니다. 평균/비율 지표는 '무엇이 잘 안 되는가'는 보여줘도 '그럼에도 왜 되고 있는가'는 설명하지 못한다는 걸 이 케이스로 확인했고, 이후로는 집계 지표를 확인할 때 표본이 작더라도 예외적으로 남아있는 세그먼트를 별도로 필터링해서 보는 걸 우선순위로 두고 있습니다.",
-};
+// // 운영 DB를 직접 쿼리하며 확인한 실사용 데이터 인사이트
+// export const dataInsights = {
+//   intro:
+//     "대시보드가 따로 없다 보니, 숫자가 궁금할 때마다 운영 DB에 직접 SQL을 짜서 확인하는 게 습관이 됐습니다. 그 과정에서 처음엔 궁금하지도 않았던 질문들이 따라붙었고, 그 질문들이 오히려 다음에 뭘 고쳐야 할지를 알려줬습니다.",
+//   metricsTitle: "쿼리로 확인한 지표",
+//   opsNoteTitle: "운영 노트",
+//   reflectionTitle: "정리",
+//   metrics: [
+//     {
+//       label: "가입 → 성적표 업로드 전환율",
+//       value: "47.9%",
+//       sub: "순수 가입자 309명 중 148명이 성적표를 업로드",
+//       query:
+//         "SELECT COUNT(*) FROM login_sessions; -- 309\nSELECT COUNT(*) FROM users WHERE transcript_upload_count >= 1; -- 148",
+//       note:
+//         "가입만 하고 아무것도 안 남긴 사람이 절반 넘게 있다는 뜻이라, 온보딩 단계에서 이탈이 있는 건지 다음에 이벤트 로그로 더 들여다볼 필요가 있다고 판단했습니다.",
+//     },
+//     {
+//       label: "성적표 없이 수기 입력만으로 이용 중인 사용자",
+//       value: "11명",
+//       sub: "transcript_upload_count = 0 이지만 lecture_evidence에 데이터가 있는 사용자",
+//       query:
+//         "SELECT COUNT(DISTINCT u.user_id)\nFROM users u\nJOIN lecture_evidence le ON le.user_id = u.user_id\nWHERE u.transcript_upload_count = 0;",
+//       note:
+//         "성적표 업로드가 진입장벽이 될 수 있는 학교(포맷이 아직 지원되지 않는 경우 등)에서도, 수기 입력 경로만으로 실제 이용까지 이어진 사람이 있다는 걸 숫자로 처음 확인했습니다. 수기 입력을 '차선책'이 아니라 정식 진입 경로로 더 신경 써서 다듬어야겠다고 생각한 계기였습니다.",
+//     },
+//     {
+//       label: "누적 확보된 고유 과목 데이터",
+//       value: "1,637건",
+//       sub: "lecture_code · lecture_name · lecture_category 조합 기준 중복 제거",
+//       query:
+//         "SELECT COUNT(*) FROM (\n  SELECT lecture_name, lecture_code, lecture_category, COUNT(*) AS cnt\n  FROM lecture_evidence\n  GROUP BY lecture_code, lecture_name, lecture_category\n) sub;",
+//       note:
+//         "학과별 DB를 미리 만들어두지 않고 사용자 업로드만으로 쌓인 숫자라서, '검증 파이프라인이 실제로 돌아가고 있다'는 걸 스스로도 이 쿼리를 돌려보고 나서야 체감했습니다.",
+//     },
+//   ],
+//   opsNote:
+//     "공지사항(notices) 테이블도 운영하면서 직접 UPDATE·DELETE로 관리하고 있습니다. 예를 들어 모바일 메뉴가 배경 터치로 닫히지 않는다는 사용자 의견을 받은 뒤 UI를 수정하고, 그 내용을 공지로 직접 작성해 반영한 이력이 그대로 남아 있습니다. 사용자 문의 하나가 배포까지 이어지는 걸 스스로 확인할 수 있었던 부분입니다.",
+//   reflection:
+//     "전환율(47.9%)만 보면 이탈이 큰 것처럼 보이지만, 11명이라는 소수 집단이 성적표 업로드 없이도 서비스를 지속 이용하고 있다는 사실은 전환율 수치 하나로는 드러나지 않습니다. 평균/비율 지표는 '무엇이 잘 안 되는가'는 보여줘도 '그럼에도 왜 되고 있는가'는 설명하지 못한다는 걸 이 케이스로 확인했고, 이후로는 집계 지표를 확인할 때 표본이 작더라도 예외적으로 남아있는 세그먼트를 별도로 필터링해서 보는 걸 우선순위로 두고 있습니다.",
+// };
 
 // 요기요 × Oracle 해커톤 회고
 export const hackathonRetro = {
   title: "요기요 × Oracle 해커톤 회고",
   summary:
-    "23:1 경쟁률을 뚫고 본선에 진출한 8팀 중 하나였지만, 수상하지는 못했습니다. 백엔드·인프라·배차 알고리즘·실시간 스트림 처리·조리시간 예측 보정을 맡았고, 결과보다 오래 남은 건 발표를 준비하며 스스로에게 던졌던 질문들이었습니다.",
+    "백엔드·인프라·배차 알고리즘·실시간 스트림 처리·조리시간 예측 보정을 맡았습니다.",
   overview: {
     title: "프로젝트 개요",
     body:
@@ -460,6 +454,5 @@ export const sectionTitles = {
   aiStory: { eyebrow: "// AI usage" },
   techStack: { eyebrow: "// stack", title: "사용 기술 (Zolver + 해커톤)" },
   studyNotes: { eyebrow: "// study notes", title: "전과생의 손으로 구조화하여 정리하는 습관" },
-  dataInsights: { eyebrow: "// data insights", title: "운영 DB로 직접 확인한 숫자들" },
   hackathonRetro: { eyebrow: "// hackathon retro", title: "요기요 × Oracle 해커톤 회고", lead: "카테고리별로 접혀 있습니다. 클릭하면 펼쳐집니다." },
 };
