@@ -415,7 +415,7 @@ export const sectionTitles = {
   observability: { eyebrow: "// observability", title: "Pipeline Monitoring After Launch" },
   designInsights: { eyebrow: "// design insight", title: "Design Decisions" },
   aiStory: { eyebrow: "// AI usage" },
-  techStack: { eyebrow: "// stack", title: "Tech Stack (Zolver + Hackathon)" },
+  techStack: { eyebrow: "// stack", title: "Tech Stack" },
   studyNotes: { eyebrow: "// study notes", title: "A Habit of Structuring Notes, Built by Hand After Switching Majors" },
   hackathonRetro: { eyebrow: "// hackathon retro", title: "Yogiyo × Oracle Hackathon Retrospective", lead: "Grouped by category and collapsed by default. Click to expand." },
 };

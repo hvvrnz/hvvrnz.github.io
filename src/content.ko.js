@@ -452,7 +452,7 @@ export const sectionTitles = {
   observability: { eyebrow: "// observability", title: "런칭 후 파이프라인 모니터링" },
   designInsights: { eyebrow: "// design insight", title: "설계 결정" },
   aiStory: { eyebrow: "// AI usage" },
-  techStack: { eyebrow: "// stack", title: "사용 기술 (Zolver + 해커톤)" },
+  techStack: { eyebrow: "// stack", title: "기술 스택" },
   studyNotes: { eyebrow: "// study notes", title: "전과생의 손으로 구조화하여 정리하는 습관" },
   hackathonRetro: { eyebrow: "// hackathon retro", title: "요기요 × Oracle 해커톤 회고", lead: "카테고리별로 접혀 있습니다. 클릭하면 펼쳐집니다." },
 };
